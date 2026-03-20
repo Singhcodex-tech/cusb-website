@@ -2727,8 +2727,8 @@ $bodyClass = $isMobile ? 'is-mobile' : '';
 <!-- ════════════════════════════════════════
      HERO
 ═════════════════════════════════════════ -->
-<div id="heroScrollWrap" style="position:relative;height:380vh;z-index:1;">
-<section class="hero" id="heroSticky" style="position:sticky;top:0;height:100vh;min-height:unset;z-index:1;">
+<div id="heroScrollWrap" style="position:relative;height:380vh;z-index:1;pointer-events:none;">
+<section class="hero" id="heroSticky" style="position:sticky;top:0;height:100vh;min-height:unset;z-index:1;pointer-events:all;">
   <!-- Hero background still image -->
   <div class="hero-bg"></div>
   <div class="grid-lines"></div>
@@ -5607,7 +5607,10 @@ function lerp(a,b,t){return a+(b-a)*t;}
 function easeOut(t){return 1-Math.pow(1-t,3);}
 function onHeroScroll(){
   if(!heroWrap)return;
-  const rect=heroWrap.getBoundingClientRect(),scrolled=-rect.top,total=heroWrap.offsetHeight-window.innerHeight,progress=Math.max(0,Math.min(1,scrolled/total));
+  const rect=heroWrap.getBoundingClientRect(),scrolled=-rect.top,total=heroWrap.offsetHeight-window.innerHeight;
+  // On mobile the wrapper collapses to auto height so total ≤ 0 — hide detail & reset
+  if(total<=0){detail.style.opacity='0';detail.style.transform='translateY(-50%) translateX(-20px)';detail.style.pointerEvents='none';resetAllPlanets();if(heroIntro)heroIntro.style.opacity='1';pdDots.forEach(d=>d.classList.remove('active'));return;}
+  const progress=Math.max(0,Math.min(1,scrolled/total));
   const slotF=progress*6,slotIdx=Math.floor(slotF),slotT=slotF-slotIdx;
   if(heroIntro)heroIntro.style.opacity=String(Math.max(0,1-slotF*2));
   if(slotIdx===0){detail.style.opacity='0';detail.style.transform='translateY(-50%) translateX(-20px)';detail.style.pointerEvents='none';resetAllPlanets();pdDots.forEach(d=>d.classList.remove('active'));return;}
@@ -6346,14 +6349,14 @@ function openAdmissionModal(id){
 
   /* ══════════ BACK TO TOP ══════════ */
   #backToTop {
-    position:fixed; bottom:110px; right:26px; z-index:9000;
+    position:fixed; bottom:calc(26px + var(--cookie-offset) + 52px + 14px); right:26px; z-index:99999;
     width:44px; height:44px; border-radius:50%;
     background:linear-gradient(135deg,var(--gold),var(--gold-light));
     color:var(--navy); font-size:19px; font-weight:700;
     cursor:pointer; display:flex; align-items:center; justify-content:center;
     box-shadow:0 8px 24px rgba(201,151,43,0.4);
     opacity:0; transform:translateY(18px) scale(0.85);
-    transition:opacity 0.3s, transform 0.3s;
+    transition:opacity 0.3s, transform 0.3s, bottom 0.45s cubic-bezier(0.23,1,0.32,1);
     border:none;
   }
   #backToTop.visible { opacity:1; transform:translateY(0) scale(1); }
@@ -6443,7 +6446,7 @@ function openAdmissionModal(id){
     .testimonial-card { width:calc(100vw - 56px) !important; }
     .testimonials-section { padding:56px 20px !important; }
     #quickPanel { bottom:calc(90px + var(--cookie-offset)) !important; right:16px !important; display:flex !important; }
-    #backToTop { bottom:160px; right:16px; }
+    #backToTop { bottom:calc(90px + var(--cookie-offset) + 52px + 14px); right:16px; }
     #ticker-bar { display:none; }
   }
   
@@ -7012,7 +7015,7 @@ document.addEventListener('keydown', e => {
 </script>
 
 <!-- ══════ BACK TO TOP ══════ -->
-<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to Top">↑</button>
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'});document.documentElement.scrollTop=0;document.body.scrollTop=0;" title="Back to Top">↑</button>
 
 <!-- ══════ QUICK ACTION PANEL ══════ -->
 <div id="quickPanel">
