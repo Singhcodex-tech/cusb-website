@@ -21,6 +21,7 @@ $bodyClass = $isMobile ? 'is-mobile' : '';
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
+    --cookie-offset: 0px; /* dynamically set by JS when banner is visible */
     /* Backgrounds */
     --navy: #FDFAF5;
     --deep: #F5F0E6;
@@ -911,10 +912,10 @@ $bodyClass = $isMobile ? 'is-mobile' : '';
     }
 
     /* Show quick panel on mobile */
-    #quickPanel { display: flex !important; bottom: 90px !important; right: 16px !important; }
+    #quickPanel { display: flex !important; bottom: calc(90px + var(--cookie-offset)) !important; right: 16px !important; }
 
     /* Show chatbot trigger on mobile — reposition so it doesn't overlap quick panel */
-    #cusb-chat-trigger { display: flex !important; bottom: 24px !important; right: 16px !important; }
+    #cusb-chat-trigger { display: flex !important; bottom: calc(24px + var(--cookie-offset)) !important; right: 16px !important; }
 
     /* Schools */
     #tab-schools > div { grid-template-columns: 1fr !important; gap: 10px !important; }
@@ -6360,8 +6361,9 @@ function openAdmissionModal(id){
 
   /* ══════════ QUICK ACTION PANEL ══════════ */
   #quickPanel {
-    position:fixed; bottom:26px; right:26px; z-index:8999;
+    position:fixed; bottom:calc(26px + var(--cookie-offset)); right:26px; z-index:99996;
     display:flex; flex-direction:column; align-items:flex-end; gap:10px;
+    transition: bottom 0.45s cubic-bezier(0.23,1,0.32,1);
   }
   .qp-toggle {
     width:52px; height:52px; border-radius:50%;
@@ -6440,7 +6442,7 @@ function openAdmissionModal(id){
     .cookie-btns { width:100%; justify-content:center; }
     .testimonial-card { width:calc(100vw - 56px) !important; }
     .testimonials-section { padding:56px 20px !important; }
-    #quickPanel { bottom:90px !important; right:16px !important; display:flex !important; }
+    #quickPanel { bottom:calc(90px + var(--cookie-offset)) !important; right:16px !important; display:flex !important; }
     #backToTop { bottom:160px; right:16px; }
     #ticker-bar { display:none; }
   }
@@ -7309,33 +7311,48 @@ window.toggleQP=function(){
 };
 
 /* ══════ COOKIE ══════ */
+function _cookieBannerHide(){
+  document.documentElement.style.setProperty('--cookie-offset','0px');
+}
+function _cookieBannerShow(){
+  var cb=document.getElementById('cookieBanner');
+  if(!cb) return;
+  var h=cb.offsetHeight;
+  if(h>0) document.documentElement.style.setProperty('--cookie-offset', h+'px');
+}
 window.acceptCookies=function(){
   var cb=document.getElementById('cookieBanner');
   var panel=document.getElementById('a11y-panel');
   if(cb){ cb.style.transform='translateY(100%)'; setTimeout(function(){cb.style.display='none';},500); }
   if(panel){ panel.classList.remove('cookie-visible'); }
+  _cookieBannerHide();
 };
 /* Also hook decline button to remove cookie-visible */
 (function(){
   var declineBtn=document.querySelector('.cookie-decline');
   if(declineBtn){
-    var orig=declineBtn.getAttribute('onclick')||'';
     declineBtn.onclick=function(){
       document.getElementById('cookieBanner').style.display='none';
       var panel=document.getElementById('a11y-panel');
       if(panel) panel.classList.remove('cookie-visible');
+      _cookieBannerHide();
     };
   }
-  /* Show cookie banner → raise a11y panel */
+  /* Show cookie banner → raise a11y panel + raise buttons */
   var obs=new MutationObserver(function(){
     var cb=document.getElementById('cookieBanner');
     var panel=document.getElementById('a11y-panel');
     if(!cb||!panel) return;
     var visible=cb.classList.contains('visible')&&cb.style.display!=='none';
     panel.classList.toggle('cookie-visible', visible);
+    if(visible){ _cookieBannerShow(); } else { _cookieBannerHide(); }
   });
   var cb=document.getElementById('cookieBanner');
   if(cb) obs.observe(cb,{attributes:true,attributeFilter:['class','style']});
+  window.addEventListener('resize',function(){
+    var cb=document.getElementById('cookieBanner');
+    if(cb&&cb.classList.contains('visible')&&cb.style.display!=='none') _cookieBannerShow();
+  },{passive:true});
 })();
 
 /* ══════ MOON ORBIT ANIMATION ══════ */
@@ -8920,14 +8937,14 @@ document.addEventListener('keydown',function(e){
 <style>
 /* ── TRIGGER BUTTON ── */
 #cusb-chat-trigger {
-  position: fixed; bottom: 28px; right: 88px; z-index: 9995;
+  position: fixed; bottom: calc(28px + var(--cookie-offset)); right: 88px; z-index: 99997;
   width: 60px; height: 60px; border-radius: 50%;
   background: linear-gradient(135deg, #8B6010, #D4A017, #E8B84B);
   border: none;
   cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M3 1 L3 16 L7 12 L10 18 L12 17 L9 11 L14 11 Z' fill='%23F0C060' stroke='%23fff' stroke-width='0.8' stroke-linejoin='round'/%3E%3C/svg%3E") 3 1, pointer !important;
   box-shadow: 0 8px 32px rgba(184,134,11,0.5), 0 2px 8px rgba(26,21,16,0.2);
   display: flex; align-items: center; justify-content: center;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s, bottom 0.45s cubic-bezier(0.23,1,0.32,1);
   animation: cusbPulseBtn 3s ease-in-out infinite;
 }
 #cusb-chat-trigger:hover { transform: scale(1.1) translateY(-2px); box-shadow: 0 16px 48px rgba(184,134,11,0.6); }
