@@ -478,6 +478,11 @@ $bodyClass = $isMobile ? 'is-mobile' : '';
   .faculty-dept { font-size:11px;color:var(--muted); }
   .pp-dot { width:7px;height:7px;border-radius:50%;background:rgba(184,134,11,0.25);transition:background 0.35s,transform 0.35s,box-shadow 0.35s; }
   .pp-dot.active { background:var(--gold-light);transform:scale(1.6);box-shadow:0 0 10px rgba(240,192,96,0.8); }
+  @media (max-width:768px) {
+    .pp-dot { width:4px;height:4px; }
+    .pp-dot.active { transform:scale(1.4);box-shadow:0 0 6px rgba(240,192,96,0.7); }
+    #progDots { gap:7px !important; right:14px !important; }
+  }
   @keyframes growBar { 0%,100%{transform:scaleY(0.3);opacity:0.4} 50%{transform:scaleY(1);opacity:1} }
 
   /* ═══════════ MODAL ═══════════ */
@@ -2344,6 +2349,36 @@ $bodyClass = $isMobile ? 'is-mobile' : '';
       </div>
     </li>
 
+    <!-- ── LIBRARY BTN ── -->
+    <li>
+      <button onclick="openLibraryPortal()" title="Central Library — CUSB" style="
+        display:inline-flex;align-items:center;gap:0;
+        height:36px;border-radius:50px;padding:0;
+        border:1.5px solid rgba(184,134,11,0.35);
+        background:rgba(253,250,245,0.7);
+        cursor:pointer;transition:box-shadow 0.2s,border-color 0.2s;
+        font-family:'Inter',sans-serif;overflow:hidden;
+        box-shadow:0 1px 6px rgba(26,21,16,0.06);
+        flex-shrink:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+      " onmouseover="this.style.boxShadow='0 2px 12px rgba(139,0,0,0.18)';this.style.borderColor='rgba(139,0,0,0.5)';"
+         onmouseout="this.style.boxShadow='0 1px 6px rgba(26,21,16,0.06)';this.style.borderColor='rgba(184,134,11,0.35)';">
+        <span style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 6C4 5.44772 4.44772 5 5 5H10C11.1046 5 12 5.89543 12 7V19C12 19 10.5 18.5 9 18.5H5C4.44772 18.5 4 18.0523 4 17.5V6Z" fill="#8B6010"/>
+            <path d="M20 6C20 5.44772 19.5523 5 19 5H14C12.8954 5 12 5.89543 12 7V19C12 19 13.5 18.5 15 18.5H19C19.5523 18.5 20 18.0523 20 17.5V6Z" fill="#D4A017"/>
+            <line x1="6.5" y1="8.5" x2="9.5" y2="8.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="6.5" y1="10.5" x2="9.5" y2="10.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="6.5" y1="12.5" x2="9.5" y2="12.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="14.5" y1="8.5" x2="17.5" y2="8.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="14.5" y1="10.5" x2="17.5" y2="10.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="14.5" y1="12.5" x2="17.5" y2="12.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span style="width:1px;height:22px;background:rgba(184,134,11,0.3);flex-shrink:0;"></span>
+        <span style="padding:0 13px 0 11px;font-size:11.5px;font-weight:600;color:rgba(44,36,24,0.82);white-space:nowrap;">Library</span>
+      </button>
+    </li>
+
     <!-- ── APPLY CTA ── -->
     <li>
     <div class="nav-cta-wrap">
@@ -2471,6 +2506,11 @@ $bodyClass = $isMobile ? 'is-mobile' : '';
         <a href="https://www.cusb.ac.in" target="_blank" class="mobile-nav-link">
           Official Website
         </a>
+      </div>
+      <div class="mobile-nav-item">
+        <div class="mobile-nav-link" onclick="openLibraryPortal();closeMobileMenu();" style="color:var(--gold);">
+          📚 Central Library
+        </div>
       </div>
 
       <!-- CTA Area -->
@@ -3953,68 +3993,320 @@ sylRender();
   <div class="reveal" style="text-align:center;margin-bottom:12px;">
     <div class="section-tag">Our Campus</div>
   </div>
-  <div class="reveal" style="text-align:center;">
+  <div class="reveal" style="text-align:center;margin-bottom:48px;">
     <h2 class="section-title">CUSB <em style="font-style:normal;background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Gallery</em></h2>
     <p class="section-sub" style="max-width:520px;margin:0 auto;">A glimpse into life at the Central University of South Bihar — our campus, events, and vibrant community.</p>
   </div>
 
-  <!-- Slideshow -->
-  <div class="gallery-slideshow-wrap reveal">
-    <div class="gallery-track" id="galleryTrack">
-      <div class="gallery-slide">
-        <img src="https://i.postimg.cc/vm2TCjdQ/image1.jpg" alt="CUSB Gallery Image 1" loading="lazy">
-        <div class="gallery-slide-overlay"></div>
-        <div class="gallery-slide-num">1 / 6</div>
-      </div>
-      <div class="gallery-slide">
-        <img src="https://i.postimg.cc/9fg0sSjH/image2.jpg" alt="CUSB Gallery Image 2" loading="lazy">
-        <div class="gallery-slide-overlay"></div>
-        <div class="gallery-slide-num">2 / 6</div>
-      </div>
-      <div class="gallery-slide">
-        <img src="https://i.postimg.cc/5tKyDGWT/image3.jpg" alt="CUSB Gallery Image 3" loading="lazy">
-        <div class="gallery-slide-overlay"></div>
-        <div class="gallery-slide-num">3 / 6</div>
-      </div>
-      <div class="gallery-slide">
-        <img src="https://i.postimg.cc/k5YGLZdd/image4.jpg" alt="CUSB Gallery Image 4" loading="lazy">
-        <div class="gallery-slide-overlay"></div>
-        <div class="gallery-slide-num">4 / 6</div>
-      </div>
-      <div class="gallery-slide">
-        <img src="https://i.postimg.cc/q7DqWYdV/image5.jpg" alt="CUSB Gallery Image 5" loading="lazy">
-        <div class="gallery-slide-overlay"></div>
-        <div class="gallery-slide-num">5 / 6</div>
-      </div>
-      <div class="gallery-slide">
-        <img src="https://i.postimg.cc/tg47Sbwc/image6.jpg" alt="CUSB Gallery Image 6" loading="lazy">
-        <div class="gallery-slide-overlay"></div>
-        <div class="gallery-slide-num">6 / 6</div>
-      </div>
-    </div>
-    <!-- Prev / Next arrows -->
-    <button class="gallery-arrow prev" id="galleryPrev" aria-label="Previous image">&#8592;</button>
-    <button class="gallery-arrow next" id="galleryNext" aria-label="Next image">&#8594;</button>
+  <!-- ── TABBED: CUSB IMAGES / CUSB VIDEOS ── -->
+  <style>
+    /* ── Tab switcher buttons ── */
+    .gallery-tab-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+    .gallery-tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 28px;
+      border-radius: 50px;
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: all 0.28s cubic-bezier(.23,1,.32,1);
+      border: 1.5px solid rgba(184,134,11,0.35);
+      background: transparent;
+      color: var(--gold-mid, #B8860B);
+      outline: none;
+    }
+    .gallery-tab-btn.gallery-tab-active {
+      background: linear-gradient(135deg, var(--gold, #8B6010), var(--gold-light, #D4A017));
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 6px 22px rgba(184,134,11,0.32);
+    }
+    .gallery-tab-btn:not(.gallery-tab-active):hover {
+      background: rgba(184,134,11,0.08);
+      border-color: rgba(184,134,11,0.5);
+    }
+    /* ── Tab panels ── */
+    .gallery-tab-panel {
+      display: none;
+      max-width: 760px;
+      margin: 0 auto;
+      animation: galleryFadeIn 0.38s cubic-bezier(.23,1,.32,1);
+    }
+    .gallery-tab-panel.gallery-panel-active {
+      display: block;
+    }
+    @keyframes galleryFadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    /* ── Sub-label pill ── */
+    .gallery-sub-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(184,134,11,0.08);
+      border: 1px solid rgba(184,134,11,0.22);
+      border-radius: 50px;
+      padding: 6px 18px;
+      margin-bottom: 10px;
+      align-self: flex-start;
+    }
+    .gallery-sub-label span {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ink, #1A1510);
+      letter-spacing: 0.01em;
+    }
+    .gallery-sub-desc {
+      font-size: 12px;
+      color: var(--text-muted, #6B5B45);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    /* ── Slideshow (images panel) ── */
+    .gallery-slideshow-wrap-inner {
+      position: relative;
+      width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(26,21,16,0.10);
+    }
+    .gallery-track-inner {
+      display: flex;
+      transition: transform 0.55s cubic-bezier(.77,0,.18,1);
+    }
+    .gallery-slide-inner {
+      flex: 0 0 100%;
+      height: 340px;
+      position: relative;
+    }
+    .gallery-slide-inner img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    .gallery-slide-inner .gallery-slide-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,21,16,0.35) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .gallery-slide-inner .gallery-slide-num {
+      position: absolute; bottom: 10px; right: 12px;
+      font-size: 11px; color: rgba(255,255,255,0.75);
+      font-family: 'Inter', sans-serif; font-weight: 500;
+      letter-spacing: 0.08em;
+    }
+    .gallery-arrow-inner {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(253,250,245,0.88); border: 1px solid rgba(184,134,11,0.22);
+      color: var(--ink, #1A1510); font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 10px rgba(26,21,16,0.12); z-index: 2;
+      backdrop-filter: blur(6px);
+    }
+    .gallery-arrow-inner:hover { background: rgba(255,255,255,1); box-shadow: 0 4px 18px rgba(26,21,16,0.18); }
+    .gallery-arrow-inner.prev-inner { left: 10px; }
+    .gallery-arrow-inner.next-inner { right: 10px; }
+    .gallery-dots-inner {
+      display: flex; justify-content: center; gap: 7px; margin-top: 10px;
+    }
+    .gallery-dot-inner {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: rgba(184,134,11,0.25); transition: background 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+    .gallery-dot-inner.active {
+      background: var(--gold, #8B6010); transform: scale(1.3);
+    }
+    /* ── Video stack (videos panel) ── */
+    .cusb-video-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    .cusb-video-card {
+      background: var(--cream, #fff);
+      border: 1px solid rgba(184,134,11,0.18);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(26,21,16,0.07);
+      transition: transform 0.28s cubic-bezier(.23,1,.32,1), box-shadow 0.28s;
+    }
+    .cusb-video-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 34px rgba(26,21,16,0.13);
+    }
+    .cusb-video-embed {
+      position: relative;
+      width: 100%;
+      padding-top: 56.367925%;
+      height: 0;
+      background: var(--deep, #F5F0E6);
+      overflow: hidden;
+    }
+    .cusb-video-embed iframe {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; border: 0;
+    }
+    .cusb-video-info {
+      padding: 12px 16px 14px;
+    }
+    .cusb-video-label {
+      font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold, #8B6010); margin-bottom: 3px;
+    }
+    .cusb-video-title {
+      font-family: 'Playfair Display', serif; font-size: 14px;
+      font-weight: 600; color: var(--ink, #1A1510); line-height: 1.4;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      .gallery-tab-btn { padding: 8px 18px; font-size: 13px; }
+      .gallery-slide-inner { height: 220px; }
+    }
+  </style>
+
+  <!-- Tab switcher buttons -->
+  <div class="gallery-tab-bar reveal">
+    <button class="gallery-tab-btn gallery-tab-active" id="galleryTabImages" onclick="switchGalleryTab('images')">
+      🖼️ CUSB Images
+    </button>
+    <button class="gallery-tab-btn" id="galleryTabVideos" onclick="switchGalleryTab('videos')">
+      🎬 CUSB Videos
+    </button>
   </div>
 
-  <!-- Dots -->
-  <div class="gallery-dots" id="galleryDots">
-    <div class="gallery-dot active" onclick="galleryGoTo(0)"></div>
-    <div class="gallery-dot" onclick="galleryGoTo(1)"></div>
-    <div class="gallery-dot" onclick="galleryGoTo(2)"></div>
-    <div class="gallery-dot" onclick="galleryGoTo(3)"></div>
-    <div class="gallery-dot" onclick="galleryGoTo(4)"></div>
-    <div class="gallery-dot" onclick="galleryGoTo(5)"></div>
+  <!-- ── PANEL: CUSB Images ── -->
+  <div class="gallery-tab-panel gallery-panel-active reveal" id="galleryPanelImages">
+    <div class="gallery-sub-label" style="display:inline-flex;">
+      <span style="font-size:16px;">🖼️</span>
+      <span>CUSB Images</span>
+    </div>
+    <p class="gallery-sub-desc">Campus photographs capturing the spirit and beauty of Central University of South Bihar.</p>
+
+    <div class="gallery-slideshow-wrap-inner">
+      <div class="gallery-track-inner" id="galleryTrackInner">
+        <div class="gallery-slide-inner">
+          <img src="https://i.postimg.cc/vm2TCjdQ/image1.jpg" alt="CUSB Gallery Image 1" loading="lazy">
+          <div class="gallery-slide-overlay"></div>
+          <div class="gallery-slide-num">1 / 6</div>
+        </div>
+        <div class="gallery-slide-inner">
+          <img src="https://i.postimg.cc/9fg0sSjH/image2.jpg" alt="CUSB Gallery Image 2" loading="lazy">
+          <div class="gallery-slide-overlay"></div>
+          <div class="gallery-slide-num">2 / 6</div>
+        </div>
+        <div class="gallery-slide-inner">
+          <img src="https://i.postimg.cc/5tKyDGWT/image3.jpg" alt="CUSB Gallery Image 3" loading="lazy">
+          <div class="gallery-slide-overlay"></div>
+          <div class="gallery-slide-num">3 / 6</div>
+        </div>
+        <div class="gallery-slide-inner">
+          <img src="https://i.postimg.cc/k5YGLZdd/image4.jpg" alt="CUSB Gallery Image 4" loading="lazy">
+          <div class="gallery-slide-overlay"></div>
+          <div class="gallery-slide-num">4 / 6</div>
+        </div>
+        <div class="gallery-slide-inner">
+          <img src="https://i.postimg.cc/q7DqWYdV/image5.jpg" alt="CUSB Gallery Image 5" loading="lazy">
+          <div class="gallery-slide-overlay"></div>
+          <div class="gallery-slide-num">5 / 6</div>
+        </div>
+        <div class="gallery-slide-inner">
+          <img src="https://i.postimg.cc/tg47Sbwc/image6.jpg" alt="CUSB Gallery Image 6" loading="lazy">
+          <div class="gallery-slide-overlay"></div>
+          <div class="gallery-slide-num">6 / 6</div>
+        </div>
+      </div>
+      <button class="gallery-arrow-inner prev-inner" id="galleryPrevInner" aria-label="Previous image">&#8592;</button>
+      <button class="gallery-arrow-inner next-inner" id="galleryNextInner" aria-label="Next image">&#8594;</button>
+    </div>
+
+    <div class="gallery-dots-inner" id="galleryDotsInner">
+      <div class="gallery-dot-inner active" onclick="galleryGoToInner(0)"></div>
+      <div class="gallery-dot-inner" onclick="galleryGoToInner(1)"></div>
+      <div class="gallery-dot-inner" onclick="galleryGoToInner(2)"></div>
+      <div class="gallery-dot-inner" onclick="galleryGoToInner(3)"></div>
+      <div class="gallery-dot-inner" onclick="galleryGoToInner(4)"></div>
+      <div class="gallery-dot-inner" onclick="galleryGoToInner(5)"></div>
+    </div>
   </div>
+
+  <!-- ── PANEL: CUSB Videos ── -->
+  <div class="gallery-tab-panel" id="galleryPanelVideos">
+    <div class="gallery-sub-label" style="display:inline-flex;">
+      <span style="font-size:16px;">🎬</span>
+      <span>CUSB Videos</span>
+    </div>
+    <p class="gallery-sub-desc">Watch recordings from campus events, lectures, and university highlights.</p>
+
+    <div class="cusb-video-stack">
+      <!-- Video 1 -->
+      <div class="cusb-video-card">
+        <div class="cusb-video-embed">
+          <script src="https://go.screenpal.com/consumption/player_appearance/cOevbvnTwUy/1.774059"></script>
+          <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" scrolling="no" src="https://go.screenpal.com/player/cOevb2nTwOd?ff=1&ahc=1&dcc=1&tl=1&bg=transparent&share=1&download=1&embed=1&cl=1" allowfullscreen="true" title="CUSB Video 1"></iframe>
+        </div>
+        <div class="cusb-video-info">
+          <div class="cusb-video-label">▶ CUSB Video</div>
+          <div class="cusb-video-title">Campus Video Highlight — 1</div>
+        </div>
+      </div>
+      <!-- Video 2 -->
+      <div class="cusb-video-card">
+        <div class="cusb-video-embed">
+          <script src="https://go.screenpal.com/consumption/player_appearance/cOevbvnTwUz/1.774059"></script>
+          <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" scrolling="no" src="https://go.screenpal.com/player/cOevb2nTwOd?ff=1&ahc=1&dcc=1&tl=1&bg=transparent&share=1&download=1&embed=1&cl=1" allowfullscreen="true" title="CUSB Video 2"></iframe>
+        </div>
+        <div class="cusb-video-info">
+          <div class="cusb-video-label">▶ CUSB Video</div>
+          <div class="cusb-video-title">Campus Video Highlight — 2</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </section>
 
 <script>
+// ── Gallery Tab Switcher ──
+function switchGalleryTab(tab) {
+  var imgBtn   = document.getElementById('galleryTabImages');
+  var vidBtn   = document.getElementById('galleryTabVideos');
+  var imgPanel = document.getElementById('galleryPanelImages');
+  var vidPanel = document.getElementById('galleryPanelVideos');
+  if (tab === 'videos') {
+    imgBtn.classList.remove('gallery-tab-active');
+    vidBtn.classList.add('gallery-tab-active');
+    imgPanel.classList.remove('gallery-panel-active');
+    vidPanel.classList.add('gallery-panel-active');
+  } else {
+    vidBtn.classList.remove('gallery-tab-active');
+    imgBtn.classList.add('gallery-tab-active');
+    vidPanel.classList.remove('gallery-panel-active');
+    imgPanel.classList.add('gallery-panel-active');
+  }
+}
+
+// ── Gallery Slideshow ──
 (function() {
   var current = 0;
   var total = 6;
   var autoTimer;
-  var track = document.getElementById('galleryTrack');
-  var dots = document.querySelectorAll('#galleryDots .gallery-dot');
+  var track = document.getElementById('galleryTrackInner');
+  var dots = document.querySelectorAll('#galleryDotsInner .gallery-dot-inner');
 
   function goTo(idx) {
     current = (idx + total) % total;
@@ -4022,14 +4314,14 @@ sylRender();
     dots.forEach(function(d, i) { d.classList.toggle('active', i === current); });
   }
 
-  window.galleryGoTo = goTo;
+  window.galleryGoToInner = goTo;
 
-  document.getElementById('galleryPrev').addEventListener('click', function() {
+  document.getElementById('galleryPrevInner').addEventListener('click', function() {
     clearInterval(autoTimer);
     goTo(current - 1);
     startAuto();
   });
-  document.getElementById('galleryNext').addEventListener('click', function() {
+  document.getElementById('galleryNextInner').addEventListener('click', function() {
     clearInterval(autoTimer);
     goTo(current + 1);
     startAuto();
@@ -7200,10 +7492,14 @@ document.addEventListener('keydown', e => {
       btn.classList.remove('open');
       document.body.style.overflow = '';
       document.body.style.position = '';
+      menu.style.overflowY = '';
+      menu.style.height = '';
     } else {
       menu.classList.add('open');
       btn.classList.add('open');
       document.body.style.overflow = 'hidden';
+      menu.style.overflowY = 'auto';
+      menu.style.height = '100vh';
     }
   }
   function closeMobileMenu() {
@@ -7214,6 +7510,8 @@ document.addEventListener('keydown', e => {
     btn.classList.remove('open');
     document.body.style.overflow = '';
     document.body.style.position = '';
+    menu.style.overflowY = '';
+    menu.style.height = '';
   }
   function toggleMobileNav(el) {
     var item = el.closest('.mobile-nav-item');
@@ -9935,6 +10233,615 @@ document.addEventListener('keydown',function(e){
 })();
 </script>
 <!-- ═══════════ END CUSB AI CHATBOT ═══════════ -->
+
+<!-- ═══════════════════════════════════════════════════════
+     CENTRAL LIBRARY PORTAL — INTEGRATED INTO CUSB WEBSITE
+     Themed to match the official CUSB site (gold/ink palette)
+════════════════════════════════════════════════════════ -->
+<style>
+/* ── Library Portal Overlay ── */
+#lib-portal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99800;
+  background: rgba(26,21,16,0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px 16px 40px;
+  overflow-y: auto;
+}
+#lib-portal.lib-open { display: flex; }
+
+.lib-portal-window {
+  background: var(--navy, #FDFAF5);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 980px;
+  margin: auto;
+  box-shadow: 0 32px 100px rgba(26,21,16,0.3), 0 0 0 1px rgba(184,134,11,0.15);
+  overflow: hidden;
+  animation: libSlideUp 0.35s cubic-bezier(0.34,1.36,0.64,1) forwards;
+  font-family: 'Inter', 'DM Sans', sans-serif;
+}
+@keyframes libSlideUp {
+  from { opacity:0; transform:translateY(28px) scale(0.97); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
+}
+
+/* Top bar — CUSB gold gradient theme */
+.lib-topbar {
+  background: linear-gradient(135deg, #8B6010, #B8860B, #D4A017);
+  padding: 18px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.lib-topbar-brand { display:flex; align-items:center; gap:14px; }
+.lib-topbar-icon {
+  width: 42px; height: 42px;
+  background: rgba(255,255,255,0.18);
+  border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+.lib-topbar-icon svg { width:22px; height:22px; }
+.lib-topbar-title { color:#fff; font-size:17px; font-weight:700; letter-spacing:0.01em; font-family:'Playfair Display',serif; }
+.lib-topbar-sub { color:rgba(255,255,255,0.75); font-size:11px; margin-top:2px; letter-spacing:0.04em; }
+.lib-close-btn {
+  width:36px; height:36px;
+  background:rgba(255,255,255,0.18);
+  border:1px solid rgba(255,255,255,0.25);
+  border-radius:50%;
+  color:#fff; font-size:17px;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:background 0.15s;
+  line-height:1;
+  touch-action:manipulation;
+}
+.lib-close-btn:hover { background:rgba(255,255,255,0.32); }
+
+/* Stats bar */
+.lib-stats {
+  display:flex;
+  border-bottom:1px solid rgba(184,134,11,0.12);
+  background: var(--parchment, #FBF7EF);
+}
+.lib-pstat {
+  flex:1; padding:13px 8px; text-align:center;
+  border-right:1px solid rgba(184,134,11,0.10);
+}
+.lib-pstat:last-child { border-right:none; }
+.lib-pstat-num { font-size:17px; font-weight:700; color:var(--gold, #8B6010); line-height:1; font-family:'Playfair Display',serif; }
+.lib-pstat-lbl { font-size:9.5px; color:var(--text-muted, #6B5B45); margin-top:3px; text-transform:uppercase; letter-spacing:0.8px; }
+
+/* Tab nav */
+.lib-tabs {
+  display:flex;
+  background: #FFFDF8;
+  border-bottom:2px solid rgba(184,134,11,0.12);
+  padding:0 22px;
+  overflow-x:auto;
+  gap:0;
+  scrollbar-width:none;
+}
+.lib-tabs::-webkit-scrollbar { display:none; }
+.lib-tab {
+  padding:12px 14px;
+  font-size:12.5px; font-weight:500;
+  color:var(--text-muted, #6B5B45);
+  cursor:pointer;
+  border-bottom:2px solid transparent;
+  margin-bottom:-2px;
+  white-space:nowrap;
+  transition:color 0.15s,border-color 0.15s;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+.lib-tab:hover { color:var(--gold, #8B6010); }
+.lib-tab.lib-active { color:var(--gold, #8B6010); border-bottom-color:var(--gold, #8B6010); font-weight:600; }
+
+/* Body */
+.lib-body { padding:26px; background:var(--navy, #FDFAF5); }
+.lib-panel { display:none; }
+.lib-panel.lib-active { display:block; }
+
+/* Section header */
+.lib-sec-head { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+.lib-sec-icon {
+  width:38px; height:38px;
+  background:var(--gold-bg, rgba(184,134,11,0.08));
+  border:1px solid rgba(184,134,11,0.18);
+  border-radius:10px;
+  display:flex; align-items:center; justify-content:center; font-size:18px;
+}
+.lib-sec-title { font-size:16px; font-weight:700; color:var(--ink, #1A1510); font-family:'Playfair Display',serif; }
+.lib-sec-sub { font-size:12px; color:var(--text-muted, #6B5B45); margin-top:2px; }
+
+/* Card grid */
+.lib-card-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(195px, 1fr));
+  gap:14px; margin-bottom:24px;
+}
+.lib-info-card {
+  background:#FFFDF8;
+  border:1px solid rgba(184,134,11,0.16);
+  border-radius:14px;
+  padding:18px;
+  transition:box-shadow 0.2s,transform 0.2s,border-color 0.2s;
+  cursor:pointer;
+}
+.lib-info-card:hover {
+  box-shadow:0 6px 24px rgba(184,134,11,0.15);
+  border-color:rgba(184,134,11,0.45);
+  transform:translateY(-2px);
+}
+.lib-ic-emoji { font-size:26px; margin-bottom:10px; display:block; }
+.lib-ic-title { font-size:13px; font-weight:600; color:var(--ink, #1A1510); margin-bottom:5px; }
+.lib-ic-desc { font-size:12px; color:var(--text-muted, #6B5B45); line-height:1.55; }
+
+/* Table */
+.lib-table { width:100%; border-collapse:collapse; font-size:13px; }
+.lib-table th {
+  text-align:left; padding:9px 14px;
+  background:rgba(184,134,11,0.06);
+  font-size:10.5px; font-weight:700; color:var(--gold, #8B6010);
+  text-transform:uppercase; letter-spacing:0.7px;
+  border-bottom:1px solid rgba(184,134,11,0.14);
+}
+.lib-table td {
+  padding:11px 14px;
+  border-bottom:1px solid rgba(184,134,11,0.07);
+  color:var(--text-body, #2C2418); vertical-align:middle;
+}
+.lib-table tr:hover td { background:rgba(184,134,11,0.04); }
+.lib-table td:first-child { font-weight:600; color:var(--ink, #1A1510); }
+
+/* Badges */
+.lib-badge {
+  display:inline-block; padding:2px 9px; border-radius:12px;
+  font-size:11px; font-weight:500;
+}
+.lib-badge-green { background:rgba(46,125,50,0.1); color:#2e7d32; }
+.lib-badge-blue  { background:rgba(21,101,192,0.1); color:#1565c0; }
+.lib-badge-gold  { background:rgba(184,134,11,0.12); color:var(--gold, #8B6010); }
+.lib-badge-red   { background:rgba(139,0,0,0.08); color:#8B0000; }
+
+/* Chips */
+.lib-chips-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+.lib-chip {
+  padding:5px 13px; border-radius:20px; font-size:12px; font-weight:500;
+  border:1px solid rgba(184,134,11,0.3);
+  background:rgba(184,134,11,0.07); color:var(--gold, #8B6010);
+  cursor:pointer; transition:all 0.15s;
+}
+.lib-chip:hover { background:var(--gold, #8B6010); color:#fff; border-color:var(--gold, #8B6010); }
+
+/* Two-col */
+.lib-two-col { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+@media (max-width:640px) { .lib-two-col { grid-template-columns:1fr; } }
+
+/* Downloads */
+.lib-dl-list { display:grid; grid-template-columns:repeat(auto-fill, minmax(210px,1fr)); gap:8px; }
+.lib-dl-item {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 14px;
+  border:1px solid rgba(184,134,11,0.18); border-radius:9px;
+  font-size:12px; color:var(--text-muted, #6B5B45);
+  cursor:pointer; transition:all 0.15s;
+}
+.lib-dl-item:hover { border-color:var(--gold, #8B6010); color:var(--gold, #8B6010); background:rgba(184,134,11,0.06); }
+.lib-dl-icon { font-size:16px; flex-shrink:0; }
+
+/* Contact */
+.lib-contact-box {
+  background:#FFFDF8; border:1px solid rgba(184,134,11,0.18);
+  border-radius:13px; padding:20px;
+}
+.lib-contact-row { display:flex; gap:12px; margin-bottom:12px; font-size:13px; }
+.lib-contact-row:last-child { margin-bottom:0; }
+.lib-contact-key { font-weight:600; color:var(--gold, #8B6010); width:72px; flex-shrink:0; }
+.lib-contact-val { color:var(--text-body, #2C2418); line-height:1.6; }
+.lib-contact-val a { color:var(--gold-mid, #B8860B); text-decoration:none; }
+.lib-contact-val a:hover { text-decoration:underline; }
+
+/* Visitor stats */
+.lib-vstat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.lib-vstat-box {
+  background:#FFFDF8; border:1px solid rgba(184,134,11,0.16);
+  border-radius:11px; padding:14px; text-align:center;
+}
+.lib-vstat-num { font-size:21px; font-weight:700; color:var(--gold, #8B6010); font-family:'Playfair Display',serif; }
+.lib-vstat-lbl { font-size:10.5px; color:var(--text-muted, #6B5B45); margin-top:3px; text-transform:uppercase; letter-spacing:0.6px; }
+
+/* Testimonials */
+.lib-testi-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(255px,1fr)); gap:12px; }
+.lib-testi-card {
+  background:#FFFDF8;
+  border:1px solid rgba(184,134,11,0.14);
+  border-left:3px solid var(--gold, #8B6010);
+  border-radius:0 11px 11px 0;
+  padding:14px 16px;
+}
+.lib-testi-text { font-size:13px; color:var(--text-body, #2C2418); line-height:1.65; font-style:italic; margin-bottom:10px; }
+.lib-testi-name { font-size:13px; font-weight:600; color:var(--ink, #1A1510); }
+.lib-testi-org { font-size:11px; color:var(--text-muted, #6B5B45); margin-top:2px; }
+
+/* Event card */
+.lib-event-card {
+  border:1px solid rgba(184,134,11,0.25);
+  border-radius:11px; padding:16px 20px;
+  background:rgba(184,134,11,0.04); margin-bottom:12px;
+}
+.lib-event-date {
+  display:inline-block; padding:3px 10px;
+  background:var(--gold, #8B6010); color:#fff;
+  border-radius:12px; font-size:11px; font-weight:500; margin-bottom:8px;
+}
+.lib-event-title { font-size:14px; font-weight:600; color:var(--ink, #1A1510); }
+
+/* OPAC */
+.lib-opac-row { display:flex; gap:8px; margin-bottom:16px; }
+.lib-opac-input {
+  flex:1; padding:10px 16px;
+  border:1.5px solid rgba(184,134,11,0.28); border-radius:50px;
+  font-size:14px; font-family:inherit; outline:none;
+  background:#FFFDF8;
+  transition:border-color 0.15s,box-shadow 0.15s;
+}
+.lib-opac-input:focus { border-color:var(--gold, #8B6010); box-shadow:0 0 0 3px rgba(184,134,11,0.12); }
+.lib-opac-btn {
+  padding:10px 22px;
+  background:linear-gradient(135deg, var(--gold, #8B6010), var(--gold-light, #D4A017));
+  color:#fff; border:none; border-radius:50px;
+  font-size:13px; font-weight:600; cursor:pointer;
+  font-family:inherit; transition:opacity 0.15s;
+  touch-action:manipulation;
+}
+.lib-opac-btn:hover { opacity:0.9; }
+
+/* Tech chips */
+.lib-tech-row { display:flex; gap:8px; margin-top:18px; flex-wrap:wrap; }
+.lib-tech-chip {
+  display:flex; align-items:center; gap:6px;
+  padding:6px 12px;
+  background:rgba(184,134,11,0.07);
+  border:1px solid rgba(184,134,11,0.25);
+  border-radius:20px; font-size:12px;
+  color:var(--gold, #8B6010); font-weight:500;
+}
+.lib-tech-dot {
+  width:7px; height:7px; border-radius:50%;
+  background:var(--gold-bright, #E8B84B);
+  animation:libPulse 1.8s infinite;
+}
+@keyframes libPulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+/* Mobile responsive */
+@media (max-width:600px) {
+  .lib-stats { flex-wrap:wrap; }
+  .lib-pstat { min-width:33.33%; }
+  .lib-body { padding:16px; }
+  .lib-topbar { padding:14px 16px; }
+  .lib-vstat-grid { grid-template-columns:repeat(2,1fr); }
+}
+</style>
+
+<!-- LIBRARY PORTAL MARKUP -->
+<div id="lib-portal">
+  <div class="lib-portal-window">
+
+    <!-- Top bar -->
+    <div class="lib-topbar">
+      <div class="lib-topbar-brand">
+        <div class="lib-topbar-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 6C4 5.44772 4.44772 5 5 5H10C11.1046 5 12 5.89543 12 7V19C12 19 10.5 18.5 9 18.5H5C4.44772 18.5 4 18.0523 4 17.5V6Z" fill="white" fill-opacity="0.95"/>
+            <path d="M20 6C20 5.44772 19.5523 5 19 5H14C12.8954 5 12 5.89543 12 7V19C12 19 13.5 18.5 15 18.5H19C19.5523 18.5 20 18.0523 20 17.5V6Z" fill="white" fill-opacity="0.6"/>
+            <line x1="6.5" y1="8.5" x2="9.5" y2="8.5" stroke="#8B6010" stroke-width="1.3" stroke-linecap="round"/>
+            <line x1="6.5" y1="10.5" x2="9.5" y2="10.5" stroke="#8B6010" stroke-width="1.3" stroke-linecap="round"/>
+            <line x1="6.5" y1="12.5" x2="9.5" y2="12.5" stroke="#8B6010" stroke-width="1.3" stroke-linecap="round"/>
+            <line x1="14.5" y1="8.5" x2="17.5" y2="8.5" stroke="#8B6010" stroke-width="1.3" stroke-linecap="round"/>
+            <line x1="14.5" y1="10.5" x2="17.5" y2="10.5" stroke="#8B6010" stroke-width="1.3" stroke-linecap="round"/>
+            <line x1="14.5" y1="12.5" x2="17.5" y2="12.5" stroke="#8B6010" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="lib-topbar-title">Central Library — CUSB</div>
+          <div class="lib-topbar-sub">Central University of South Bihar · Gaya, Bihar · 3rd Floor</div>
+        </div>
+      </div>
+      <button class="lib-close-btn" onclick="closeLibraryPortal()">✕</button>
+    </div>
+
+    <!-- Stats bar -->
+    <div class="lib-stats">
+      <div class="lib-pstat"><div class="lib-pstat-num">49K+</div><div class="lib-pstat-lbl">Resources</div></div>
+      <div class="lib-pstat"><div class="lib-pstat-num">59,428</div><div class="lib-pstat-lbl">Web Visitors</div></div>
+      <div class="lib-pstat"><div class="lib-pstat-num">NAAC A++</div><div class="lib-pstat-lbl">Accreditation</div></div>
+      <div class="lib-pstat"><div class="lib-pstat-num">217</div><div class="lib-pstat-lbl">Peak Daily</div></div>
+      <div class="lib-pstat"><div class="lib-pstat-num">RFID</div><div class="lib-pstat-lbl">Automated</div></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="lib-tabs">
+      <div class="lib-tab lib-active" onclick="libSwitchTab('overview',this)">🏛️ Overview</div>
+      <div class="lib-tab" onclick="libSwitchTab('services',this)">⚙️ Services</div>
+      <div class="lib-tab" onclick="libSwitchTab('resources',this)">📚 Resources</div>
+      <div class="lib-tab" onclick="libSwitchTab('eresources',this)">💻 e-Resources</div>
+      <div class="lib-tab" onclick="libSwitchTab('repository',this)">🗃️ Repository</div>
+      <div class="lib-tab" onclick="libSwitchTab('digital',this)">🌐 Digital</div>
+      <div class="lib-tab" onclick="libSwitchTab('downloads',this)">⬇️ Downloads</div>
+      <div class="lib-tab" onclick="libSwitchTab('feedback',this)">💬 Feedback</div>
+      <div class="lib-tab" onclick="libSwitchTab('contact',this)">📍 Contact</div>
+    </div>
+
+    <!-- Tab panels -->
+    <div class="lib-body">
+
+      <!-- OVERVIEW -->
+      <div id="lib-tab-overview" class="lib-panel lib-active">
+        <div class="lib-sec-head">
+          <div class="lib-sec-icon">🏛️</div>
+          <div><div class="lib-sec-title">About the Central Library</div><div class="lib-sec-sub">A fully automated, biometric-enabled knowledge hub</div></div>
+        </div>
+        <p style="font-size:14px;color:var(--text-body,#2C2418);line-height:1.8;margin-bottom:18px;">
+          The Central Library of the Central University of South Bihar is one of the most technologically advanced university libraries in Bihar. It features an <strong>RFID-enabled automated issue/return system</strong> with self-service kiosks and a dropbox for 24/7 returns. Biometric fingerprints are registered at a single point and synchronized across all kiosks for seamless access.
+        </p>
+        <div class="lib-tech-row">
+          <div class="lib-tech-chip"><div class="lib-tech-dot"></div> RFID System Active</div>
+          <div class="lib-tech-chip"><div class="lib-tech-dot"></div> Biometric Enabled</div>
+          <div class="lib-tech-chip"><div class="lib-tech-dot"></div> Self-Service Kiosks</div>
+          <div class="lib-tech-chip"><div class="lib-tech-dot"></div> 24/7 Dropbox Return</div>
+        </div>
+        <div style="margin-top:24px;">
+          <div style="font-size:13px;font-weight:600;color:var(--ink,#1A1510);margin-bottom:12px;">Key Facilities</div>
+          <div class="lib-card-grid">
+            <div class="lib-info-card" onclick="libSwitchTab('services',document.querySelector('.lib-tab:nth-child(2)'))">
+              <span class="lib-ic-emoji">🔄</span><div class="lib-ic-title">Circulation</div><div class="lib-ic-desc">RFID issue & return, kiosk and dropbox self-service</div>
+            </div>
+            <div class="lib-info-card" onclick="libSwitchTab('resources',document.querySelector('.lib-tab:nth-child(3)'))">
+              <span class="lib-ic-emoji">📰</span><div class="lib-ic-title">Print Resources</div><div class="lib-ic-desc">Journals, newspapers, magazines, PhD theses, MOUs</div>
+            </div>
+            <div class="lib-info-card" onclick="libSwitchTab('eresources',document.querySelector('.lib-tab:nth-child(4)'))">
+              <span class="lib-ic-emoji">💻</span><div class="lib-ic-title">e-Resources</div><div class="lib-ic-desc">e-Journals, e-Books, DELNET, INFLIBNET, open access</div>
+            </div>
+            <div class="lib-info-card">
+              <span class="lib-ic-emoji">🔬</span><div class="lib-ic-title">Research Support</div><div class="lib-ic-desc">Research corners, plagiarism check, inter-library loan</div>
+            </div>
+            <div class="lib-info-card" onclick="libSwitchTab('repository',document.querySelector('.lib-tab:nth-child(5)'))">
+              <span class="lib-ic-emoji">🗃️</span><div class="lib-ic-title">Repository</div><div class="lib-ic-desc">Shodhganga, DSpace/GreenStone knowledge repository</div>
+            </div>
+            <div class="lib-info-card">
+              <span class="lib-ic-emoji">🎮</span><div class="lib-ic-title">Library Games</div><div class="lib-ic-desc">Interactive modules to build information literacy skills</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:8px;padding:18px;background:#FFFDF8;border:1px solid rgba(184,134,11,0.18);border-radius:13px;">
+          <div style="font-size:13px;font-weight:600;color:var(--ink,#1A1510);margin-bottom:10px;">🔍 Search Library Catalogue (Web OPAC)</div>
+          <div class="lib-opac-row">
+            <input class="lib-opac-input" type="text" placeholder="Search books, journals, theses…">
+            <button class="lib-opac-btn">Search</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SERVICES -->
+      <div id="lib-tab-services" class="lib-panel">
+        <div class="lib-sec-head">
+          <div class="lib-sec-icon">⚙️</div>
+          <div><div class="lib-sec-title">Library Services</div><div class="lib-sec-sub">All services offered by the Central Library, CUSB</div></div>
+        </div>
+        <div class="lib-card-grid">
+          <div class="lib-info-card"><span class="lib-ic-emoji">🔄</span><div class="lib-ic-title">Circulation Section</div><div class="lib-ic-desc">RFID-enabled automated issue and return. Kiosk and dropbox for 24/7 self-service.</div></div>
+          <div class="lib-info-card"><span class="lib-ic-emoji">🪪</span><div class="lib-ic-title">Membership</div><div class="lib-ic-desc">For students, faculty and staff. Biometric fingerprint registered once, synced to all kiosks.</div></div>
+          <div class="lib-info-card"><span class="lib-ic-emoji">🔗</span><div class="lib-ic-title">Inter Library Loan</div><div class="lib-ic-desc">Borrow resources from partner libraries across India via the ILL network.</div></div>
+          <div class="lib-info-card"><span class="lib-ic-emoji">🔭</span><div class="lib-ic-title">Research Support</div><div class="lib-ic-desc">Dedicated research corners, literature search and database navigation assistance.</div></div>
+          <div class="lib-info-card"><span class="lib-ic-emoji">🖨️</span><div class="lib-ic-title">Reprography Service</div><div class="lib-ic-desc">Photocopying and printing of academic materials within the library.</div></div>
+          <div class="lib-info-card"><span class="lib-ic-emoji">🎯</span><div class="lib-ic-title">Research Corners</div><div class="lib-ic-desc">Quiet zones with research databases and high-speed internet for focused study.</div></div>
+          <div class="lib-info-card"><span class="lib-ic-emoji">🎮</span><div class="lib-ic-title">Library Games</div><div class="lib-ic-desc">Interactive learning modules to develop information and research literacy.</div></div>
+        </div>
+      </div>
+
+      <!-- RESOURCES -->
+      <div id="lib-tab-resources" class="lib-panel">
+        <div class="lib-sec-head">
+          <div class="lib-sec-icon">📚</div>
+          <div><div class="lib-sec-title">Print Resources</div><div class="lib-sec-sub">Physical collections available at the Central Library</div></div>
+        </div>
+        <table class="lib-table">
+          <thead><tr><th>Resource Type</th><th>Description</th><th>Access</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>📰 Print Journals</td><td>Subscribed peer-reviewed academic journals across all disciplines</td><td>In-Library</td><td><span class="lib-badge lib-badge-green">Available</span></td></tr>
+            <tr><td>🗞️ Newspapers</td><td>Major national and regional daily newspapers</td><td>Daily Updated</td><td><span class="lib-badge lib-badge-green">Daily</span></td></tr>
+            <tr><td>📖 Magazines</td><td>Subject-specific and general knowledge periodicals</td><td>In-Library</td><td><span class="lib-badge lib-badge-green">Available</span></td></tr>
+            <tr><td>🎓 PhD Theses</td><td>CUSB doctoral dissertations — also accessible via Shodhganga</td><td>Library + Online</td><td><span class="lib-badge lib-badge-blue">Repository</span></td></tr>
+            <tr><td>🤝 MOUs</td><td>Resource sharing agreements with partner institutions</td><td>By Request</td><td><span class="lib-badge lib-badge-gold">Active</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- E-RESOURCES -->
+      <div id="lib-tab-eresources" class="lib-panel">
+        <div class="lib-sec-head">
+          <div class="lib-sec-icon">💻</div>
+          <div><div class="lib-sec-title">e-Resources</div><div class="lib-sec-sub">Digital resources accessible online and on-campus</div></div>
+        </div>
+        <div class="lib-card-grid">
+          <div class="lib-info-card"><span class="lib-ic-emoji">📄</span><div class="lib-ic-title">e-Journals</div><div class="lib-ic-desc">Thousands of peer-reviewed electronic journals via subscribed databases</div></div>
+          <div class="lib-info-card"><span class="lib-ic-emoji">📖</span><div class="lib-ic-title">e-Books</div><div class="lib-ic-desc">Digital books and monographs accessible online across subject areas</div></div>
+          <div class="lib-info-card"><span class="lib-ic-emoji">🗄️</span><div class="lib-ic-title">e-Databases</div><div class="lib-ic-desc">Full-text e-resource databases for comprehensive academic research</div></div>
+          <div class="lib-info-card"><span class="lib-ic-emoji">🌐</span><div class="lib-ic-title">eSS INFLIBNET</div><div class="lib-ic-desc">e-Shodhsindhu — union database consortium for central universities of India</div></div>
+          <div class="lib-info-card"><span class="lib-ic-emoji">🔗</span><div class="lib-ic-title">DELNET</div><div class="lib-ic-desc">Developing Library Network — resource sharing with member libraries across India</div></div>
+          <div class="lib-info-card"><span class="lib-ic-emoji">🔓</span><div class="lib-ic-title">Open Access</div><div class="lib-ic-desc">Freely available scholarly content — journals, books and institutional repositories</div></div>
+        </div>
+      </div>
+
+      <!-- REPOSITORY -->
+      <div id="lib-tab-repository" class="lib-panel">
+        <div class="lib-sec-head">
+          <div class="lib-sec-icon">🗃️</div>
+          <div><div class="lib-sec-title">Institutional Repository</div><div class="lib-sec-sub">CUSB's digital knowledge archive</div></div>
+        </div>
+        <div class="lib-card-grid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr));">
+          <div class="lib-info-card"><span class="lib-ic-emoji">📑</span><div class="lib-ic-title">e-Thesis of CUSB @ INFLIBNET</div><div class="lib-ic-desc">CUSB doctoral theses on Shodhganga. INFLIBNET handle: 10603/218683. Open access for all.</div></div>
+          <div class="lib-info-card"><span class="lib-ic-emoji">💾</span><div class="lib-ic-title">Knowledge Repository @ Intranet</div><div class="lib-ic-desc">Intranet-based repository using DSpace and GreenStone digital library software.</div></div>
+          <div class="lib-info-card"><span class="lib-ic-emoji">🗂️</span><div class="lib-ic-title">Files Archive</div><div class="lib-ic-desc">Archived institutional documents, administrative records and reference files.</div></div>
+        </div>
+      </div>
+
+      <!-- DIGITAL INITIATIVES -->
+      <div id="lib-tab-digital" class="lib-panel">
+        <div class="lib-sec-head">
+          <div class="lib-sec-icon">🌐</div>
+          <div><div class="lib-sec-title">UGC Digital Initiatives</div><div class="lib-sec-sub">National platforms supported by the Central Library</div></div>
+        </div>
+        <div class="lib-chips-row">
+          <span class="lib-chip">NAD</span><span class="lib-chip">e-PG Pathshala</span><span class="lib-chip">NTA</span>
+          <span class="lib-chip">AISHE</span><span class="lib-chip">UGC-DEB</span><span class="lib-chip">UGC MOOCS</span>
+          <span class="lib-chip">Swayam Prabha</span><span class="lib-chip">Shodhgangotri</span><span class="lib-chip">UAMP</span>
+          <span class="lib-chip">Shodhganga</span><span class="lib-chip">SWAYAM</span><span class="lib-chip">Shodhchakra</span>
+          <span class="lib-chip">VIDWAN</span><span class="lib-chip">Vidyamitra</span><span class="lib-chip">IMPRINT India</span>
+        </div>
+        <table class="lib-table" style="margin-top:8px;">
+          <thead><tr><th>Platform</th><th>Purpose</th><th>Access</th></tr></thead>
+          <tbody>
+            <tr><td>NAD</td><td>National Academic Depository — digital degree verification</td><td><span class="lib-badge lib-badge-green">Online</span></td></tr>
+            <tr><td>e-PG Pathshala</td><td>UGC's e-content modules for PG students</td><td><span class="lib-badge lib-badge-green">Free</span></td></tr>
+            <tr><td>Shodhganga</td><td>National repository of Indian theses and dissertations</td><td><span class="lib-badge lib-badge-green">Open Access</span></td></tr>
+            <tr><td>eSS INFLIBNET</td><td>e-Shodhsindhu — e-journals for central universities</td><td><span class="lib-badge lib-badge-blue">Campus IP</span></td></tr>
+            <tr><td>SWAYAM</td><td>Free online courses from top Indian universities</td><td><span class="lib-badge lib-badge-green">Free</span></td></tr>
+            <tr><td>VIDWAN</td><td>National database of faculty experts and researchers</td><td><span class="lib-badge lib-badge-green">Open</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- DOWNLOADS -->
+      <div id="lib-tab-downloads" class="lib-panel">
+        <div class="lib-sec-head">
+          <div class="lib-sec-icon">⬇️</div>
+          <div><div class="lib-sec-title">Downloads & Forms</div><div class="lib-sec-sub">Official library forms and policy documents</div></div>
+        </div>
+        <div class="lib-dl-list">
+          <div class="lib-dl-item"><span class="lib-dl-icon">📄</span>Agreement Form</div>
+          <div class="lib-dl-item"><span class="lib-dl-icon">📄</span>Annexure F – Plagiarism Report</div>
+          <div class="lib-dl-item"><span class="lib-dl-icon">📄</span>Bank Guarantee</div>
+          <div class="lib-dl-item"><span class="lib-dl-icon">📄</span>Book Requisition</div>
+          <div class="lib-dl-item"><span class="lib-dl-icon">📄</span>Full Text e-Resources Database</div>
+          <div class="lib-dl-item"><span class="lib-dl-icon">📄</span>Inter Library Loan Form</div>
+          <div class="lib-dl-item"><span class="lib-dl-icon">📄</span>Journal Requisition Format</div>
+          <div class="lib-dl-item"><span class="lib-dl-icon">📄</span>Membership – Faculty & Staff</div>
+          <div class="lib-dl-item"><span class="lib-dl-icon">📄</span>Membership – Student</div>
+          <div class="lib-dl-item"><span class="lib-dl-icon">📄</span>Plagiarism Check Report Form</div>
+          <div class="lib-dl-item"><span class="lib-dl-icon">📄</span>Requisition for Stationary Items</div>
+          <div class="lib-dl-item"><span class="lib-dl-icon">📄</span>URKUND Form</div>
+          <div class="lib-dl-item"><span class="lib-dl-icon">📄</span>Vendor Registration Form</div>
+          <div class="lib-dl-item"><span class="lib-dl-icon">📋</span>University Library Policy 2019–2021</div>
+        </div>
+      </div>
+
+      <!-- FEEDBACK -->
+      <div id="lib-tab-feedback" class="lib-panel">
+        <div class="lib-sec-head">
+          <div class="lib-sec-icon">💬</div>
+          <div><div class="lib-sec-title">Visitor Feedback</div><div class="lib-sec-sub">What our guests say about the Central Library</div></div>
+        </div>
+        <div class="lib-vstat-grid" style="margin-bottom:20px;">
+          <div class="lib-vstat-box"><div class="lib-vstat-num">2</div><div class="lib-vstat-lbl">Online Now</div></div>
+          <div class="lib-vstat-box"><div class="lib-vstat-num">100</div><div class="lib-vstat-lbl">Today</div></div>
+          <div class="lib-vstat-box"><div class="lib-vstat-num">98</div><div class="lib-vstat-lbl">Yesterday</div></div>
+          <div class="lib-vstat-box"><div class="lib-vstat-num">59,428</div><div class="lib-vstat-lbl">Total</div></div>
+          <div class="lib-vstat-box"><div class="lib-vstat-num">217</div><div class="lib-vstat-lbl">Peak</div></div>
+          <div class="lib-vstat-box"><div class="lib-vstat-num" style="font-size:14px;">15 Mar 2026</div><div class="lib-vstat-lbl">Peak Date</div></div>
+        </div>
+        <div style="margin-bottom:20px;">
+          <div style="font-size:13px;font-weight:600;color:var(--ink,#1A1510);margin-bottom:10px;">📅 News & Events</div>
+          <div class="lib-event-card">
+            <div class="lib-event-date">March 12–14, 2024</div>
+            <div class="lib-event-title">Viksit Bharat@2047: Role of Library</div>
+          </div>
+        </div>
+        <div style="font-size:13px;font-weight:600;color:var(--ink,#1A1510);margin-bottom:10px;">🌟 What Visitors Say</div>
+        <div class="lib-testi-grid">
+          <div class="lib-testi-card"><div class="lib-testi-text">"Thanks for showing me around to learn the wonderful collection."</div><div class="lib-testi-name">Sam Hon Chong</div><div class="lib-testi-org">Indiana University Southeast, USA · Dec 2022</div></div>
+          <div class="lib-testi-card"><div class="lib-testi-text">"Very well organised & Technologically Advance."</div><div class="lib-testi-name">Somdeb Mitra</div><div class="lib-testi-org">University of Calcutta · Nov 2022</div></div>
+          <div class="lib-testi-card"><div class="lib-testi-text">"Very Good & Advance Tech."</div><div class="lib-testi-name">Sanjukta Das</div><div class="lib-testi-org">University of Calcutta · Nov 2022</div></div>
+          <div class="lib-testi-card"><div class="lib-testi-text">"ज्ञानवर्धन हेतु पूर्णरूप से सुसज्जित ग्रंथालय | नेतृत्व के पूर्ण समर्पण से संभव |"</div><div class="lib-testi-name">Prof. Pawnesh Kumar</div><div class="lib-testi-org">Mahatama Gandhi Central University, Motihari · Nov 2022</div></div>
+          <div class="lib-testi-card"><div class="lib-testi-text">"नवोन्मेषी प्रयास के लिए साधुवाद |"</div><div class="lib-testi-name">Devanand Das</div><div class="lib-testi-org">Senior Translation Officer, Ministry of Education, New Delhi · Nov 2022</div></div>
+          <div class="lib-testi-card"><div class="lib-testi-text">"अच्छी तरह अनुरक्षित पुस्तकालय |"</div><div class="lib-testi-name">Satish Kumar Singh</div><div class="lib-testi-org">Section Officer, Ministry of Education, New Delhi · Nov 2022</div></div>
+          <div class="lib-testi-card"><div class="lib-testi-text">"पूर्ण सुज्ज्जित पुस्तकालय"</div><div class="lib-testi-name">P K Singh</div><div class="lib-testi-org">Under Secretary, Ministry of Education, New Delhi · Nov 2022</div></div>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div id="lib-tab-contact" class="lib-panel">
+        <div class="lib-sec-head">
+          <div class="lib-sec-icon">📍</div>
+          <div><div class="lib-sec-title">Contact Us</div><div class="lib-sec-sub">Reach the Central Library, CUSB</div></div>
+        </div>
+        <div class="lib-two-col">
+          <div>
+            <div class="lib-contact-box">
+              <div class="lib-contact-row"><span class="lib-contact-key">📍 Address</span><span class="lib-contact-val">3rd Floor, Central Library<br>SH-7, Gaya Panchanpur Road,<br>Village – Karhara, Post. Fatehpur,<br>Gaya – 824236, Bihar</span></div>
+              <div class="lib-contact-row"><span class="lib-contact-key">📞 Phone</span><span class="lib-contact-val">0631 – 2229 530</span></div>
+              <div class="lib-contact-row"><span class="lib-contact-key">✉️ Email</span><span class="lib-contact-val"><a href="mailto:library@cub.ac.in">library@cub.ac.in</a></span></div>
+              <div class="lib-contact-row"><span class="lib-contact-key">🗺️ Coords</span><span class="lib-contact-val" style="font-family:monospace;font-size:12px;">24.8803696° N, 84.8917648° E</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="lib-contact-box" style="height:100%;min-height:160px;">
+              <div style="font-size:13px;font-weight:600;color:var(--ink,#1A1510);margin-bottom:10px;">🌐 Social Media</div>
+              <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--text-muted,#6B5B45);">
+                <a href="https://www.facebook.com/cusbofficial" style="color:var(--gold-mid,#B8860B);text-decoration:none;">📘 Facebook — @cusbofficial</a>
+                <a href="https://twitter.com/CUSBofficial" style="color:var(--gold-mid,#B8860B);text-decoration:none;">🐦 Twitter — @CUSBofficial</a>
+                <a href="https://in.linkedin.com/school/cusb" style="color:var(--gold-mid,#B8860B);text-decoration:none;">💼 LinkedIn — CUSB</a>
+                <a href="https://www.youtube.com/user/CUBofficialchannel" style="color:var(--gold-mid,#B8860B);text-decoration:none;">▶️ YouTube — CUBofficialchannel</a>
+                <a href="https://www.instagram.com/cusbofficialpage" style="color:var(--gold-mid,#B8860B);text-decoration:none;">📸 Instagram — @cusbofficialpage</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:16px;padding:14px 18px;background:rgba(184,134,11,0.05);border:1px solid rgba(184,134,11,0.14);border-radius:10px;font-size:12px;color:var(--text-muted,#6B5B45);">
+          © 2022 UL | CUSB · All Rights Reserved · Developed & Maintained by Library Website Committee © CUSB 2022
+        </div>
+      </div>
+
+    </div><!-- /lib-body -->
+  </div><!-- /lib-portal-window -->
+</div><!-- /lib-portal -->
+
+<script>
+// ── Library Portal JS ──
+function openLibraryPortal() {
+  var p = document.getElementById('lib-portal');
+  p.classList.add('lib-open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLibraryPortal() {
+  var p = document.getElementById('lib-portal');
+  p.classList.remove('lib-open');
+  document.body.style.overflow = '';
+}
+function libSwitchTab(id, el) {
+  document.querySelectorAll('.lib-panel').forEach(function(t){ t.classList.remove('lib-active'); });
+  document.querySelectorAll('.lib-tab').forEach(function(t){ t.classList.remove('lib-active'); });
+  var panel = document.getElementById('lib-tab-' + id);
+  if (panel) panel.classList.add('lib-active');
+  if (el && el.classList) el.classList.add('lib-active');
+}
+// Close on backdrop click
+document.getElementById('lib-portal').addEventListener('click', function(e){
+  if (e.target === this) closeLibraryPortal();
+});
+// Close on Escape
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape') closeLibraryPortal();
+});
+</script>
 
 </body>
 </html>
