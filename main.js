@@ -2547,7 +2547,7 @@ document.addEventListener('keydown',function(e){
 
     /* ── HOSTEL (verified official data) ── */
     hostel: {
-      boys:      "Maitreyi Sadan — Boys Hostel on campus",
+      boys:      "VDS — Boys Hostel on campus",
       girls:     "Gargi Sadan — Girls Hostel on campus",
       fee:       "₹9,000 per semester (official confirmed rate)",
       mess:      "Subsidised mess facility available; mess fee approx ₹1,500–2,000/month",
@@ -2578,7 +2578,7 @@ document.addEventListener('keydown',function(e){
       library:   "Rajarshi Janak Central Library — 49,000+ books, 6,500+ e-journals, 100+ print journals, INFLIBNET access, lifts, digital catalogue, Wi-Fi reading room",
       computers: "Computer lab with 80+ computers, high-speed internet, latest software",
       sports:    "Cricket ground, Football field, Badminton courts, Athletics track, Indoor games (TT, Chess), Gymnasium",
-      hostel:    "Gargi Sadan (Girls) & Maitreyi Sadan (Boys) with mess, Wi-Fi, security",
+      hostel:    "Gargi Sadan (Girls) & VDS (Boys) with mess, Wi-Fi, security",
       medical:   "On-campus Health Centre; Vidyarthi Mediclaim Policy covering up to ₹50,000 for medical expenses",
       bank:      "SBI Bank branch and ATM on campus",
       transport: "Bus facility from Gaya city to campus",
