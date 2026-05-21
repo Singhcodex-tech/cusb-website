@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUSB Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy:    #0f1b35;
+  --navy2:   #162040;
+  --gold:    #c8960c;
+  --gold2:   #e8b020;
+  --bg:      #f4f6fb;
+  --card:    #ffffff;
+  --border:  #e2e6f0;
+  --text:    #1a1f36;
+  --muted:   #6b7280;
+  --success: #10b981;
+  --danger:  #ef4444;
+  --warn:    #f59e0b;
+  --info:    #3b82f6;
+  --radius:  10px;
+  --shadow:  0 2px 12px rgba(0,0,0,0.08);
+  --sidebar: 240px;
+}
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* ── LOGIN ── */
+#loginScreen {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; background: linear-gradient(135deg, var(--navy) 0%, #1e3a8a 100%);
+}
+.login-card {
+  background: var(--card); border-radius: 16px; padding: 40px;
+  width: 100%; max-width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.login-logo { text-align: center; margin-bottom: 28px; }
+.login-logo .emblem {
+  width: 64px; height: 64px; background: var(--navy); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 700; color: var(--gold); margin: 0 auto 12px;
+}
+.login-logo h2 { font-size: 18px; font-weight: 700; color: var(--navy); }
+.login-logo p { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+.form-group input {
+  width: 100%; padding: 12px 14px; border: 1.5px solid var(--border);
+  border-radius: var(--radius); font-size: 14px; font-family: inherit;
+  outline: none; transition: border-color 0.2s;
+}
+.form-group input:focus { border-color: var(--navy); }
+.btn-login {
+  width: 100%; padding: 13px; background: var(--navy); color: #fff;
+  border: none; border-radius: var(--radius); font-size: 15px;
+  font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+.btn-login:hover { background: var(--navy2); }
+.login-err { background: #fef2f2; border: 1px solid #fecaca; color: var(--danger); border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 16px; display: none; }
+
+/* ── APP SHELL ── */
+#appShell { display: none; min-height: 100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: fixed; top: 0; left: 0; width: var(--sidebar);
+  height: 100vh; background: var(--navy); overflow-y: auto;
+  z-index: 100; display: flex; flex-direction: column;
+  transition: transform 0.3s;
+}
+.sidebar-header {
+  padding: 20px 18px 16px; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.sidebar-brand { display: flex; align-items: center; gap: 10px; }
+.sb-emblem {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--gold); display: flex; align-items: center;
+  justify-content: center; font-size: 13px; font-weight: 700; color: var(--navy);
+  flex-shrink: 0;
+}
+.sb-title { font-size: 12px; font-weight: 700; color: #fff; line-height: 1.3; }
+.sb-sub { font-size: 10px; color: rgba(255,255,255,0.45); }
+
+.sidebar-nav { flex: 1; padding: 12px 0; }
+.nav-section { padding: 16px 18px 6px; font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.1em; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 18px; cursor: pointer; color: rgba(255,255,255,0.65);
+  font-size: 13px; font-weight: 500; transition: all 0.15s;
+  text-decoration: none; border-left: 3px solid transparent;
+}
+.nav-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+.nav-item.active { background: rgba(200,150,12,0.15); color: var(--gold2); border-left-color: var(--gold); }
+.nav-item .ni { width: 18px; text-align: center; font-size: 15px; }
+
+.sidebar-footer {
+  padding: 16px 18px; border-top: 1px solid rgba(255,255,255,0.08);
+}
+.admin-info { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.admin-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--gold); display: flex; align-items: center;
+  justify-content: center; font-size: 13px; font-weight: 700; color: var(--navy);
+}
+.admin-name { font-size: 12px; font-weight: 600; color: #fff; }
+.admin-role { font-size: 10px; color: rgba(255,255,255,0.4); }
+.btn-logout {
+  width: 100%; padding: 8px; background: rgba(239,68,68,0.15);
+  color: #f87171; border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;
+}
+.btn-logout:hover { background: rgba(239,68,68,0.25); }
+
+/* ── MAIN CONTENT ── */
+.main { margin-left: var(--sidebar); min-height: 100vh; }
+.topbar {
+  background: var(--card); border-bottom: 1px solid var(--border);
+  padding: 0 28px; height: 60px; display: flex; align-items: center;
+  justify-content: space-between; position: sticky; top: 0; z-index: 50;
+}
+.topbar-title { font-size: 16px; font-weight: 700; color: var(--text); }
+.topbar-meta { font-size: 12px; color: var(--muted); }
+.topbar-right { display: flex; align-items: center; gap: 16px; }
+#toastContainer { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
+.toast {
+  padding: 12px 18px; border-radius: 10px; font-size: 13px; font-weight: 500;
+  color: #fff; min-width: 240px; box-shadow: var(--shadow);
+  animation: slideIn 0.3s ease;
+}
+.toast.success { background: var(--success); }
+.toast.error   { background: var(--danger); }
+.toast.info    { background: var(--info); }
+@keyframes slideIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+
+.content { padding: 28px; }
+
+/* ── PAGES ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── DASHBOARD PAGE ── */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
+.stat-card {
+  background: var(--card); border-radius: var(--radius); padding: 20px;
+  border: 1px solid var(--border); display: flex; align-items: center; gap: 14px;
+}
+.stat-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.stat-icon.blue  { background: #eff6ff; }
+.stat-icon.green { background: #f0fdf4; }
+.stat-icon.gold  { background: #fffbeb; }
+.stat-icon.red   { background: #fef2f2; }
+.stat-num { font-size: 24px; font-weight: 700; color: var(--text); }
+.stat-lbl { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.dash-card { background: var(--card); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
+.dash-card-head { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.dash-card-title { font-size: 14px; font-weight: 700; }
+.dash-card-body { padding: 16px 20px; }
+.dash-list-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.dash-list-item:last-child { border-bottom: none; }
+.dli-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); margin-top: 5px; flex-shrink: 0; }
+.dli-title { font-size: 13px; font-weight: 500; }
+.dli-meta  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* ── SECTION HEADER ── */
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.section-title { font-size: 20px; font-weight: 700; }
+
+/* ── BUTTONS ── */
+.btn {
+  padding: 9px 18px; border-radius: 8px; font-size: 13px;
+  font-weight: 600; cursor: pointer; border: none;
+  display: inline-flex; align-items: center; gap: 6px; transition: opacity 0.15s;
+}
+.btn:hover { opacity: 0.88; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary  { background: var(--navy);    color: #fff; }
+.btn-gold     { background: var(--gold);    color: #fff; }
+.btn-danger   { background: var(--danger);  color: #fff; }
+.btn-success  { background: var(--success); color: #fff; }
+.btn-outline  { background: transparent; border: 1.5px solid var(--border); color: var(--text); }
+.btn-sm       { padding: 6px 12px; font-size: 12px; }
+
+/* ── TABLE ── */
+.table-wrap { background: var(--card); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
+.table-toolbar { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.table-search {
+  padding: 8px 12px; border: 1.5px solid var(--border); border-radius: 8px;
+  font-size: 13px; outline: none; flex: 1; min-width: 180px; font-family: inherit;
+}
+.table-search:focus { border-color: var(--navy); }
+table { width: 100%; border-collapse: collapse; }
+th { background: #f8fafc; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; padding: 11px 16px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 12px 16px; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #fafbfc; }
+.badge { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.badge-urgent { background: #fef2f2; color: var(--danger); }
+.badge-normal { background: #f0fdf4; color: var(--success); }
+.badge-active { background: #eff6ff; color: var(--info); }
+.badge-cat    { background: #f8f9fa; color: var(--muted); }
+.action-btns { display: flex; gap: 6px; }
+.empty-state { text-align: center; padding: 40px; color: var(--muted); font-size: 14px; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5); z-index: 1000;
+  align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--card); border-radius: 14px; width: 100%;
+  max-width: 580px; max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25); animation: popIn 0.2s ease;
+}
+@keyframes popIn { from { opacity:0; transform: scale(0.95); } to { opacity:1; transform: scale(1); } }
+.modal-head { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.modal-title { font-size: 16px; font-weight: 700; }
+.modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted); padding: 4px; line-height: 1; }
+.modal-body { padding: 24px; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; }
+
+/* ── FORM INSIDE MODAL ── */
+.field { margin-bottom: 18px; }
+.field label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+.field input, .field select, .field textarea {
+  width: 100%; padding: 10px 12px; border: 1.5px solid var(--border);
+  border-radius: 8px; font-size: 13px; font-family: inherit;
+  outline: none; transition: border-color 0.2s; background: #fff;
+}
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--navy); }
+.field textarea { resize: vertical; min-height: 80px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.field-check { display: flex; align-items: center; gap: 8px; }
+.field-check input[type=checkbox] { width: 16px; height: 16px; cursor: pointer; }
+.field-check label { font-size: 13px; font-weight: 500; color: var(--text); cursor: pointer; text-transform: none; letter-spacing: 0; }
+.upload-area {
+  border: 2px dashed var(--border); border-radius: 8px; padding: 20px;
+  text-align: center; cursor: pointer; transition: border-color 0.2s; font-size: 13px; color: var(--muted);
+}
+.upload-area:hover { border-color: var(--navy); }
+.upload-preview { margin-top: 10px; }
+.upload-preview img { max-height: 120px; border-radius: 6px; object-fit: cover; }
+.upload-preview .pdf-icon { font-size: 28px; }
+
+/* ── HOMEPAGE EDITOR ── */
+.hp-sections { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.hp-section-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; cursor: pointer; transition: border-color 0.2s; }
+.hp-section-card:hover { border-color: var(--gold); }
+.hp-section-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.hp-section-card p  { font-size: 12px; color: var(--muted); }
+.hp-section-icon    { font-size: 24px; margin-bottom: 8px; }
+
+/* ── GALLERY GRID ── */
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+.gallery-item { position: relative; border-radius: 8px; overflow: hidden; aspect-ratio: 4/3; }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-item-actions {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  opacity: 0; transition: opacity 0.2s;
+}
+.gallery-item:hover .gallery-item-actions { opacity: 1; }
+.gallery-item-title { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.7)); color: #fff; font-size: 11px; padding: 8px 8px 6px; }
+
+/* ── TICKER EDITOR ── */
+.ticker-item-row { display: flex; align-items: center; gap: 10px; padding: 10px; background: #f8fafc; border-radius: 8px; margin-bottom: 8px; }
+.ticker-drag { cursor: grab; color: var(--muted); font-size: 16px; }
+.ticker-item-text { flex: 1; font-size: 13px; }
+.ticker-item-active { color: var(--success); font-size: 12px; }
+
+/* ── PASSWORD MODAL ── */
+.pw-modal { max-width: 400px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .dash-grid  { grid-template-columns: 1fr; }
+  .hp-sections { grid-template-columns: 1fr; }
+  .field-row  { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; }
+  .mobile-menu-btn { display: block; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<script src="config.js"></script>
+
+<div id="toastContainer"></div>
+
+<!-- ════════ LOGIN ════════ -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="emblem">CUSB</div>
+      <h2>Admin Panel</h2>
+      <p>Central University of South Bihar</p>
+    </div>
+    <div class="login-err" id="loginErr"></div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="loginEmail" placeholder="admin@cusb.ac.in" value="admin@cusb.ac.in">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="••••••••" value="Admin@1234">
+    </div>
+    <button class="btn-login" id="loginBtn" onclick="doLogin()">Sign In →</button>
+  </div>
+</div>
+
+<!-- ════════ APP SHELL ════════ -->
+<div id="appShell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <div class="sb-emblem">CU</div>
+        <div>
+          <div class="sb-title">CUSB Admin</div>
+          <div class="sb-sub">CMS Dashboard</div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">Overview</div>
+      <a class="nav-item active" onclick="showPage('dashboard')">
+        <span class="ni">📊</span> Dashboard
+      </a>
+
+      <div class="nav-section">Content</div>
+      <a class="nav-item" onclick="showPage('notices')">
+        <span class="ni">📋</span> Notices
+      </a>
+      <a class="nav-item" onclick="showPage('events')">
+        <span class="ni">📅</span> Events
+      </a>
+      <a class="nav-item" onclick="showPage('announcements')">
+        <span class="ni">📢</span> Announcements
+      </a>
+      <a class="nav-item" onclick="showPage('faculty')">
+        <span class="ni">👨‍🏫</span> Faculty
+      </a>
+      <a class="nav-item" onclick="showPage('gallery')">
+        <span class="ni">🖼️</span> Gallery
+      </a>
+
+      <div class="nav-section">Settings</div>
+      <a class="nav-item" onclick="showPage('homepage')">
+        <span class="ni">🏠</span> Homepage
+      </a>
+      <a class="nav-item" onclick="showPage('contact')">
+        <span class="ni">📍</span> Contact Info
+      </a>
+      <a class="nav-item" onclick="showPage('account')">
+        <span class="ni">🔐</span> Account
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="admin-info">
+        <div class="admin-avatar" id="sbAvatar">A</div>
+        <div>
+          <div class="admin-name" id="sbName">Admin</div>
+          <div class="admin-role" id="sbRole">—</div>
+        </div>
+      </div>
+      <button class="btn-logout" onclick="doLogout()">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="topbarTitle">Dashboard</div>
+        <div class="topbar-meta" id="topbarMeta"></div>
+      </div>
+      <div class="topbar-right">
+        <a href="../index.html" target="_blank" class="btn btn-outline btn-sm">🌐 View Site</a>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ═══ DASHBOARD ═══ -->
+      <div class="page active" id="page-dashboard">
+        <div class="stats-grid" id="dashStats">
+          <div class="stat-card"><div class="stat-icon blue">📋</div><div><div class="stat-num" id="sc-notices">—</div><div class="stat-lbl">Notices</div></div></div>
+          <div class="stat-card"><div class="stat-icon green">📅</div><div><div class="stat-num" id="sc-events">—</div><div class="stat-lbl">Events</div></div></div>
+          <div class="stat-card"><div class="stat-icon gold">👨‍🏫</div><div><div class="stat-num" id="sc-faculty">—</div><div class="stat-lbl">Faculty</div></div></div>
+          <div class="stat-card"><div class="stat-icon red">🖼️</div><div><div class="stat-num" id="sc-gallery">—</div><div class="stat-lbl">Gallery</div></div></div>
+        </div>
+        <div class="dash-grid">
+          <div class="dash-card">
+            <div class="dash-card-head"><div class="dash-card-title">Recent Notices</div><button class="btn btn-sm btn-outline" onclick="showPage('notices')">View All</button></div>
+            <div class="dash-card-body" id="dashNoticesList"><div class="empty-state">Loading…</div></div>
+          </div>
+          <div class="dash-card">
+            <div class="dash-card-head"><div class="dash-card-title">Upcoming Events</div><button class="btn btn-sm btn-outline" onclick="showPage('events')">View All</button></div>
+            <div class="dash-card-body" id="dashEventsList"><div class="empty-state">Loading…</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ NOTICES ═══ -->
+      <div class="page" id="page-notices">
+        <div class="section-header">
+          <div class="section-title">Notices</div>
+          <button class="btn btn-primary" onclick="openNoticeModal()">＋ Add Notice</button>
+        </div>
+        <div class="table-wrap">
+          <div class="table-toolbar">
+            <input class="table-search" placeholder="Search notices…" oninput="filterTable('noticesTable', this.value)">
+            <select class="table-search" style="flex:0;width:150px" onchange="filterTable('noticesTable', this.value, 1)">
+              <option value="">All Categories</option>
+              <option>Academic</option><option>Admission</option><option>Examination</option>
+              <option>General</option><option>Research</option><option>Administrative</option>
+            </select>
+          </div>
+          <table id="noticesTable">
+            <thead><tr><th>Title</th><th>Category</th><th>Date</th><th>Status</th><th>PDF</th><th>Actions</th></tr></thead>
+            <tbody id="noticesBody"><tr><td colspan="6" class="empty-state">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══ EVENTS ═══ -->
+      <div class="page" id="page-events">
+        <div class="section-header">
+          <div class="section-title">Events</div>
+          <button class="btn btn-primary" onclick="openEventModal()">＋ Add Event</button>
+        </div>
+        <div class="table-wrap">
+          <div class="table-toolbar">
+            <input class="table-search" placeholder="Search events…" oninput="filterTable('eventsTable', this.value)">
+          </div>
+          <table id="eventsTable">
+            <thead><tr><th>Title</th><th>Category</th><th>Date</th><th>Venue</th><th>Featured</th><th>Actions</th></tr></thead>
+            <tbody id="eventsBody"><tr><td colspan="6" class="empty-state">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══ ANNOUNCEMENTS ═══ -->
+      <div class="page" id="page-announcements">
+        <div class="section-header">
+          <div class="section-title">Ticker Announcements</div>
+          <button class="btn btn-primary" onclick="openAnnouncementModal()">＋ Add Announcement</button>
+        </div>
+        <div class="table-wrap">
+          <div class="table-toolbar">
+            <span style="font-size:13px;color:var(--muted)">These appear in the scrolling ticker bar on the homepage.</span>
+          </div>
+          <table>
+            <thead><tr><th>#</th><th>Text</th><th>Link</th><th>Expires</th><th>Active</th><th>Actions</th></tr></thead>
+            <tbody id="announcementsBody"><tr><td colspan="6" class="empty-state">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══ FACULTY ═══ -->
+      <div class="page" id="page-faculty">
+        <div class="section-header">
+          <div class="section-title">Faculty</div>
+          <button class="btn btn-primary" onclick="openFacultyFormModal()">＋ Add Faculty</button>
+        </div>
+        <div class="table-wrap">
+          <div class="table-toolbar">
+            <input class="table-search" placeholder="Search faculty…" oninput="filterTable('facultyTable', this.value)">
+            <input class="table-search" style="flex:0;width:180px" placeholder="Filter by school…" oninput="filterTable('facultyTable', this.value, 1)">
+          </div>
+          <table id="facultyTable">
+            <thead><tr><th>Photo</th><th>Name</th><th>Designation</th><th>Department</th><th>School</th><th>Actions</th></tr></thead>
+            <tbody id="facultyBody"><tr><td colspan="6" class="empty-state">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══ GALLERY ═══ -->
+      <div class="page" id="page-gallery">
+        <div class="section-header">
+          <div class="section-title">Gallery</div>
+          <button class="btn btn-primary" onclick="openGalleryModal()">＋ Upload Image</button>
+        </div>
+        <div class="gallery-grid" id="galleryGrid"><div class="empty-state" style="grid-column:1/-1">Loading…</div></div>
+      </div>
+
+      <!-- ═══ HOMEPAGE ═══ -->
+      <div class="page" id="page-homepage">
+        <div class="section-header"><div class="section-title">Homepage Content</div></div>
+        <div class="hp-sections">
+          <div class="hp-section-card" onclick="openHpSection('hero')">
+            <div class="hp-section-icon">🏛️</div>
+            <h4>Hero Section</h4>
+            <p>Title, subtitle, tagline</p>
+          </div>
+          <div class="hp-section-card" onclick="openHpSection('stats')">
+            <div class="hp-section-icon">📊</div>
+            <h4>Statistics</h4>
+            <p>Students, faculty, programmes count</p>
+          </div>
+          <div class="hp-section-card" onclick="openHpSection('about')">
+            <div class="hp-section-icon">📖</div>
+            <h4>About Section</h4>
+            <p>Heading, description, vision, mission</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ CONTACT ═══ -->
+      <div class="page" id="page-contact">
+        <div class="section-header"><div class="section-title">Contact Information</div></div>
+        <div class="table-wrap" style="padding:24px;">
+          <div class="field"><label>Address</label><textarea id="ct-address" rows="3"></textarea></div>
+          <div class="field-row">
+            <div class="field"><label>Phone</label><input type="text" id="ct-phone"></div>
+            <div class="field"><label>Email</label><input type="email" id="ct-email"></div>
+          </div>
+          <div class="field"><label>Website</label><input type="text" id="ct-website"></div>
+          <div style="border-top:1px solid var(--border);margin:20px 0;padding-top:20px;">
+            <div style="font-size:14px;font-weight:700;margin-bottom:16px;">Social Media Links</div>
+            <div class="field-row">
+              <div class="field"><label>Facebook</label><input type="url" id="ct-facebook"></div>
+              <div class="field"><label>Twitter</label><input type="url" id="ct-twitter"></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>LinkedIn</label><input type="url" id="ct-linkedin"></div>
+              <div class="field"><label>YouTube</label><input type="url" id="ct-youtube"></div>
+            </div>
+            <div class="field"><label>Instagram</label><input type="url" id="ct-instagram"></div>
+          </div>
+          <div style="text-align:right;"><button class="btn btn-primary" onclick="saveContact()">💾 Save Contact Info</button></div>
+        </div>
+      </div>
+
+      <!-- ═══ ACCOUNT ═══ -->
+      <div class="page" id="page-account">
+        <div class="section-header"><div class="section-title">Account Settings</div></div>
+        <div class="table-wrap" style="padding:24px;max-width:480px;">
+          <div style="font-size:14px;font-weight:700;margin-bottom:16px;">Change Password</div>
+          <div class="field"><label>Current Password</label><input type="password" id="pw-current"></div>
+          <div class="field"><label>New Password</label><input type="password" id="pw-new"></div>
+          <div class="field"><label>Confirm New Password</label><input type="password" id="pw-confirm"></div>
+          <button class="btn btn-primary" onclick="changePassword()">🔐 Update Password</button>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </main>
+</div><!-- /appShell -->
+
+
+<!-- ════════ NOTICE MODAL ════════ -->
+<div class="modal-overlay" id="noticeModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title" id="noticeModalTitle">Add Notice</div>
+      <button class="modal-close" onclick="closeModal('noticeModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="nm-id">
+      <div class="field"><label>Title *</label><input type="text" id="nm-title" placeholder="Notice title"></div>
+      <div class="field-row">
+        <div class="field"><label>Category</label>
+          <select id="nm-category">
+            <option>Academic</option><option>Admission</option><option>Examination</option>
+            <option>General</option><option>Research</option><option>Administrative</option>
+          </select>
+        </div>
+        <div class="field"><label>Date</label><input type="date" id="nm-date"></div>
+      </div>
+      <div class="field"><label>Content</label><textarea id="nm-content" placeholder="Notice description…"></textarea></div>
+      <div class="field"><label>Attach PDF</label>
+        <input type="file" id="nm-pdf" accept=".pdf" style="display:none" onchange="previewFile(this,'nm-pdf-preview')">
+        <div class="upload-area" onclick="document.getElementById('nm-pdf').click()">
+          📄 Click to upload PDF
+          <div class="upload-preview" id="nm-pdf-preview"></div>
+        </div>
+      </div>
+      <div class="field"><div class="field-check">
+        <input type="checkbox" id="nm-urgent"><label for="nm-urgent">Mark as Urgent</label>
+      </div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('noticeModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveNotice()">💾 Save Notice</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ EVENT MODAL ════════ -->
+<div class="modal-overlay" id="eventModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title" id="eventModalTitle">Add Event</div>
+      <button class="modal-close" onclick="closeModal('eventModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="em-id">
+      <div class="field"><label>Title *</label><input type="text" id="em-title" placeholder="Event title"></div>
+      <div class="field"><label>Description</label><textarea id="em-description" placeholder="Event details…"></textarea></div>
+      <div class="field-row">
+        <div class="field"><label>Start Date *</label><input type="date" id="em-date"></div>
+        <div class="field"><label>End Date</label><input type="date" id="em-endDate"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Time</label><input type="time" id="em-time"></div>
+        <div class="field"><label>Category</label>
+          <select id="em-category">
+            <option>Academic</option><option>Cultural</option><option>Sports</option>
+            <option>Seminar</option><option>Workshop</option><option>Convocation</option><option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Venue</label><input type="text" id="em-venue" placeholder="Hall / Ground / Online"></div>
+      <div class="field"><label>Registration Link</label><input type="url" id="em-regLink" placeholder="https://…"></div>
+      <div class="field"><label>Event Image</label>
+        <input type="file" id="em-image" accept="image/*" style="display:none" onchange="previewFile(this,'em-image-preview',true)">
+        <div class="upload-area" onclick="document.getElementById('em-image').click()">
+          🖼️ Click to upload image
+          <div class="upload-preview" id="em-image-preview"></div>
+        </div>
+      </div>
+      <div class="field"><div class="field-check">
+        <input type="checkbox" id="em-featured"><label for="em-featured">Featured Event</label>
+      </div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('eventModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEvent()">💾 Save Event</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ ANNOUNCEMENT MODAL ════════ -->
+<div class="modal-overlay" id="announcementModal">
+  <div class="modal-box" style="max-width:480px">
+    <div class="modal-head">
+      <div class="modal-title" id="annModalTitle">Add Announcement</div>
+      <button class="modal-close" onclick="closeModal('announcementModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="ann-id">
+      <div class="field"><label>Text *</label><textarea id="ann-text" rows="3" placeholder="Announcement text for ticker bar…"></textarea></div>
+      <div class="field"><label>Link (optional)</label><input type="url" id="ann-link" placeholder="https://…"></div>
+      <div class="field-row">
+        <div class="field"><label>Order</label><input type="number" id="ann-order" value="0" min="0"></div>
+        <div class="field"><label>Expires On</label><input type="date" id="ann-expires"></div>
+      </div>
+      <div class="field"><div class="field-check">
+        <input type="checkbox" id="ann-active" checked><label for="ann-active">Active</label>
+      </div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('announcementModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveAnnouncement()">💾 Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ FACULTY MODAL ════════ -->
+<div class="modal-overlay" id="facultyModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title" id="facModalTitle">Add Faculty</div>
+      <button class="modal-close" onclick="closeModal('facultyModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="fm-id">
+      <div class="field-row">
+        <div class="field"><label>Name *</label><input type="text" id="fm-name" placeholder="Dr. Full Name"></div>
+        <div class="field"><label>Designation *</label><input type="text" id="fm-designation" placeholder="Professor"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Department *</label><input type="text" id="fm-department" placeholder="Computer Science"></div>
+        <div class="field"><label>School *</label><input type="text" id="fm-school" placeholder="School of Sciences"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Email</label><input type="email" id="fm-email"></div>
+        <div class="field"><label>Phone</label><input type="tel" id="fm-phone"></div>
+      </div>
+      <div class="field"><label>Specialization</label><input type="text" id="fm-specialization" placeholder="Machine Learning, Data Science"></div>
+      <div class="field"><label>Qualification</label><input type="text" id="fm-qualification" placeholder="Ph.D. (IIT Delhi)"></div>
+      <div class="field-row">
+        <div class="field"><label>Experience</label><input type="text" id="fm-experience" placeholder="15 years"></div>
+        <div class="field"><label>Publications</label><input type="number" id="fm-publications" min="0" value="0"></div>
+      </div>
+      <div class="field"><label>Profile URL</label><input type="url" id="fm-profileUrl" placeholder="https://…"></div>
+      <div class="field"><label>Photo</label>
+        <input type="file" id="fm-image" accept="image/*" style="display:none" onchange="previewFile(this,'fm-image-preview',true)">
+        <div class="upload-area" onclick="document.getElementById('fm-image').click()">
+          📷 Click to upload photo
+          <div class="upload-preview" id="fm-image-preview"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('facultyModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveFaculty()">💾 Save Faculty</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ GALLERY MODAL ════════ -->
+<div class="modal-overlay" id="galleryModal">
+  <div class="modal-box" style="max-width:440px">
+    <div class="modal-head">
+      <div class="modal-title">Upload Gallery Image</div>
+      <button class="modal-close" onclick="closeModal('galleryModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field"><label>Title *</label><input type="text" id="gm-title" placeholder="Image title"></div>
+      <div class="field-row">
+        <div class="field"><label>Category</label>
+          <select id="gm-category">
+            <option>Campus</option><option>Events</option><option>Sports</option>
+            <option>Cultural</option><option>Academic</option><option>Infrastructure</option>
+          </select>
+        </div>
+        <div class="field"><label>Order</label><input type="number" id="gm-order" value="0" min="0"></div>
+      </div>
+      <div class="field"><label>Caption</label><input type="text" id="gm-caption" placeholder="Short description"></div>
+      <div class="field"><label>Image *</label>
+        <input type="file" id="gm-image" accept="image/*" style="display:none" onchange="previewFile(this,'gm-image-preview',true)">
+        <div class="upload-area" onclick="document.getElementById('gm-image').click()">
+          🖼️ Click to upload image (JPG, PNG, WebP)
+          <div class="upload-preview" id="gm-image-preview"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('galleryModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveGalleryItem()">⬆️ Upload</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ HOMEPAGE SECTION MODAL ════════ -->
+<div class="modal-overlay" id="hpModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title" id="hpModalTitle">Edit Section</div>
+      <button class="modal-close" onclick="closeModal('hpModal')">✕</button>
+    </div>
+    <div class="modal-body" id="hpModalBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('hpModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveHpSection()">💾 Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ DELETE CONFIRM MODAL ════════ -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal-box" style="max-width:380px">
+    <div class="modal-head">
+      <div class="modal-title">Confirm Delete</div>
+      <button class="modal-close" onclick="closeModal('deleteModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:14px;color:var(--muted)">Are you sure you want to delete this item? This cannot be undone.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('deleteModal')">Cancel</button>
+      <button class="btn btn-danger" id="deleteConfirmBtn">🗑️ Delete</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+const API = window.APP_CONFIG?.apiBase || 'http://localhost:5000/api';
+let token = localStorage.getItem('cusb_token');
+let adminData = null;
+let currentHpSection = null;
+
+// Helper to construct asset URLs (images, PDFs)
+function getAssetUrl(path) {
+  const uploadBase = window.APP_CONFIG?.uploadBase || 'http://localhost:5000';
+  return uploadBase + path;
+}
+
+// ─── TOAST ───────────────────────────────────────────────────────
+function toast(msg, type = 'success') {
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.textContent = msg;
+  document.getElementById('toastContainer').appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+// ─── API HELPER ──────────────────────────────────────────────────
+async function api(method, endpoint, body = null, isFormData = false) {
+  const headers = {};
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  if (!isFormData && body) headers['Content-Type'] = 'application/json';
+  const opts = { method, headers };
+  if (body) opts.body = isFormData ? body : JSON.stringify(body);
+  const res = await fetch(`${API}${endpoint}`, opts);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Error');
+  return data;
+}
+
+// ─── AUTH ────────────────────────────────────────────────────────
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginErr');
+  const btn   = document.getElementById('loginBtn');
+  errEl.style.display = 'none';
+  btn.textContent = 'Signing in…'; btn.disabled = true;
+  try {
+    const data = await api('POST', '/auth/login', { email, password: pass });
+    token = data.token;
+    adminData = data.admin;
+    localStorage.setItem('cusb_token', token);
+    localStorage.setItem('cusb_admin', JSON.stringify(adminData));
+    showApp();
+  } catch (e) {
+    errEl.textContent = e.message;
+    errEl.style.display = 'block';
+  } finally {
+    btn.textContent = 'Sign In →'; btn.disabled = false;
+  }
+}
+
+function doLogout() {
+  localStorage.removeItem('cusb_token');
+  localStorage.removeItem('cusb_admin');
+  token = null; adminData = null;
+  document.getElementById('appShell').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+}
+
+function showApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appShell').style.display = 'block';
+  if (adminData) {
+    document.getElementById('sbName').textContent = adminData.name;
+    document.getElementById('sbRole').textContent = adminData.role;
+    document.getElementById('sbAvatar').textContent = adminData.name[0].toUpperCase();
+  }
+  loadDashboard();
+}
+
+// Auto-login if token exists
+window.addEventListener('DOMContentLoaded', async () => {
+  const saved = localStorage.getItem('cusb_admin');
+  if (token && saved) {
+    adminData = JSON.parse(saved);
+    showApp();
+  }
+  document.getElementById('loginPassword').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+});
+
+// ─── NAVIGATION ──────────────────────────────────────────────────
+const pageTitles = {
+  dashboard: 'Dashboard', notices: 'Notices', events: 'Events',
+  announcements: 'Announcements', faculty: 'Faculty', gallery: 'Gallery',
+  homepage: 'Homepage Editor', contact: 'Contact Info', account: 'Account Settings'
+};
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(`page-${name}`).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => { if (n.getAttribute('onclick')?.includes(`'${name}'`)) n.classList.add('active'); });
+  document.getElementById('topbarTitle').textContent = pageTitles[name] || name;
+  const loaders = { notices: loadNoticesTable, events: loadEventsTable, announcements: loadAnnouncements, faculty: loadFacultyTable, gallery: loadGallery, contact: loadContact };
+  if (loaders[name]) loaders[name]();
+}
+
+// ─── DASHBOARD ───────────────────────────────────────────────────
+async function loadDashboard() {
+  try {
+    const [n, ev, f, g] = await Promise.all([
+      api('GET', '/notices?limit=1'), api('GET', '/events?limit=1'),
+      api('GET', '/faculty'),         api('GET', '/gallery?limit=1'),
+    ]);
+    document.getElementById('sc-notices').textContent = n.total || '—';
+    document.getElementById('sc-events').textContent  = ev.total || '—';
+    document.getElementById('sc-faculty').textContent = f.total || '—';
+    document.getElementById('sc-gallery').textContent = g.data?.length ? '✓' : '0';
+  } catch(e) {}
+
+  try {
+    const { data: notices } = await api('GET', '/notices?limit=5');
+    const nl = document.getElementById('dashNoticesList');
+    nl.innerHTML = notices.map(n => `
+      <div class="dash-list-item">
+        <div class="dli-dot"></div>
+        <div><div class="dli-title">${n.title}</div>
+        <div class="dli-meta">${n.category} · ${new Date(n.date).toLocaleDateString('en-IN')}</div></div>
+      </div>`).join('') || '<div class="empty-state">No notices</div>';
+  } catch(e) {}
+
+  try {
+    const { data: events } = await api('GET', '/events?upcoming=true&limit=5');
+    const el = document.getElementById('dashEventsList');
+    el.innerHTML = events.map(ev => `
+      <div class="dash-list-item">
+        <div class="dli-dot" style="background:var(--success)"></div>
+        <div><div class="dli-title">${ev.title}</div>
+        <div class="dli-meta">${ev.category} · ${new Date(ev.date).toLocaleDateString('en-IN')}${ev.venue ? ' · '+ev.venue:''}</div></div>
+      </div>`).join('') || '<div class="empty-state">No upcoming events</div>';
+  } catch(e) {}
+}
+
+// ─── NOTICES ─────────────────────────────────────────────────────
+let noticesData = [];
+async function loadNoticesTable() {
+  try {
+    const { data } = await api('GET', '/notices?limit=100');
+    noticesData = data;
+    renderNoticesTable(data);
+  } catch(e) { toast(e.message,'error'); }
+}
+
+function renderNoticesTable(data) {
+  const tbody = document.getElementById('noticesBody');
+  if (!data.length) { tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No notices found</td></tr>'; return; }
+  tbody.innerHTML = data.map(n => `
+    <tr>
+      <td><strong>${n.title}</strong></td>
+      <td><span class="badge badge-cat">${n.category}</span></td>
+      <td>${new Date(n.date).toLocaleDateString('en-IN')}</td>
+      <td>${n.isUrgent ? '<span class="badge badge-urgent">🔴 Urgent</span>' : '<span class="badge badge-normal">Normal</span>'}</td>
+      <td>${n.pdfUrl ? `<a href="${getAssetUrl(n.pdfUrl)}" target="_blank" style="color:var(--info)">📄 View</a>` : '—'}</td>
+      <td><div class="action-btns">
+        <button class="btn btn-sm btn-outline" onclick="editNotice('${n._id}')">✏️ Edit</button>
+        <button class="btn btn-sm btn-danger"  onclick="confirmDelete('notices','${n._id}',loadNoticesTable)">🗑️</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function openNoticeModal(notice = null) {
+  document.getElementById('nm-id').value       = notice?._id || '';
+  document.getElementById('nm-title').value    = notice?.title || '';
+  document.getElementById('nm-category').value = notice?.category || 'General';
+  document.getElementById('nm-date').value     = notice?.date ? notice.date.slice(0,10) : new Date().toISOString().slice(0,10);
+  document.getElementById('nm-content').value  = notice?.content || '';
+  document.getElementById('nm-urgent').checked = notice?.isUrgent || false;
+  document.getElementById('nm-pdf-preview').innerHTML = notice?.pdfUrl ? `<div class="pdf-icon">📄</div><div style="font-size:12px">${notice.pdfName||'PDF attached'}</div>` : '';
+  document.getElementById('noticeModalTitle').textContent = notice ? 'Edit Notice' : 'Add Notice';
+  openModal('noticeModal');
+}
+
+async function editNotice(id) {
+  const n = noticesData.find(x => x._id === id);
+  if (n) openNoticeModal(n);
+}
+
+async function saveNotice() {
+  const id   = document.getElementById('nm-id').value;
+  const file = document.getElementById('nm-pdf').files[0];
+  const form = new FormData();
+  form.append('title',    document.getElementById('nm-title').value.trim());
+  form.append('category', document.getElementById('nm-category').value);
+  form.append('date',     document.getElementById('nm-date').value);
+  form.append('content',  document.getElementById('nm-content').value.trim());
+  form.append('isUrgent', document.getElementById('nm-urgent').checked);
+  if (file) form.append('pdf', file);
+  if (!form.get('title')) { toast('Title required','error'); return; }
+  try {
+    if (id) await api('PUT',  `/notices/${id}`, form, true);
+    else    await api('POST', '/notices',        form, true);
+    toast(id ? 'Notice updated' : 'Notice created');
+    closeModal('noticeModal');
+    document.getElementById('nm-pdf').value = '';
+    loadNoticesTable();
+  } catch(e) { toast(e.message,'error'); }
+}
+
+// ─── EVENTS ──────────────────────────────────────────────────────
+let eventsData = [];
+async function loadEventsTable() {
+  try {
+    const { data } = await api('GET', '/events?limit=100');
+    eventsData = data;
+    const tbody = document.getElementById('eventsBody');
+    if (!data.length) { tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No events</td></tr>'; return; }
+    tbody.innerHTML = data.map(ev => `
+      <tr>
+        <td><strong>${ev.title}</strong></td>
+        <td><span class="badge badge-cat">${ev.category}</span></td>
+        <td>${new Date(ev.date).toLocaleDateString('en-IN')}</td>
+        <td>${ev.venue || '—'}</td>
+        <td>${ev.featured ? '⭐' : '—'}</td>
+        <td><div class="action-btns">
+          <button class="btn btn-sm btn-outline" onclick="editEvent('${ev._id}')">✏️ Edit</button>
+          <button class="btn btn-sm btn-danger"  onclick="confirmDelete('events','${ev._id}',loadEventsTable)">🗑️</button>
+        </div></td>
+      </tr>`).join('');
+  } catch(e) { toast(e.message,'error'); }
+}
+
+function openEventModal(event = null) {
+  document.getElementById('em-id').value          = event?._id || '';
+  document.getElementById('em-title').value       = event?.title || '';
+  document.getElementById('em-description').value = event?.description || '';
+  document.getElementById('em-date').value        = event?.date?.slice(0,10) || '';
+  document.getElementById('em-endDate').value     = event?.endDate?.slice(0,10) || '';
+  document.getElementById('em-time').value        = event?.time || '';
+  document.getElementById('em-category').value    = event?.category || 'Academic';
+  document.getElementById('em-venue').value       = event?.venue || '';
+  document.getElementById('em-regLink').value     = event?.registrationLink || '';
+  document.getElementById('em-featured').checked  = event?.featured || false;
+  document.getElementById('em-image-preview').innerHTML = event?.imageUrl ? `<img src="${getAssetUrl(event.imageUrl)}" alt="">` : '';
+  document.getElementById('eventModalTitle').textContent = event ? 'Edit Event' : 'Add Event';
+  openModal('eventModal');
+}
+
+function editEvent(id) {
+  const ev = eventsData.find(x => x._id === id);
+  if (ev) openEventModal(ev);
+}
+
+async function saveEvent() {
+  const id   = document.getElementById('em-id').value;
+  const file = document.getElementById('em-image').files[0];
+  const form = new FormData();
+  form.append('title',            document.getElementById('em-title').value.trim());
+  form.append('description',      document.getElementById('em-description').value.trim());
+  form.append('date',             document.getElementById('em-date').value);
+  form.append('endDate',          document.getElementById('em-endDate').value);
+  form.append('time',             document.getElementById('em-time').value);
+  form.append('category',         document.getElementById('em-category').value);
+  form.append('venue',            document.getElementById('em-venue').value.trim());
+  form.append('registrationLink', document.getElementById('em-regLink').value.trim());
+  form.append('featured',         document.getElementById('em-featured').checked);
+  if (file) form.append('image', file);
+  if (!form.get('title') || !form.get('date')) { toast('Title and date required','error'); return; }
+  try {
+    if (id) await api('PUT',  `/events/${id}`, form, true);
+    else    await api('POST', '/events',        form, true);
+    toast(id ? 'Event updated' : 'Event created');
+    closeModal('eventModal');
+    document.getElementById('em-image').value = '';
+    loadEventsTable();
+  } catch(e) { toast(e.message,'error'); }
+}
+
+// ─── ANNOUNCEMENTS ───────────────────────────────────────────────
+let announcementsData = [];
+async function loadAnnouncements() {
+  try {
+    const { data } = await api('GET', '/announcements');
+    announcementsData = data;
+    const tbody = document.getElementById('announcementsBody');
+    if (!data.length) { tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No announcements</td></tr>'; return; }
+    tbody.innerHTML = data.map((a,i) => `
+      <tr>
+        <td>${a.order ?? i+1}</td>
+        <td>${a.text}</td>
+        <td>${a.link ? `<a href="${a.link}" target="_blank" style="color:var(--info);font-size:12px">🔗 Link</a>` : '—'}</td>
+        <td>${a.expiresAt ? new Date(a.expiresAt).toLocaleDateString('en-IN') : '—'}</td>
+        <td>${a.active ? '<span class="badge badge-active">Active</span>' : '<span class="badge badge-cat">Off</span>'}</td>
+        <td><div class="action-btns">
+          <button class="btn btn-sm btn-outline" onclick="editAnnouncement('${a._id}')">✏️</button>
+          <button class="btn btn-sm btn-danger"  onclick="confirmDelete('announcements','${a._id}',loadAnnouncements)">🗑️</button>
+        </div></td>
+      </tr>`).join('');
+  } catch(e) { toast(e.message,'error'); }
+}
+
+function openAnnouncementModal(ann = null) {
+  document.getElementById('ann-id').value      = ann?._id || '';
+  document.getElementById('ann-text').value    = ann?.text || '';
+  document.getElementById('ann-link').value    = ann?.link || '';
+  document.getElementById('ann-order').value   = ann?.order ?? 0;
+  document.getElementById('ann-expires').value = ann?.expiresAt?.slice(0,10) || '';
+  document.getElementById('ann-active').checked = ann ? ann.active : true;
+  document.getElementById('annModalTitle').textContent = ann ? 'Edit Announcement' : 'Add Announcement';
+  openModal('announcementModal');
+}
+
+function editAnnouncement(id) {
+  const a = announcementsData.find(x => x._id === id);
+  if (a) openAnnouncementModal(a);
+}
+
+async function saveAnnouncement() {
+  const id = document.getElementById('ann-id').value;
+  const body = {
+    text:      document.getElementById('ann-text').value.trim(),
+    link:      document.getElementById('ann-link').value.trim(),
+    order:     parseInt(document.getElementById('ann-order').value) || 0,
+    expiresAt: document.getElementById('ann-expires').value || null,
+    active:    document.getElementById('ann-active').checked,
+  };
+  if (!body.text) { toast('Text required','error'); return; }
+  try {
+    if (id) await api('PUT',  `/announcements/${id}`, body);
+    else    await api('POST', '/announcements',        body);
+    toast(id ? 'Updated' : 'Created');
+    closeModal('announcementModal');
+    loadAnnouncements();
+  } catch(e) { toast(e.message,'error'); }
+}
+
+// ─── FACULTY ─────────────────────────────────────────────────────
+let facultyData = [];
+async function loadFacultyTable() {
+  try {
+    const { data } = await api('GET', '/faculty');
+    facultyData = data;
+    const tbody = document.getElementById('facultyBody');
+    if (!data.length) { tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No faculty records</td></tr>'; return; }
+    tbody.innerHTML = data.map(f => `
+      <tr>
+        <td>${f.imageUrl ? `<img src="${getAssetUrl(f.imageUrl)}" style="width:36px;height:36px;border-radius:50%;object-fit:cover">` : '<div style="width:36px;height:36px;border-radius:50%;background:#e2e6f0;display:flex;align-items:center;justify-content:center;font-size:14px">👤</div>'}</td>
+        <td><strong>${f.name}</strong></td>
+        <td>${f.designation}</td>
+        <td>${f.department}</td>
+        <td style="font-size:12px;color:var(--muted)">${f.school}</td>
+        <td><div class="action-btns">
+          <button class="btn btn-sm btn-outline" onclick="editFaculty('${f._id}')">✏️</button>
+          <button class="btn btn-sm btn-danger"  onclick="confirmDelete('faculty','${f._id}',loadFacultyTable)">🗑️</button>
+        </div></td>
+      </tr>`).join('');
+  } catch(e) { toast(e.message,'error'); }
+}
+
+function openFacultyFormModal(fac = null) {
+  document.getElementById('fm-id').value           = fac?._id || '';
+  document.getElementById('fm-name').value         = fac?.name || '';
+  document.getElementById('fm-designation').value  = fac?.designation || '';
+  document.getElementById('fm-department').value   = fac?.department || '';
+  document.getElementById('fm-school').value       = fac?.school || '';
+  document.getElementById('fm-email').value        = fac?.email || '';
+  document.getElementById('fm-phone').value        = fac?.phone || '';
+  document.getElementById('fm-specialization').value = fac?.specialization || '';
+  document.getElementById('fm-qualification').value  = fac?.qualification || '';
+  document.getElementById('fm-experience').value   = fac?.experience || '';
+  document.getElementById('fm-publications').value = fac?.publications || 0;
+  document.getElementById('fm-profileUrl').value   = fac?.profileUrl || '';
+  document.getElementById('fm-image-preview').innerHTML = fac?.imageUrl ? `<img src="${getAssetUrl(fac.imageUrl)}" alt="">` : '';
+  document.getElementById('facModalTitle').textContent = fac ? 'Edit Faculty' : 'Add Faculty';
+  openModal('facultyModal');
+}
+
+function editFaculty(id) {
+  const f = facultyData.find(x => x._id === id);
+  if (f) openFacultyFormModal(f);
+}
+
+async function saveFaculty() {
+  const id   = document.getElementById('fm-id').value;
+  const file = document.getElementById('fm-image').files[0];
+  const form = new FormData();
+  ['name','designation','department','school','email','phone','specialization','qualification','experience','profileUrl'].forEach(k => {
+    form.append(k, document.getElementById(`fm-${k}`).value.trim());
+  });
+  form.append('publications', document.getElementById('fm-publications').value);
+  if (file) form.append('image', file);
+  if (!form.get('name') || !form.get('designation') || !form.get('department') || !form.get('school')) {
+    toast('Name, designation, department, school required','error'); return;
+  }
+  try {
+    if (id) await api('PUT',  `/faculty/${id}`, form, true);
+    else    await api('POST', '/faculty',        form, true);
+    toast(id ? 'Faculty updated' : 'Faculty added');
+    closeModal('facultyModal');
+    document.getElementById('fm-image').value = '';
+    loadFacultyTable();
+  } catch(e) { toast(e.message,'error'); }
+}
+
+// ─── GALLERY ─────────────────────────────────────────────────────
+async function loadGallery() {
+  try {
+    const { data } = await api('GET', '/gallery');
+    const grid = document.getElementById('galleryGrid');
+    if (!data.length) { grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1">No images yet. Upload some!</div>'; return; }
+    grid.innerHTML = data.map(img => `
+      <div class="gallery-item">
+        <img src="${getAssetUrl(img.imageUrl)}" alt="${img.title}" loading="lazy">
+        <div class="gallery-item-actions">
+          <button class="btn btn-sm btn-danger" onclick="confirmDelete('gallery','${img._id}',loadGallery)">🗑️</button>
+        </div>
+        <div class="gallery-item-title">${img.title}</div>
+      </div>`).join('');
+  } catch(e) { toast(e.message,'error'); }
+}
+
+function openGalleryModal() {
+  document.getElementById('gm-title').value    = '';
+  document.getElementById('gm-category').value = 'Campus';
+  document.getElementById('gm-order').value    = '0';
+  document.getElementById('gm-caption').value  = '';
+  document.getElementById('gm-image-preview').innerHTML = '';
+  document.getElementById('gm-image').value = '';
+  openModal('galleryModal');
+}
+
+async function saveGalleryItem() {
+  const file = document.getElementById('gm-image').files[0];
+  if (!file) { toast('Image required','error'); return; }
+  const title = document.getElementById('gm-title').value.trim();
+  if (!title) { toast('Title required','error'); return; }
+  const form = new FormData();
+  form.append('title',    title);
+  form.append('category', document.getElementById('gm-category').value);
+  form.append('order',    document.getElementById('gm-order').value);
+  form.append('caption',  document.getElementById('gm-caption').value.trim());
+  form.append('image',    file);
+  try {
+    await api('POST', '/gallery', form, true);
+    toast('Image uploaded');
+    closeModal('galleryModal');
+    loadGallery();
+  } catch(e) { toast(e.message,'error'); }
+}
+
+// ─── HOMEPAGE EDITOR ─────────────────────────────────────────────
+const hpFields = {
+  hero:  ['title','subtitle','tagline','established','location'],
+  stats: ['students','faculty','departments','programmes','established','ranking'],
+  about: ['heading','description','vision','mission'],
+};
+
+async function openHpSection(section) {
+  currentHpSection = section;
+  const titles = { hero:'Hero Section', stats:'Statistics', about:'About Section' };
+  document.getElementById('hpModalTitle').textContent = 'Edit: ' + titles[section];
+  let current = {};
+  try { const { data } = await api('GET', `/homepage/${section}`); current = data || {}; } catch(e) {}
+
+  const fields = hpFields[section] || [];
+  document.getElementById('hpModalBody').innerHTML = fields.map(f => `
+    <div class="field">
+      <label>${f.charAt(0).toUpperCase() + f.slice(1).replace(/([A-Z])/g,' $1')}</label>
+      ${f === 'description' || f === 'vision' || f === 'mission'
+        ? `<textarea id="hp-${f}" rows="3">${current[f]||''}</textarea>`
+        : `<input type="text" id="hp-${f}" value="${current[f]||''}">`
+      }
+    </div>`).join('');
+  openModal('hpModal');
+}
+
+async function saveHpSection() {
+  const fields = hpFields[currentHpSection] || [];
+  const data = {};
+  fields.forEach(f => {
+    const el = document.getElementById(`hp-${f}`);
+    if (el) data[f] = el.value.trim();
+  });
+  try {
+    await api('PUT', `/homepage/${currentHpSection}`, { data });
+    toast('Section saved');
+    closeModal('hpModal');
+  } catch(e) { toast(e.message,'error'); }
+}
+
+// ─── CONTACT ─────────────────────────────────────────────────────
+async function loadContact() {
+  try {
+    const { data } = await api('GET', '/contact');
+    const m = data.main || {};
+    const s = data.social || {};
+    document.getElementById('ct-address').value  = m.address  || '';
+    document.getElementById('ct-phone').value    = m.phone    || '';
+    document.getElementById('ct-email').value    = m.email    || '';
+    document.getElementById('ct-website').value  = m.website  || '';
+    document.getElementById('ct-facebook').value  = s.facebook  || '';
+    document.getElementById('ct-twitter').value   = s.twitter   || '';
+    document.getElementById('ct-linkedin').value  = s.linkedin  || '';
+    document.getElementById('ct-youtube').value   = s.youtube   || '';
+    document.getElementById('ct-instagram').value = s.instagram || '';
+  } catch(e) {}
+}
+
+async function saveContact() {
+  try {
+    await api('PUT', '/contact/main', { data: {
+      address: document.getElementById('ct-address').value.trim(),
+      phone:   document.getElementById('ct-phone').value.trim(),
+      email:   document.getElementById('ct-email').value.trim(),
+      website: document.getElementById('ct-website').value.trim(),
+    }});
+    await api('PUT', '/contact/social', { data: {
+      facebook:  document.getElementById('ct-facebook').value.trim(),
+      twitter:   document.getElementById('ct-twitter').value.trim(),
+      linkedin:  document.getElementById('ct-linkedin').value.trim(),
+      youtube:   document.getElementById('ct-youtube').value.trim(),
+      instagram: document.getElementById('ct-instagram').value.trim(),
+    }});
+    toast('Contact info saved');
+  } catch(e) { toast(e.message,'error'); }
+}
+
+// ─── PASSWORD ────────────────────────────────────────────────────
+async function changePassword() {
+  const current = document.getElementById('pw-current').value;
+  const newPw   = document.getElementById('pw-new').value;
+  const confirm = document.getElementById('pw-confirm').value;
+  if (!current || !newPw) { toast('All fields required','error'); return; }
+  if (newPw !== confirm) { toast('Passwords do not match','error'); return; }
+  if (newPw.length < 6) { toast('Min 6 characters','error'); return; }
+  try {
+    await api('PUT', '/auth/password', { currentPassword: current, newPassword: newPw });
+    toast('Password updated');
+    ['pw-current','pw-new','pw-confirm'].forEach(id => document.getElementById(id).value = '');
+  } catch(e) { toast(e.message,'error'); }
+}
+
+// ─── DELETE CONFIRM ──────────────────────────────────────────────
+function confirmDelete(resource, id, reloadFn) {
+  openModal('deleteModal');
+  document.getElementById('deleteConfirmBtn').onclick = async () => {
+    try {
+      await api('DELETE', `/${resource}/${id}`);
+      toast('Deleted');
+      closeModal('deleteModal');
+      reloadFn();
+    } catch(e) { toast(e.message,'error'); }
+  };
+}
+
+// ─── MODAL HELPERS ───────────────────────────────────────────────
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('modal-overlay')) {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+  }
+});
+
+// ─── TABLE FILTER ────────────────────────────────────────────────
+function filterTable(tableId, value, col = 0) {
+  const rows = document.querySelectorAll(`#${tableId} tbody tr`);
+  rows.forEach(row => {
+    const cells = row.querySelectorAll('td');
+    const text = cells[col]?.textContent.toLowerCase() || '';
+    row.style.display = text.includes(value.toLowerCase()) ? '' : 'none';
+  });
+}
+
+// ─── FILE PREVIEW ────────────────────────────────────────────────
+function previewFile(input, previewId, isImage = false) {
+  const preview = document.getElementById(previewId);
+  const file = input.files[0];
+  if (!file) { preview.innerHTML = ''; return; }
+  if (isImage) {
+    const reader = new FileReader();
+    reader.onload = e => { preview.innerHTML = `<img src="${e.target.result}" alt="preview">`; };
+    reader.readAsDataURL(file);
+  } else {
+    preview.innerHTML = `<div class="pdf-icon">📄</div><div style="font-size:12px;margin-top:4px">${file.name}</div>`;
+  }
+}
+</script>
+</body>
+</html>
