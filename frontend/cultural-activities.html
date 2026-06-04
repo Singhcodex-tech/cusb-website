@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Malviya Block — CUSB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #8B6010;
+  --gold-mid: #B8860B;
+  --gold-light: #D4A017;
+  --gold-bright: #E8B84B;
+  --navy: #FDFAF5;
+  --ink: #1A1510;
+  --text-body: #2C2418;
+  --text-muted: #6B5B45;
+  --glow: #ffe066;
+  --glow2: #c9972b;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'DM Sans',sans-serif; background:#FDFAF5; color:var(--text-body); overflow-x:hidden; }
+
+/* ── NAV ── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:999;
+  height:62px; padding:0 48px;
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(253,250,245,0.97);
+  backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(184,134,11,0.15);
+}
+.nav-logo { display:flex; align-items:center; gap:14px; text-decoration:none; }
+.nav-logo-mark { width:36px; height:36px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#ffe066,#c9972b 60%,#7a4e10); box-shadow:0 0 12px #ffe06666; }
+.nav-logo-text { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; color:var(--ink); }
+.nav-logo-text span { color:var(--gold-mid); }
+.nav-back {
+  display:inline-flex; align-items:center; gap:8px;
+  text-decoration:none; color:var(--text-muted);
+  font-size:13.5px; font-weight:500; letter-spacing:0.04em;
+  padding:7px 18px; border-radius:50px;
+  border:1px solid rgba(184,134,11,0.22);
+  transition:all 0.25s;
+}
+.nav-back:hover { background:rgba(184,134,11,0.07); color:var(--gold-mid); border-color:var(--gold-light); }
+
+/* ── HERO ── */
+.hero {
+  min-height:100vh; display:flex; align-items:center;
+  padding:100px 48px 64px;
+  position:relative; overflow:hidden;
+  background:linear-gradient(135deg,#0d0a06 0%,#1a1208 50%,#0a1a12 100%);
+}
+.hero-bg-orb {
+  position:absolute; border-radius:50%;
+  filter:blur(80px); pointer-events:none;
+}
+.hero-orb1 {
+  width:500px; height:500px;
+  background:radial-gradient(circle,#ffe06622,transparent 70%);
+  top:-100px; right:-100px;
+  animation:orbFloat 8s ease-in-out infinite;
+}
+.hero-orb2 {
+  width:300px; height:300px;
+  background:radial-gradient(circle,#c9972b18,transparent 70%);
+  bottom:-50px; left:10%;
+  animation:orbFloat 10s ease-in-out infinite reverse;
+}
+@keyframes orbFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-30px)} }
+
+.hero-inner { max-width:1100px; margin:0 auto; width:100%; display:flex; align-items:center; gap:80px; }
+.hero-text { flex:1; }
+.hero-tag {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:11px; font-weight:700; letter-spacing:0.18em;
+  text-transform:uppercase; color:#ffe066;
+  border:1px solid #ffe06655; padding:6px 16px; border-radius:50px;
+  margin-bottom:28px; background:#ffe06611;
+}
+.hero-num {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(80px,10vw,140px); font-weight:900; line-height:1;
+  color:#ffe06622; letter-spacing:-0.04em;
+  margin-bottom:-20px; display:block;
+}
+.hero-title {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(32px,5vw,58px); font-weight:900;
+  color:#fff; line-height:1.15; margin-bottom:16px;
+}
+.hero-subtitle { font-size:16px; color:rgba(255,255,255,0.55); margin-bottom:24px; font-style:italic; }
+.hero-desc { font-size:17px; color:rgba(255,255,255,0.75); line-height:1.75; max-width:560px; }
+
+.hero-planet-wrap { flex-shrink:0; position:relative; width:220px; height:220px; display:flex; align-items:center; justify-content:center; }
+.hero-planet-ring {
+  position:absolute; border-radius:50%;
+  border:1px solid #ffe06633;
+  animation:ringPulse 4s ease-in-out infinite;
+}
+@keyframes ringPulse { 0%,100%{transform:scale(1);opacity:0.6} 50%{transform:scale(1.06);opacity:0.9} }
+.hero-planet {
+  width:140px; height:140px; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#ffe066,#c9972b 60%,#7a4e10);
+  box-shadow:0 0 30px #ffe06688,0 0 80px #ffe06633,inset -8px -8px 20px rgba(0,0,0,0.45),inset 6px 6px 15px rgba(255,255,255,0.12);
+  animation:planetSpin 20s linear infinite;
+}
+@keyframes planetSpin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+/* ── STATS BAR ── */
+.stats-bar {
+  background:#fff; border-top:3px solid #ffe066;
+  padding:40px 48px;
+}
+.stats-inner { max-width:1100px; margin:0 auto; display:flex; gap:0; }
+.stat-item { flex:1; text-align:center; padding:0 24px; border-right:1px solid rgba(184,134,11,0.15); }
+.stat-item:last-child { border-right:none; }
+.stat-val {
+  font-family:'Playfair Display',serif; font-size:36px; font-weight:900;
+  color:#ffe066; display:block; line-height:1;
+}
+.stat-lbl { font-size:12px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-muted); margin-top:6px; }
+
+/* ── SECTIONS ── */
+.sections { padding:80px 48px; max-width:1100px; margin:0 auto; }
+.section-header { text-align:center; margin-bottom:60px; }
+.section-eyebrow {
+  font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase;
+  color:#ffe066; margin-bottom:12px; display:block;
+}
+.section-title {
+  font-family:'Playfair Display',serif; font-size:clamp(28px,4vw,44px);
+  font-weight:900; color:var(--ink); line-height:1.2;
+}
+.cards { display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+.card {
+  background:#fff; border-radius:20px; padding:36px;
+  border:1px solid rgba(184,134,11,0.12);
+  box-shadow:0 4px 24px rgba(26,21,16,0.06);
+  transition:transform 0.3s, box-shadow 0.3s;
+}
+.card:hover { transform:translateY(-6px); box-shadow:0 16px 48px rgba(26,21,16,0.12); }
+.card-icon { font-size:36px; margin-bottom:16px; }
+.card-title {
+  font-family:'Playfair Display',serif; font-size:20px; font-weight:700;
+  color:var(--ink); margin-bottom:12px;
+}
+.card-title::after {
+  content:''; display:block; width:36px; height:2px;
+  background:#ffe066; margin-top:8px; border-radius:2px;
+}
+.card-desc { font-size:15px; color:var(--text-muted); line-height:1.7; }
+
+/* ── CTA ── */
+.cta-section {
+  background:linear-gradient(135deg,#0d0a06,#1a1208);
+  padding:80px 48px; text-align:center; position:relative; overflow:hidden;
+}
+.cta-orb {
+  position:absolute; border-radius:50%; pointer-events:none;
+  width:400px; height:400px;
+  background:radial-gradient(circle,#ffe06618,transparent 70%);
+  top:50%; left:50%; transform:translate(-50%,-50%);
+}
+.cta-section h2 {
+  font-family:'Playfair Display',serif; font-size:36px; font-weight:900;
+  color:#fff; margin-bottom:16px; position:relative;
+}
+.cta-section p { color:rgba(255,255,255,0.6); font-size:17px; margin-bottom:36px; position:relative; }
+.cta-btn {
+  display:inline-flex; align-items:center; gap:10px;
+  background:linear-gradient(135deg,#ffe066,#c9972b);
+  color:#fff; font-weight:700; font-size:15px; letter-spacing:0.08em;
+  text-transform:uppercase; padding:16px 40px; border-radius:50px;
+  text-decoration:none; position:relative;
+  box-shadow:0 8px 32px #ffe06666;
+  transition:transform 0.25s, box-shadow 0.25s;
+}
+.cta-btn:hover { transform:translateY(-3px); box-shadow:0 16px 48px #ffe06688; }
+.back-link {
+  display:block; text-align:center; margin-top:24px; position:relative;
+  color:rgba(255,255,255,0.4); font-size:14px; text-decoration:none;
+  transition:color 0.2s;
+}
+.back-link:hover { color:#ffe066; }
+
+/* ── FOOTER ── */
+footer {
+  background:#0d0a06; padding:32px 48px;
+  display:flex; align-items:center; justify-content:space-between;
+  border-top:1px solid rgba(255,255,255,0.06);
+}
+footer p { color:rgba(255,255,255,0.35); font-size:13px; }
+.footer-tag { color:#ffe066; font-weight:600; font-size:13px; }
+
+@media(max-width:768px) {
+  nav { padding:0 20px; }
+  .hero { padding:90px 20px 48px; }
+  .hero-inner { flex-direction:column; gap:40px; text-align:center; }
+  .hero-planet-wrap { width:160px; height:160px; }
+  .hero-planet { width:100px; height:100px; }
+  .hero-num { font-size:60px; }
+  .stats-bar { padding:32px 20px; }
+  .stats-inner { flex-wrap:wrap; }
+  .stat-item { flex:1 1 45%; border-right:none; border-bottom:1px solid rgba(184,134,11,0.15); padding:16px; }
+  .sections { padding:48px 20px; }
+  .cards { grid-template-columns:1fr; }
+  .cta-section { padding:60px 20px; }
+  footer { flex-direction:column; gap:8px; text-align:center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-mark"></div>
+    <div class="nav-logo-text">CU<span>SB</span></div>
+  </a>
+  <a href="index.html" class="nav-back">← Back to Campus</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-orb hero-orb1"></div>
+  <div class="hero-bg-orb hero-orb2"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-tag">
+        <span>●</span> Arts & Culture Block
+      </div>
+      <span class="hero-num">03</span>
+      <h1 class="hero-title">Malviya Block</h1>
+      <p class="hero-subtitle">Where creativity meets scholarship</p>
+      <p class="hero-desc">Named after Pt. Madan Mohan Malaviya, the Malviya Block is CUSB's cultural heartbeat. It houses Fine Arts, Performing Arts, and a grand open-air amphitheatre where the university's rich cultural life comes alive. The beloved Nescafe café on campus is also located here.</p>
+    </div>
+    <div class="hero-planet-wrap">
+      <div class="hero-planet-ring" style="width:200px;height:200px;"></div>
+      <div class="hero-planet-ring" style="width:170px;height:170px;opacity:0.5;animation-delay:1s;"></div>
+      <div class="hero-planet"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item"><span class="stat-val">Events/yr</span><span class="stat-lbl">50+</span></div>
+<div class="stat-item"><span class="stat-val">Clubs</span><span class="stat-lbl">12</span></div>
+<div class="stat-item"><span class="stat-val">Seats</span><span class="stat-lbl">800</span></div>
+<div class="stat-item"><span class="stat-val">Café</span><span class="stat-lbl">Nescafe</span></div>
+  </div>
+</div>
+
+<div style="background:#f9f6f0;padding:80px 48px;">
+<div class="sections" style="padding:0;">
+  <div class="section-header">
+    <span class="section-eyebrow">Facilities & Features</span>
+    <h2 class="section-title">What's Inside Malviya Block</h2>
+  </div>
+  <div class="cards">
+    <div class="card">
+  <div class="card-icon">🎭</div>
+  <h3 class="card-title">Open-Air Amphitheatre</h3>
+  <p class="card-desc">A magnificent open-air venue that hosts annual cultural fests, literary events, theatrical performances, and national-level competitions attended by thousands of students.</p>
+</div>
+<div class="card">
+  <div class="card-icon">🎨</div>
+  <h3 class="card-title">Fine Arts Studios</h3>
+  <p class="card-desc">Fully equipped studios for painting, sculpture, and visual arts — nurturing creative expression across traditional and contemporary forms.</p>
+</div>
+<div class="card">
+  <div class="card-icon">🎵</div>
+  <h3 class="card-title">Performing Arts Centre</h3>
+  <p class="card-desc">Dedicated rehearsal halls and performance spaces for music, dance, and drama — home to CUSB's vibrant student cultural clubs.</p>
+</div>
+<div class="card">
+  <div class="card-icon">☕</div>
+  <h3 class="card-title">Nescafe Café</h3>
+  <p class="card-desc">The iconic student café — a favourite hangout for brainstorming, casual study sessions, and community bonding over coffee and conversation.</p>
+</div>
+  </div>
+</div>
+</div>
+
+<section class="cta-section">
+  <div class="cta-orb"></div>
+  <h2>Visit Malviya Block</h2>
+  <p>Explore CUSB's full campus, programmes, and opportunities</p>
+  <a href="https://cusb.ac.in" target="_blank" rel="noopener" class="cta-btn">
+    ↗ CUSB Official Website
+  </a>
+  <a href="index.html" class="back-link">← Return to Campus Solar System</a>
+</section>
+
+<footer>
+  <p>© 2025 Central University of South Bihar — Gaya, Bihar</p>
+  <span class="footer-tag">Malviya Block</span>
+</footer>
+
+</body>
+</html>

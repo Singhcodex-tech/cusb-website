@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admissions 2025–26 — Central University of South Bihar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="config.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0D1B2A; --deep: #12201A;
+      --gold: #C9972B; --gold-light: #F0C060; --gold-mid: #E0A830;
+      --muted: rgba(255,248,235,0.55);
+      --glass: rgba(255,255,255,0.04); --glass-border: rgba(184,134,11,0.18);
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--navy); color: #fff8eb; min-height: 100vh; }
+
+    header {
+      background: linear-gradient(135deg, #0a1520, #111a10);
+      border-bottom: 1px solid rgba(184,134,11,0.25);
+      padding: 20px 40px; display: flex; align-items: center; gap: 20px;
+      position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+    .header-logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .logo-emblem {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 900;
+      color: var(--navy); flex-shrink: 0;
+    }
+    .logo-text .name { font-size: 14px; font-weight: 700; color: #fff8eb; line-height: 1.2; }
+    .logo-text .sub { font-size: 11px; color: rgba(201,151,43,0.7); letter-spacing: .06em; }
+    .header-title {
+      flex: 1; font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700;
+      color: var(--gold-light); padding-left: 20px; border-left: 1px solid rgba(184,134,11,0.3);
+    }
+    .back-btn {
+      display: flex; align-items: center; gap: 6px; padding: 8px 16px;
+      border-radius: 50px; border: 1px solid rgba(184,134,11,0.3);
+      background: rgba(201,151,43,0.08); color: var(--gold-light);
+      text-decoration: none; font-size: 13px; font-weight: 600; transition: all 0.2s;
+    }
+    .back-btn:hover { background: rgba(201,151,43,0.18); }
+
+    .hero-strip {
+      background: linear-gradient(135deg, #0f1e10, #0a1520);
+      padding: 50px 60px 40px; border-bottom: 1px solid rgba(184,134,11,0.15);
+    }
+    .hero-strip .tag {
+      display: inline-block; font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--gold); font-weight: 600; background: rgba(201,151,43,0.1);
+      border: 1px solid rgba(201,151,43,0.2); padding: 5px 14px; border-radius: 50px; margin-bottom: 16px;
+    }
+    .hero-strip h1 {
+      font-family: 'Playfair Display', serif; font-size: clamp(28px,4vw,44px);
+      font-weight: 900; line-height: 1.1; margin-bottom: 12px;
+    }
+    .hero-strip h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-strip p { font-size: 15px; color: var(--muted); max-width: 560px; line-height: 1.7; }
+
+    /* STATS BAR */
+    .stats-bar {
+      display: flex; gap: 0; background: rgba(0,0,0,0.2);
+      border-bottom: 1px solid rgba(184,134,11,0.15); padding: 0 60px; flex-wrap: wrap;
+    }
+    .stat-item { padding: 18px 32px; border-right: 1px solid rgba(184,134,11,0.12); text-align: center; }
+    .stat-item:last-child { border-right: none; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900; color: var(--gold-light); }
+    .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-top: 2px; }
+
+    main { padding: 40px 60px 60px; }
+
+    /* IMPORTANT NOTICE BANNER */
+    .imp-banner {
+      background: linear-gradient(135deg, rgba(201,151,43,0.12), rgba(201,151,43,0.06));
+      border: 1px solid rgba(201,151,43,0.3); border-radius: 14px;
+      padding: 20px 24px; margin-bottom: 40px;
+      display: flex; align-items: flex-start; gap: 16px;
+    }
+    .imp-banner .imp-icon { font-size: 28px; flex-shrink: 0; }
+    .imp-banner .imp-text h3 { font-size: 15px; font-weight: 700; color: var(--gold-light); margin-bottom: 6px; }
+    .imp-banner .imp-text p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .imp-banner .imp-text a { color: var(--gold-light); }
+
+    /* SECTION */
+    .section { margin-bottom: 48px; }
+    .section-header {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 24px;
+      padding-bottom: 14px; border-bottom: 1px solid rgba(184,134,11,0.2);
+    }
+    .section-icon {
+      width: 42px; height: 42px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; background: rgba(201,151,43,0.1);
+    }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; }
+
+    /* PROGRAMME CARDS */
+    .prog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .prog-card {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      border-radius: 14px; padding: 20px; transition: all 0.2s;
+    }
+    .prog-card:hover { border-color: rgba(201,151,43,0.35); background: rgba(255,255,255,0.06); }
+    .prog-level {
+      font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--gold); background: rgba(201,151,43,0.1); border: 1px solid rgba(201,151,43,0.2);
+      padding: 2px 8px; border-radius: 50px; display: inline-block; margin-bottom: 10px;
+    }
+    .prog-name { font-size: 15px; font-weight: 700; color: #fff8eb; margin-bottom: 6px; line-height: 1.4; }
+    .prog-dept { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+    .prog-meta { display: flex; gap: 16px; font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+    .prog-meta span { display: flex; align-items: center; gap: 4px; }
+
+    /* TIMELINE */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .timeline-item {
+      display: flex; gap: 0; position: relative;
+    }
+    .tl-left {
+      width: 180px; flex-shrink: 0; padding: 0 24px 28px 0; text-align: right;
+    }
+    .tl-date { font-size: 13px; font-weight: 600; color: var(--gold-light); }
+    .tl-label { font-size: 11px; color: var(--muted); }
+    .tl-line {
+      width: 2px; background: rgba(184,134,11,0.2); position: relative; flex-shrink: 0;
+    }
+    .tl-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--gold); border: 2px solid var(--navy);
+      position: absolute; left: 50%; transform: translateX(-50%); top: 4px;
+    }
+    .tl-dot.past { background: var(--muted); }
+    .tl-dot.active { background: #4ade80; box-shadow: 0 0 10px rgba(74,222,128,0.5); }
+    .tl-right { padding: 0 0 28px 24px; flex: 1; }
+    .tl-title { font-size: 14px; font-weight: 600; color: #fff8eb; margin-bottom: 4px; }
+    .tl-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* CTA BUTTONS */
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: 50px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-mid));
+      color: var(--navy); font-weight: 700; font-size: 13px;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: 50px;
+      border: 1px solid rgba(201,151,43,0.3); background: rgba(201,151,43,0.08);
+      color: var(--gold-light); font-weight: 600; font-size: 13px;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .btn-outline:hover { background: rgba(201,151,43,0.18); }
+
+    /* FAQ */
+    .faq-list { display: flex; flex-direction: column; gap: 10px; }
+    .faq-item {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      border-radius: 12px; overflow: hidden;
+    }
+    .faq-q {
+      padding: 16px 20px; font-size: 14px; font-weight: 600; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: background 0.2s;
+    }
+    .faq-q:hover { background: rgba(255,255,255,0.04); }
+    .faq-q svg { flex-shrink: 0; transition: transform 0.2s; color: var(--gold); }
+    .faq-a { padding: 0 20px; max-height: 0; overflow: hidden; transition: all 0.3s; font-size: 13px; color: var(--muted); line-height: 1.7; }
+    .faq-item.open .faq-a { max-height: 200px; padding: 0 20px 16px; }
+    .faq-item.open .faq-q svg { transform: rotate(180deg); }
+
+    @media (max-width: 768px) {
+      header { padding: 14px 20px; }
+      .header-title { display: none; }
+      .hero-strip { padding: 36px 20px 28px; }
+      .stats-bar { padding: 0 20px; }
+      main { padding: 24px 20px 40px; }
+      .tl-left { width: 110px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="header-logo">
+    <div class="logo-emblem">CUSB</div>
+    <div class="logo-text">
+      <div class="name">Central University of South Bihar</div>
+      <div class="sub">Gaya, Bihar — Est. 2009</div>
+    </div>
+  </a>
+  <div class="header-title">Admissions 2025–26</div>
+  <a href="index.html" class="back-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Home
+  </a>
+</header>
+
+<div class="hero-strip">
+  <div class="tag">🎓 Academic Year 2025–26</div>
+  <h1>Admissions <em>2025–26</em></h1>
+  <p>Begin your academic journey at Central University of South Bihar. Explore programmes, eligibility criteria, and important dates for the upcoming academic year.</p>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num">50+</div><div class="stat-label">Programmes</div></div>
+  <div class="stat-item"><div class="stat-num">12</div><div class="stat-label">Schools</div></div>
+  <div class="stat-item"><div class="stat-num">CUET</div><div class="stat-label">Entrance Mode</div></div>
+  <div class="stat-item"><div class="stat-num">2025</div><div class="stat-label">Session Start</div></div>
+</div>
+
+<main>
+
+  <div class="imp-banner">
+    <div class="imp-icon">⚠️</div>
+    <div class="imp-text">
+      <h3>Admissions via CUET 2025</h3>
+      <p>Admissions to all UG and PG programmes are through <strong>Common University Entrance Test (CUET)</strong> conducted by NTA. Candidates must register at <a href="https://cuet.nta.nic.in" target="_blank">cuet.nta.nic.in</a>. For official details visit the <a href="https://www.cusb.ac.in/index.php?option=com_content&view=article&id=751&Itemid=616" target="_blank">CUSB Admissions page ↗</a>.</p>
+    </div>
+  </div>
+
+  <!-- PROGRAMMES -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">📚</div>
+      <div class="section-title">Programmes Offered</div>
+    </div>
+    <div class="prog-grid">
+      <div class="prog-card">
+        <span class="prog-level">UG · 3 Years</span>
+        <div class="prog-name">B.A. (Hons.) — Multiple Disciplines</div>
+        <div class="prog-dept">School of Humanities &amp; Social Sciences</div>
+        <div class="prog-meta"><span>📅 CUET UG</span><span>🏫 Gaya Campus</span></div>
+      </div>
+      <div class="prog-card">
+        <span class="prog-level">PG · 2 Years</span>
+        <div class="prog-name">M.A. — Multiple Disciplines</div>
+        <div class="prog-dept">School of Humanities &amp; Social Sciences</div>
+        <div class="prog-meta"><span>📅 CUET PG</span><span>🏫 Gaya Campus</span></div>
+      </div>
+      <div class="prog-card">
+        <span class="prog-level">PG · 2 Years</span>
+        <div class="prog-name">M.Sc. — Science Programmes</div>
+        <div class="prog-dept">School of Earth, Biological &amp; Environmental Sciences</div>
+        <div class="prog-meta"><span>📅 CUET PG</span><span>🏫 Gaya Campus</span></div>
+      </div>
+      <div class="prog-card">
+        <span class="prog-level">PG · 2 Years</span>
+        <div class="prog-name">M.B.A.</div>
+        <div class="prog-dept">School of Business Management</div>
+        <div class="prog-meta"><span>📅 CUET PG</span><span>🏫 Gaya Campus</span></div>
+      </div>
+      <div class="prog-card">
+        <span class="prog-level">PG · 2 Years</span>
+        <div class="prog-name">LL.M.</div>
+        <div class="prog-dept">School of Law</div>
+        <div class="prog-meta"><span>📅 CUET PG</span><span>🏫 Gaya Campus</span></div>
+      </div>
+      <div class="prog-card">
+        <span class="prog-level">PhD · 3–5 Years</span>
+        <div class="prog-name">Ph.D. — All Disciplines</div>
+        <div class="prog-dept">All Schools</div>
+        <div class="prog-meta"><span>📅 CUET PhD</span><span>🏫 Gaya Campus</span></div>
+      </div>
+    </div>
+    <div class="cta-row">
+      <a href="https://www.cusb.ac.in/index.php?option=com_content&view=article&id=751&Itemid=616" target="_blank" class="btn-primary">View All Programmes ↗</a>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">📅</div>
+      <div class="section-title">Important Dates</div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="tl-left"><div class="tl-date">Feb – Mar 2025</div><div class="tl-label">CUET Registration</div></div>
+        <div class="tl-line"><div class="tl-dot past"></div></div>
+        <div class="tl-right"><div class="tl-title">CUET 2025 Registration</div><div class="tl-desc">Online registration at cuet.nta.nic.in for UG/PG/PhD programmes.</div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-left"><div class="tl-date">May – Jun 2025</div><div class="tl-label">Entrance Exam</div></div>
+        <div class="tl-line"><div class="tl-dot past"></div></div>
+        <div class="tl-right"><div class="tl-title">CUET Examination</div><div class="tl-desc">Computer-based test conducted by NTA across centres.</div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-left"><div class="tl-date">Jun – Jul 2025</div><div class="tl-label">Results</div></div>
+        <div class="tl-line"><div class="tl-dot active"></div></div>
+        <div class="tl-right"><div class="tl-title">CUET Results &amp; Merit List</div><div class="tl-desc">University releases merit/rank list based on CUET scores.</div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-left"><div class="tl-date">Jul – Aug 2025</div><div class="tl-label">Counselling</div></div>
+        <div class="tl-line"><div class="tl-dot"></div></div>
+        <div class="tl-right"><div class="tl-title">Online Counselling &amp; Seat Allotment</div><div class="tl-desc">Document verification, fee payment, and provisional admission.</div></div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-left"><div class="tl-date">Aug 2025</div><div class="tl-label">Session Begins</div></div>
+        <div class="tl-line"><div class="tl-dot"></div></div>
+        <div class="tl-right"><div class="tl-title">Academic Session Commences</div><div class="tl-desc">Orientation and commencement of classes for session 2025–26.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW TO APPLY -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">📝</div>
+      <div class="section-title">How to Apply</div>
+    </div>
+    <div class="prog-grid">
+      <div class="prog-card" style="border-color:rgba(201,151,43,0.25);">
+        <div style="font-size:28px;margin-bottom:10px;">1️⃣</div>
+        <div class="prog-name">Register for CUET</div>
+        <div class="prog-dept">Visit cuet.nta.nic.in and complete online registration with required documents.</div>
+      </div>
+      <div class="prog-card" style="border-color:rgba(201,151,43,0.25);">
+        <div style="font-size:28px;margin-bottom:10px;">2️⃣</div>
+        <div class="prog-name">Appear for CUET Exam</div>
+        <div class="prog-dept">Take the computer-based entrance test at your allotted exam centre.</div>
+      </div>
+      <div class="prog-card" style="border-color:rgba(201,151,43,0.25);">
+        <div style="font-size:28px;margin-bottom:10px;">3️⃣</div>
+        <div class="prog-name">Apply to CUSB</div>
+        <div class="prog-dept">After results, apply to CUSB using your CUET score via the university admission portal.</div>
+      </div>
+      <div class="prog-card" style="border-color:rgba(201,151,43,0.25);">
+        <div style="font-size:28px;margin-bottom:10px;">4️⃣</div>
+        <div class="prog-name">Document Verification</div>
+        <div class="prog-dept">Attend counselling, submit documents, and complete fee payment for final admission.</div>
+      </div>
+    </div>
+    <div class="cta-row">
+      <a href="https://cuet.nta.nic.in" target="_blank" class="btn-primary">Apply via CUET ↗</a>
+      <a href="https://www.cusb.ac.in/index.php?option=com_content&view=article&id=751&Itemid=616" target="_blank" class="btn-outline">Official Admissions Page ↗</a>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">❓</div>
+      <div class="section-title">Frequently Asked Questions</div>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Is CUET mandatory for admission to CUSB?
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a">Yes. Admissions to all UG and PG programmes at CUSB are through CUET conducted by NTA. There is no separate entrance exam by the university.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What is the reservation policy?
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a">CUSB follows Government of India reservation policy — SC (15%), ST (7.5%), OBC-NCL (27%), EWS (10%), and horizontal reservations for PwD and other categories.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Is hostel accommodation available?
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a">Yes, separate hostel facilities are available for boys and girls on campus, subject to availability. Allotment is made after admission confirmation.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Where is CUSB located?
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a">Central University of South Bihar is located at SH-7, Panchanpur, Gaya – 824236, Bihar, India.</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+function toggleFaq(el) {
+  el.closest('.faq-item').classList.toggle('open');
+}
+</script>
+</body>
+</html>

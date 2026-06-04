@@ -1,0 +1,16 @@
+[build]
+command = "node frontend/build-config.js"
+publish = "frontend"
+
+[build.environment]
+NODE_VERSION = "20"
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+
+[[headers]]
+for = "/*"
+[headers.values]
+"Cache-Control" = "public, max-age=3600"

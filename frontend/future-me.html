@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Future Me — Career Explorer | CUSB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep:    #0e1a2e;
+    --navy:    #162040;
+    --ink:     #f4f0e8;
+    --gold:    #c9a227;
+    --gold-light: #f0c040;
+    --gold-mid:  #d4a92a;
+    --gold-bg: rgba(201,162,39,0.12);
+    --glass-border: rgba(201,162,39,0.18);
+    --parchment: rgba(255,255,255,0.05);
+    --text-body: rgba(244,240,232,0.82);
+    --text-muted: rgba(244,240,232,0.50);
+    --forest:  #0a1220;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--deep);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NAVBAR ── */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: rgba(14,26,46,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 0 40px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .topbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .topbar-logo-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--forest);
+  }
+  .topbar-logo-text {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .topbar-back {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    transition: all 0.2s;
+  }
+  .topbar-back:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 100px 60px 70px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--glass-border);
+    background: var(--gold-bg);
+    padding: 6px 18px;
+    border-radius: 50px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 20px;
+    animation: fadeUp 0.6s ease 0.1s both;
+  }
+  .hero-title em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: 17px;
+    color: var(--text-muted);
+    max-width: 560px;
+    margin: 0 auto 0;
+    line-height: 1.7;
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── DECORATIVE BG ── */
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(201,162,39,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,162,39,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+  }
+  .bg-glow {
+    position: fixed;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(201,162,39,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px 100px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ── PICKER ── */
+  #fm-picker {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 40px;
+    margin-bottom: 40px;
+    animation: fadeUp 0.6s ease 0.3s both;
+  }
+  .picker-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 28px;
+  }
+  .picker-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  /* ── CHIPS ── */
+  .fm-chip {
+    padding: 8px 16px;
+    border-radius: 50px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255,255,255,0.04);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-body);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    user-select: none;
+    display: inline-block;
+    margin: 4px 4px 4px 0;
+  }
+  .fm-chip:hover { border-color: var(--gold-mid); color: var(--gold-mid); background: var(--gold-bg); }
+  .fm-chip.active { background: var(--gold); color: var(--forest); border-color: var(--gold); font-weight: 700; box-shadow: 0 3px 16px rgba(201,162,39,0.35); }
+
+  /* ── COMPARE TOGGLE ── */
+  .compare-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .compare-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  #fm-compare-toggle {
+    width: 42px; height: 22px; border-radius: 50px;
+    background: rgba(255,255,255,0.15);
+    position: relative; display: inline-block;
+    transition: background 0.3s; cursor: pointer; flex-shrink: 0;
+  }
+  #fm-compare-knob {
+    position: absolute; top: 3px; left: 3px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: #fff; transition: left 0.3s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+
+  /* ── GO BUTTON ── */
+  .fm-go-btn {
+    width: 100%;
+    padding: 18px;
+    border-radius: 14px;
+    border: none;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--forest);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 6px 28px rgba(201,162,39,0.35);
+  }
+  .fm-go-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(201,162,39,0.5); }
+  .fm-go-btn:active { transform: translateY(0); }
+
+  /* ── TIMELINE ── */
+  .fm-timeline-line {
+    position: absolute; left: 50%; top: 0; bottom: 0; width: 2px;
+    background: linear-gradient(180deg, transparent, var(--gold-mid) 10%, var(--gold-mid) 90%, transparent);
+    transform: translateX(-50%); z-index: 0;
+  }
+  .fm-year-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    padding: 24px;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: fmSlideIn 0.5s ease both;
+  }
+  .fm-year-card:hover { transform: translateY(-4px); box-shadow: 0 12px 48px rgba(0,0,0,0.35); }
+  @keyframes fmSlideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── OUTCOME CARDS ── */
+  .fm-outcome-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 22px;
+    text-align: center;
+    animation: fmSlideIn 0.5s ease both;
+  }
+  .fm-salary-bar-wrap { height: 6px; background: rgba(255,255,255,0.1); border-radius: 50px; margin-top: 10px; overflow: hidden; }
+  .fm-salary-bar { height: 100%; border-radius: 50px; background: linear-gradient(90deg, var(--gold), var(--gold-light)); transition: width 1.2s cubic-bezier(0.34,1.56,0.64,1); }
+
+  /* ── ALUMNI CARD ── */
+  .fm-alumni-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 22px 26px;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    animation: fmSlideIn 0.5s ease both;
+  }
+
+  /* ── AI SUGGESTION ── */
+  #fm-ai-suggestion {
+    background: linear-gradient(135deg, rgba(201,162,39,0.08), rgba(240,192,64,0.12));
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 16px 22px;
+    margin-bottom: 36px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  /* ── SECTION TITLES ── */
+  .section-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+
+  /* ── STATS ROW ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--glass-border);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 56px;
+    animation: fadeUp 0.6s ease 0.35s both;
+  }
+  .stat-cell {
+    background: rgba(255,255,255,0.03);
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 36px;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .hero { padding: 70px 24px 50px; }
+    .main { padding: 0 20px 80px; }
+    .topbar { padding: 0 20px; }
+    .picker-grid { grid-template-columns: 1fr; }
+    #fm-picker { padding: 24px 20px; }
+    .fm-timeline-line { left: 24px; }
+    .stats-row { grid-template-columns: 1fr; }
+  }
+
+  @keyframes fmShake {
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-6px)}
+    75%{transform:translateX(6px)}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<!-- NAVBAR -->
+<nav class="topbar">
+  <a href="index.html" class="topbar-logo">
+    <div class="topbar-logo-icon">C</div>
+    <span class="topbar-logo-text">CUSB</span>
+  </a>
+  <a href="index.html" class="topbar-back">
+    ← Back to Home
+  </a>
+</nav>
+
+<!-- HERO -->
+<div class="hero" style="position:relative;z-index:2;">
+  <div class="hero-badge">✦ Career Explorer</div>
+  <h1 class="hero-title">Your Life,<br><em>5 Years From Now</em></h1>
+  <p class="hero-sub">Pick a course and your interests. See exactly what your future looks like — year by year, salary by salary.</p>
+</div>
+
+<!-- STATS -->
+<div class="main">
+  <div class="stats-row">
+    <div class="stat-cell">
+      <div class="stat-num">8+</div>
+      <div class="stat-label">Courses Mapped</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">200+</div>
+      <div class="stat-label">Career Pathways</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">₹18L</div>
+      <div class="stat-label">Avg Top Package</div>
+    </div>
+  </div>
+
+  <!-- PICKER -->
+  <div id="fm-picker">
+    <div class="picker-grid">
+      <div>
+        <span class="picker-label">🎓 Choose Your Course</span>
+        <div id="fm-course-grid"></div>
+      </div>
+      <div>
+        <span class="picker-label">💡 Your Interests</span>
+        <div id="fm-interest-grid"></div>
+      </div>
+    </div>
+
+    <div class="compare-row">
+      <label class="compare-toggle-label">
+        <span id="fm-compare-toggle" onclick="fmToggleCompare()">
+          <span id="fm-compare-knob"></span>
+        </span>
+        Compare Two Careers
+      </label>
+      <div id="fm-compare-course2-wrap" style="display:none;">
+        <div id="fm-course2-grid"></div>
+      </div>
+    </div>
+
+    <button class="fm-go-btn" onclick="fmGenerate()">🚀 Show My Future →</button>
+  </div>
+
+  <!-- OUTPUT -->
+  <div id="fm-output" style="display:none;">
+
+    <!-- AI suggestion -->
+    <div id="fm-ai-suggestion"></div>
+
+    <!-- Compare labels -->
+    <div id="fm-compare-labels" style="display:none;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;text-align:center;"></div>
+
+    <!-- Timeline -->
+    <div class="section-eyebrow" style="margin-bottom:4px;">📅 Year-by-Year Journey</div>
+    <div class="section-title" id="fm-timeline-heading">Your Academic Path</div>
+    <div id="fm-timeline-wrap" style="position:relative;margin-bottom:56px;"></div>
+
+    <!-- Outcomes -->
+    <div id="fm-outcomes" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-bottom:48px;"></div>
+
+    <!-- Alumni -->
+    <div id="fm-alumni" style="margin-bottom:48px;"></div>
+
+    <!-- Reset -->
+    <div style="text-align:center;">
+      <button onclick="fmReset()" style="padding:12px 32px;border-radius:50px;border:1px solid var(--glass-border);background:transparent;color:var(--text-muted);font-size:13px;font-weight:600;cursor:pointer;letter-spacing:0.05em;transition:all 0.2s;" onmouseover="this.style.background='var(--gold-bg)';this.style.color='var(--gold)';" onmouseout="this.style.background='transparent';this.style.color='var(--text-muted)';">↩ Start Over</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════ FUTURE ME DATA ═══════
+const FM_COURSES = {
+  'BCA':   {label:'BCA',years:3,color:'#6ec6ff',icon:'💻'},
+  'BBA':   {label:'BBA',years:3,color:'#69f0ae',icon:'📊'},
+  'BA':    {label:'BA',years:3,color:'#ffe066',icon:'📚'},
+  'BSc':   {label:'B.Sc.',years:3,color:'#f48fb1',icon:'🔬'},
+  'LLB':   {label:'BA LL.B.',years:5,color:'#ff8a80',icon:'⚖️'},
+  'MA-Dev':{label:'MA Dev.',years:2,color:'#ce93d8',icon:'🌍'},
+  'MJMC':  {label:'MJMC',years:2,color:'#4fc3f7',icon:'📡'},
+  'MSc':   {label:'M.Sc. Biotech',years:2,color:'#a5d6a7',icon:'🧬'},
+};
+
+const FM_INTERESTS = ['AI & Tech','Business','Govt Jobs','Research','Media','Law','Social Work','Entrepreneurship'];
+
+const FM_TIMELINES = {
+  'BCA': [
+    {year:'Year 1',label:'Foundation',icon:'📘',subjects:['C Programming','Data Structures','Mathematics','Web Basics'],skill:'Core logic & problem solving',milestone:'First mini project'},
+    {year:'Year 2',label:'Depth',icon:'⚙️',subjects:['DBMS','Java','OS Concepts','Computer Networks'],skill:'Full-stack fundamentals',milestone:'Internship at local IT firm'},
+    {year:'Year 3',label:'Launch',icon:'🚀',subjects:['AI Basics','Cloud Computing','Project Work','Soft Skills'],skill:'Job-ready developer',milestone:'Campus placement / MCA prep'},
+  ],
+  'BBA': [
+    {year:'Year 1',label:'Business Basics',icon:'📊',subjects:['Management Principles','Accounting','Business Law','Economics'],skill:'Business thinking',milestone:'Case study competitions'},
+    {year:'Year 2',label:'Specialisation',icon:'🎯',subjects:['Marketing','HR Management','Finance','Research Methods'],skill:'Strategic analysis',milestone:'Summer internship at company'},
+    {year:'Year 3',label:'Industry Ready',icon:'💼',subjects:['Entrepreneurship','Business Analytics','Project','Ethics'],skill:'Management leadership',milestone:'MBA entrance / placement'},
+  ],
+  'BA': [
+    {year:'Year 1',label:'Foundations',icon:'📖',subjects:['Core Discipline','Language','Social Science','Elective'],skill:'Critical thinking & writing',milestone:'Essay competitions, seminars'},
+    {year:'Year 2',label:'Exploration',icon:'🔍',subjects:['Research Methods','Advanced Core','Field Work','Elective'],skill:'Research & analysis',milestone:'Fieldwork, civil exam prep begins'},
+    {year:'Year 3',label:'Purpose',icon:'🎓',subjects:['Dissertation','Advanced Elective','Community Work','Exam Prep'],skill:'Communication & leadership',milestone:'UPSC/JPSC prep / PG admission'},
+  ],
+  'BSc': [
+    {year:'Year 1',label:'Science Core',icon:'🔬',subjects:['Physics/Chem/Bio','Mathematics','Lab Work','Language'],skill:'Scientific method & precision',milestone:'Lab project showcase'},
+    {year:'Year 2',label:'Specialisation',icon:'🧪',subjects:['Advanced Core','Research Methodology','Industry Visit','Elective'],skill:'Experimental design',milestone:'Research internship / paper'},
+    {year:'Year 3',label:'Research Ready',icon:'🔭',subjects:['Project Work','Dissertation','GATE Prep','Soft Skills'],skill:'GATE/research profile',milestone:'MSc/PhD admission / industry'},
+  ],
+  'LLB': [
+    {year:'Year 1',label:'Law Foundations',icon:'📜',subjects:['Constitutional Law','Contract Law','Legal Methods','History'],skill:'Legal reasoning',milestone:'Moot court debut'},
+    {year:'Year 2',label:'Core Law',icon:'⚖️',subjects:['Criminal Law','Family Law','Property Law','Torts'],skill:'Case analysis',milestone:'Internship at advocate\'s office'},
+    {year:'Year 3',label:'Advanced Law',icon:'🏛️',subjects:['IPR','Labour Law','Mooting','Drafting'],skill:'Drafting & argumentation',milestone:'High Court internship'},
+    {year:'Year 4',label:'Specialisation',icon:'🌐',subjects:['Cyber Law','Corporate Law','Evidence','ADR'],skill:'Domain expertise',milestone:'Moot court national level'},
+    {year:'Year 5',label:'Practice Ready',icon:'🎓',subjects:['Dissertation','Clinic','Placement','Bar Exam Prep'],skill:'Litigation & counselling',milestone:'AIBE / Judicial Services prep'},
+  ],
+  'MA-Dev': [
+    {year:'Year 1',label:'Theory & Method',icon:'🌍',subjects:['Development Theory','Research Methods','Political Economy','Statistics'],skill:'Policy analysis',milestone:'Field research project'},
+    {year:'Year 2',label:'Specialisation',icon:'🏗️',subjects:['Poverty & Inequality','Rural Development','NGO Management','Dissertation'],skill:'Development practice',milestone:'UPSC/NGO/UN internship'},
+  ],
+  'MJMC': [
+    {year:'Year 1',label:'Media Foundations',icon:'📡',subjects:['Journalism Basics','Photography','Broadcast Media','Research'],skill:'Reporting & storytelling',milestone:'Published article / report'},
+    {year:'Year 2',label:'Production',icon:'🎥',subjects:['Video Production','Digital Media','PR & Advertising','Dissertation'],skill:'Cross-platform media',milestone:'TV/digital media internship'},
+  ],
+  'MSc': [
+    {year:'Year 1',label:'Advanced Science',icon:'🧬',subjects:['Molecular Biology','Bioinformatics','Lab Techniques','Research Methods'],skill:'Scientific research design',milestone:'Lab research paper'},
+    {year:'Year 2',label:'Research',icon:'🔬',subjects:['Thesis Work','Industry Project','Advanced Topics','Seminars'],skill:'Publication-ready research',milestone:'PhD admission / Biotech industry'},
+  ],
+};
+
+const FM_OUTCOMES = {
+  'BCA':   {roles:['Software Developer','Data Analyst','UI/UX Designer','Cloud Engineer'],salary:{min:4,max:18,target:8},companies:['TCS','Infosys','Wipro','Startups'],growth:'35% salary growth Y-o-Y avg for top performers'},
+  'BBA':   {roles:['Marketing Manager','HR Executive','Business Analyst','Entrepreneur'],salary:{min:3.5,max:14,target:6},companies:['Deloitte','HDFC','Amazon','MNCs'],growth:'Management roles in 3–5 yrs with MBA'},
+  'BA':    {roles:['Civil Servant (IAS/IPS)','Journalist','NGO Manager','Teacher'],salary:{min:3,max:12,target:5},companies:['Govt Depts','Media Houses','NGOs','Universities'],growth:'UPSC success opens ₹18–25 LPA equivalent perks'},
+  'BSc':   {roles:['Research Scientist','Lab Analyst','Data Scientist','Quality Engineer'],salary:{min:3.5,max:15,target:6},companies:['DRDO','ISRO','Pharma firms','IITs'],growth:'PhD pathway → academic or research leadership'},
+  'LLB':   {roles:['Advocate','Corporate Lawyer','Judicial Officer','Legal Advisor'],salary:{min:4,max:30,target:8},companies:['Supreme Court','Law Firms','MNC Legal','Judiciary'],growth:'Top litigators earn ₹50L+; judiciary is prestigious'},
+  'MA-Dev':{roles:['Development Officer','Policy Analyst','NGO Lead','Civil Servant'],salary:{min:4,max:16,target:7},companies:['UN Agencies','Govt','World Bank','NGOs'],growth:'Global development sector growing 20% YoY'},
+  'MJMC':  {roles:['Journalist','Content Strategist','PR Manager','Documentary Maker'],salary:{min:3,max:14,target:5.5},companies:['NDTV','HT','Digital startups','Agencies'],growth:'Digital media boom: OTT & content creation surging'},
+  'MSc':   {roles:['Research Scientist','Biotech Specialist','Clinical Researcher','Lecturer'],salary:{min:5,max:20,target:9},companies:['CSIR','Pharma MNCs','Biocon','IITs'],growth:'Biotechnology sector growing 15% CAGR in India'},
+};
+
+const FM_ALUMNI = {
+  'BCA':  [{name:'Rahul Verma',batch:'2019',role:'SDE-II at Amazon',quote:'BCA at CUSB gave me the algorithmic thinking I needed for FAANG.',avatar:'RV',color:'#6ec6ff'}],
+  'BBA':  [{name:'Priya Singh',batch:'2020',role:'Brand Manager, HUL',quote:'The marketing curriculum here prepared me better than any coaching.',avatar:'PS',color:'#69f0ae'}],
+  'BA':   [{name:'Aman Kumar',batch:'2018',role:'IAS Officer, Bihar Cadre',quote:'CUSB\'s faculty pushed me into UPSC — I cracked it in 2nd attempt.',avatar:'AK',color:'#ffe066'}],
+  'BSc':  [{name:'Sneha Gupta',batch:'2019',role:'Research Fellow, CSIR',quote:'My dissertation at CUSB became the foundation of my PhD thesis.',avatar:'SG',color:'#f48fb1'}],
+  'LLB':  [{name:'Vikram Tiwari',batch:'2017',role:'Advocate, Patna High Court',quote:'Moot courts at Chanakya Block sharpened me like nothing else.',avatar:'VT',color:'#ff8a80'}],
+  'MA-Dev':[{name:'Fatima Ansari',batch:'2021',role:'Programme Officer, UNICEF',quote:'The Dev Studies programme opened global doors I didn\'t know existed.',avatar:'FA',color:'#ce93d8'}],
+  'MJMC': [{name:'Dev Sharma',batch:'2020',role:'Senior Reporter, NDTV',quote:'The media studio at VLC was broadcast-quality — job-ready from day one.',avatar:'DS',color:'#4fc3f7'}],
+  'MSc':  [{name:'Anjali Roy',batch:'2021',role:'Research Scientist, Biocon',quote:'The biotech labs and mentors here helped me publish before graduation.',avatar:'AR',color:'#a5d6a7'}],
+};
+
+const FM_AI_SUGGEST = {
+  'BCA':    {text:'You may also like <strong>Data Science (MSc)</strong> or a <strong>BBA + BCA combo</strong> if you\'re interested in tech leadership.',icon:'🤖'},
+  'BBA':    {text:'You may also like <strong>MBA after BBA</strong> or <strong>BA LL.B.</strong> if policy/corporate law interests you.',icon:'💡'},
+  'BA':     {text:'You may also like <strong>MA Development Studies</strong> — our flagship PG with global placements.',icon:'🌍'},
+  'BSc':    {text:'You may also like <strong>M.Sc. Biotechnology</strong> for research-oriented careers in top institutions.',icon:'🧪'},
+  'LLB':   {text:'You may also like <strong>LLM programmes</strong> or <strong>Judicial Services coaching</strong> as natural next steps.',icon:'⚖️'},
+  'MA-Dev':{text:'You may also like <strong>UPSC coaching</strong> alongside — our alumni have cracked both simultaneously.',icon:'🏛️'},
+  'MJMC':  {text:'You may also like <strong>Digital Content Creation</strong> specialisation — fastest growing media niche in 2025.',icon:'📱'},
+  'MSc':   {text:'You may also like <strong>ICMR/DBT Fellowship</strong> applications — CUSB grads have strong track records.',icon:'🔬'},
+};
+
+let fmSelectedCourse = null;
+let fmSelectedCourse2 = null;
+let fmSelectedInterests = [];
+let fmCompareMode = false;
+
+(function fmInit(){
+  const cg = document.getElementById('fm-course-grid');
+  const cg2 = document.getElementById('fm-course2-grid');
+  Object.entries(FM_COURSES).forEach(([k,v])=>{
+    const chip = document.createElement('div');
+    chip.className='fm-chip';
+    chip.textContent=v.icon+' '+v.label;
+    chip.dataset.key=k;
+    chip.onclick=()=>fmSelectCourse(k, chip, false);
+    cg.appendChild(chip);
+
+    const chip2 = document.createElement('div');
+    chip2.className='fm-chip';
+    chip2.textContent=v.icon+' '+v.label;
+    chip2.dataset.key=k;
+    chip2.onclick=()=>fmSelectCourse(k, chip2, true);
+    cg2.appendChild(chip2);
+  });
+
+  const ig = document.getElementById('fm-interest-grid');
+  FM_INTERESTS.forEach(interest=>{
+    const chip = document.createElement('div');
+    chip.className='fm-chip';
+    chip.textContent=interest;
+    chip.onclick=()=>{
+      if(fmSelectedInterests.includes(interest)){
+        fmSelectedInterests=fmSelectedInterests.filter(x=>x!==interest);
+        chip.classList.remove('active');
+      } else if(fmSelectedInterests.length<3){
+        fmSelectedInterests.push(interest);
+        chip.classList.add('active');
+      }
+    };
+    ig.appendChild(chip);
+  });
+})();
+
+function fmSelectCourse(k, chip, isSecond){
+  const grid = isSecond ? document.getElementById('fm-course2-grid') : document.getElementById('fm-course-grid');
+  grid.querySelectorAll('.fm-chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  if(isSecond) fmSelectedCourse2=k;
+  else fmSelectedCourse=k;
+}
+
+function fmToggleCompare(){
+  fmCompareMode=!fmCompareMode;
+  const tog=document.getElementById('fm-compare-toggle');
+  const knob=document.getElementById('fm-compare-knob');
+  const wrap=document.getElementById('fm-compare-course2-wrap');
+  tog.style.background=fmCompareMode?'var(--gold)':'rgba(255,255,255,0.15)';
+  knob.style.left=fmCompareMode?'23px':'3px';
+  wrap.style.display=fmCompareMode?'block':'none';
+}
+
+function fmGenerate(){
+  if(!fmSelectedCourse){
+    const cg=document.getElementById('fm-course-grid');
+    cg.style.animation='fmShake 0.4s ease';
+    setTimeout(()=>cg.style.animation='',500);
+    return;
+  }
+  document.getElementById('fm-picker').style.display='none';
+  const out=document.getElementById('fm-output');
+  out.style.display='block';
+  document.getElementById('fm-timeline-heading').textContent=
+    'Your '+FM_COURSES[fmSelectedCourse].label+' Journey';
+
+  fmRenderTimeline();
+  fmRenderOutcomes();
+  fmRenderAlumni();
+  fmRenderAISuggestion();
+
+  setTimeout(()=>out.scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+function fmRenderTimeline(){
+  const wrap=document.getElementById('fm-timeline-wrap');
+  wrap.innerHTML='';
+
+  const courses = fmCompareMode && fmSelectedCourse2
+    ? [fmSelectedCourse, fmSelectedCourse2]
+    : [fmSelectedCourse];
+
+  if(courses.length===2){
+    const labels=document.getElementById('fm-compare-labels');
+    labels.style.display='grid';
+    labels.innerHTML=courses.map(c=>`<div style="font-size:14px;font-weight:700;color:var(--gold);">${FM_COURSES[c].icon} ${FM_COURSES[c].label}</div>`).join('');
+
+    const maxYears=Math.max(...courses.map(c=>FM_TIMELINES[c].length));
+    for(let y=0;y<maxYears;y++){
+      const row=document.createElement('div');
+      row.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;';
+      courses.forEach((c,ci)=>{
+        const t=FM_TIMELINES[c];
+        const card=document.createElement('div');
+        if(t[y]){
+          const step=t[y];
+          card.className='fm-year-card';
+          card.style.animationDelay=(y*0.1+ci*0.05)+'s';
+          card.style.borderTop=`3px solid ${FM_COURSES[c].color}`;
+          card.innerHTML=`
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">${step.year}</div>
+            <div style="font-size:20px;margin-bottom:4px;">${step.icon}</div>
+            <div style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:8px;">${step.label}</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;line-height:1.6;">${step.subjects.map(s=>`<span style="display:inline-block;background:var(--gold-bg);border-radius:4px;padding:2px 7px;margin:2px 2px 2px 0;font-size:10px;color:var(--gold);font-weight:600;">${s}</span>`).join('')}</div>
+            <div style="font-size:11px;color:var(--text-muted);">🏆 <strong style="color:var(--ink);">${step.milestone}</strong></div>
+          `;
+        } else {
+          card.style.background='transparent';card.style.border='none';
+        }
+        row.appendChild(card);
+      });
+      wrap.appendChild(row);
+    }
+  } else {
+    const c=fmSelectedCourse;
+    const tl=FM_TIMELINES[c];
+    const lineDiv=document.createElement('div');
+    lineDiv.className='fm-timeline-line';
+    wrap.appendChild(lineDiv);
+
+    tl.forEach((step,i)=>{
+      const row=document.createElement('div');
+      const isLeft=i%2===0;
+      row.style.cssText='display:grid;grid-template-columns:1fr 40px 1fr;align-items:start;margin-bottom:32px;';
+
+      const leftEl=document.createElement('div');
+      const rightEl=document.createElement('div');
+      const card=document.createElement('div');
+      card.className='fm-year-card';
+      card.style.animationDelay=(i*0.12)+'s';
+      card.style.borderTop=`3px solid ${FM_COURSES[c].color}`;
+      card.innerHTML=`
+        <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">${step.year}</div>
+        <div style="font-size:22px;margin-bottom:6px;">${step.icon} <span style="font-size:16px;font-weight:700;color:var(--ink);">${step.label}</span></div>
+        <div style="margin-bottom:10px;">${step.subjects.map(s=>`<span style="display:inline-block;background:var(--gold-bg);border-radius:4px;padding:2px 8px;margin:2px 2px 2px 0;font-size:10px;font-weight:600;color:var(--gold);">${s}</span>`).join('')}</div>
+        <div style="font-size:12px;color:var(--text-muted);padding-top:10px;border-top:1px solid var(--glass-border);">💡 Skill: <em>${step.skill}</em></div>
+        <div style="font-size:12px;color:var(--ink);font-weight:600;margin-top:6px;">🏆 ${step.milestone}</div>
+      `;
+
+      const dot=document.createElement('div');
+      dot.style.cssText=`width:16px;height:16px;border-radius:50%;background:${FM_COURSES[c].color};border:3px solid var(--deep);box-shadow:0 0 0 2px ${FM_COURSES[c].color};margin:18px auto 0;z-index:1;position:relative;`;
+
+      if(isLeft){ leftEl.appendChild(card); rightEl.innerHTML=''; }
+      else       { rightEl.appendChild(card); leftEl.innerHTML=''; }
+
+      row.appendChild(leftEl);
+      row.appendChild(dot);
+      row.appendChild(rightEl);
+      wrap.appendChild(row);
+    });
+  }
+}
+
+function fmRenderOutcomes(){
+  const c=fmSelectedCourse;
+  const o=FM_OUTCOMES[c];
+  const el=document.getElementById('fm-outcomes');
+  el.innerHTML=`
+    <div style="grid-column:1/-1;margin-bottom:8px;">
+      <div class="section-eyebrow">💼 Career Outcomes</div>
+      <div class="section-title">Where You'll Be in ${FM_COURSES[c].years + 3} Years</div>
+    </div>
+    ${o.roles.map((r,i)=>`
+    <div class="fm-outcome-card" style="animation-delay:${i*0.1}s;">
+      <div style="font-size:30px;margin-bottom:10px;">${['🧑‍💻','👩‍💼','🧑‍🔬','🎯'][i]||'⭐'}</div>
+      <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px;">${r}</div>
+      <div style="font-size:11px;color:var(--text-muted);">Top career path</div>
+    </div>`).join('')}
+    <div class="fm-outcome-card" style="animation-delay:0.4s;grid-column:span 2;text-align:left;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">📈 Expected Salary (LPA)</div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:8px;">
+        <span>Entry: ₹${o.salary.min}L</span><span>Target: ₹${o.salary.target}L</span><span>Top: ₹${o.salary.max}L+</span>
+      </div>
+      <div class="fm-salary-bar-wrap"><div class="fm-salary-bar" id="fm-salary-bar" style="width:0%;"></div></div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:12px;">${o.growth}</div>
+    </div>
+    <div class="fm-outcome-card" style="animation-delay:0.5s;text-align:left;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">🏢 Companies Hiring</div>
+      ${o.companies.map(c=>`<div style="font-size:13px;font-weight:600;color:var(--ink);padding:6px 0;border-bottom:1px solid var(--glass-border);">• ${c}</div>`).join('')}
+    </div>
+  `;
+  setTimeout(()=>{
+    const bar=document.getElementById('fm-salary-bar');
+    if(bar) bar.style.width=((o.salary.target-o.salary.min)/(o.salary.max-o.salary.min)*100)+'%';
+  },300);
+}
+
+function fmRenderAlumni(){
+  const c=fmSelectedCourse;
+  const alumni=FM_ALUMNI[c]||[];
+  const el=document.getElementById('fm-alumni');
+  if(!alumni.length){el.innerHTML='';return;}
+  el.innerHTML=`
+    <div class="section-eyebrow" style="margin-bottom:16px;">🧑‍🎓 Someone Like You Became This</div>
+    ${alumni.map((a,i)=>`
+    <div class="fm-alumni-card" style="animation-delay:${i*0.1}s;">
+      <div style="width:52px;height:52px;border-radius:50%;background:${a.color};display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#0a1220;flex-shrink:0;">${a.avatar}</div>
+      <div>
+        <div style="font-size:15px;font-weight:700;color:var(--ink);">${a.name} <span style="font-size:11px;color:var(--text-muted);font-weight:400;">(Batch of ${a.batch})</span></div>
+        <div style="font-size:13px;color:var(--gold);font-weight:600;margin:3px 0 10px;">${a.role}</div>
+        <div style="font-size:14px;color:var(--text-body);line-height:1.7;font-style:italic;">"${a.quote}"</div>
+      </div>
+    </div>`).join('')}
+  `;
+}
+
+function fmRenderAISuggestion(){
+  const c=fmSelectedCourse;
+  const s=FM_AI_SUGGEST[c];
+  const el=document.getElementById('fm-ai-suggestion');
+  el.innerHTML=`
+    <div style="font-size:30px;">${s.icon}</div>
+    <div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;">AI Suggestion</div>
+      <div style="font-size:13px;color:var(--text-body);line-height:1.6;">${s.text}</div>
+    </div>
+  `;
+}
+
+function fmReset(){
+  fmSelectedCourse=null;
+  fmSelectedCourse2=null;
+  fmSelectedInterests=[];
+  document.querySelectorAll('.fm-chip').forEach(c=>c.classList.remove('active'));
+  document.getElementById('fm-output').style.display='none';
+  document.getElementById('fm-compare-labels').style.display='none';
+  document.getElementById('fm-picker').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

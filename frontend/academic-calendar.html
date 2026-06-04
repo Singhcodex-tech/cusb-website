@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academic Calendar 2025–26 — Central University of South Bihar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0D1B2A;
+      --deep: #0f1d14;
+      --gold: #C9972B;
+      --gold-light: #F0C060;
+      --gold-mid: #E0A830;
+      --ink: #1A1510;
+      --muted: rgba(255,248,235,0.55);
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(184,134,11,0.18);
+      --text-light: #fff8eb;
+      --forest: #1C3528;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--text-light);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, #0a1520, #0d1e12);
+      border-bottom: 1px solid rgba(184,134,11,0.25);
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+    .logo-emblem {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .logo-emblem img { width: 100%; height: 100%; object-fit: contain; }
+    .logo-text .name { font-size: 13px; font-weight: 700; color: var(--text-light); line-height: 1.2; }
+    .logo-text .sub { font-size: 10px; color: rgba(201,151,43,0.7); letter-spacing: .06em; }
+    .header-divider { width: 1px; height: 36px; background: rgba(184,134,11,0.25); flex-shrink: 0; }
+    .header-title {
+      flex: 1;
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold-light);
+    }
+    .back-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 18px;
+      border-radius: 50px;
+      border: 1px solid rgba(184,134,11,0.3);
+      background: rgba(201,151,43,0.08);
+      color: var(--gold-light);
+      text-decoration: none;
+      font-size: 13px; font-weight: 600;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .back-btn:hover { background: rgba(201,151,43,0.18); border-color: rgba(184,134,11,0.5); }
+
+    /* ── HERO STRIP ── */
+    .hero-strip {
+      background: linear-gradient(135deg, #0b1e12, #0a1520);
+      padding: 56px 60px 48px;
+      border-bottom: 1px solid rgba(184,134,11,0.12);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-strip::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,151,43,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--gold); font-weight: 600;
+      background: rgba(201,151,43,0.1);
+      border: 1px solid rgba(201,151,43,0.22);
+      padding: 5px 14px; border-radius: 50px;
+      margin-bottom: 18px;
+    }
+    .hero-strip h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 900;
+      color: var(--text-light);
+      line-height: 1.12;
+      margin-bottom: 14px;
+    }
+    .hero-strip h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-strip p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 560px;
+      margin-bottom: 30px;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .hero-stat {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(184,134,11,0.15);
+      border-radius: 12px;
+      padding: 12px 18px;
+    }
+    .hero-stat-icon { font-size: 20px; }
+    .hero-stat-val { font-size: 15px; font-weight: 700; color: var(--gold-light); line-height: 1.1; }
+    .hero-stat-label { font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+
+    /* ── PHASE BANNER ── */
+    .phase-banner {
+      background: linear-gradient(135deg, rgba(0,137,123,0.15), rgba(105,240,174,0.08));
+      border: 1px solid rgba(105,240,174,0.25);
+      border-radius: 16px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 40px 60px 0;
+    }
+    .phase-dot { width: 10px; height: 10px; border-radius: 50%; background: #69f0ae; flex-shrink: 0; animation: pulseDot 2s ease-in-out infinite; }
+    @keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+    .phase-label { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #69f0ae; margin-bottom: 2px; }
+    .phase-title { font-size: 14px; font-weight: 600; color: var(--text-light); }
+    .phase-sub { font-size: 12px; color: var(--muted); }
+
+    /* ── MAIN CONTENT ── */
+    .main-content {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 48px 60px 80px;
+    }
+
+    /* ── TABS ── */
+    .cal-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 40px;
+      border-bottom: 1px solid rgba(184,134,11,0.15);
+      padding-bottom: 0;
+    }
+    .cal-tab {
+      padding: 12px 22px;
+      font-size: 13px; font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      border: none;
+      background: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: .02em;
+    }
+    .cal-tab:hover { color: var(--gold-light); }
+    .cal-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    /* ── TWO-COLUMN GRID ── */
+    .cal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    @media (max-width: 900px) { .cal-grid { grid-template-columns: 1fr; } }
+
+    .cal-col {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(184,134,11,0.14);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .cal-col-head {
+      padding: 18px 24px;
+      font-size: 13px; font-weight: 700;
+      color: var(--gold-light);
+      background: rgba(201,151,43,0.07);
+      border-bottom: 1px solid rgba(184,134,11,0.15);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: .02em;
+    }
+    .session-badge {
+      font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 50px;
+    }
+    .badge-current { background: rgba(105,240,174,0.12); border: 1px solid rgba(105,240,174,0.3); color: #69f0ae; }
+    .badge-next { background: rgba(66,133,244,0.10); border: 1px solid rgba(66,133,244,0.25); color: #6ec6ff; }
+
+    /* ── TIMELINE ── */
+    .acal-timeline {
+      padding: 24px 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .acal-item {
+      display: flex;
+      gap: 16px;
+      padding-bottom: 24px;
+      position: relative;
+    }
+    .acal-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 17px; top: 36px;
+      width: 2px;
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba(201,151,43,0.3), rgba(201,151,43,0.05));
+    }
+    .acal-dot {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .acal-dot.done { background: rgba(105,240,174,0.12); border: 1px solid rgba(105,240,174,0.3); }
+    .acal-dot.current { background: rgba(201,151,43,0.15); border: 2px solid rgba(201,151,43,0.5); }
+    .acal-dot.upcoming { background: rgba(100,180,255,0.10); border: 1px solid rgba(100,180,255,0.25); }
+
+    .acal-content { flex: 1; padding-top: 4px; }
+    .acal-date { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
+    .acal-title { font-size: 14px; font-weight: 600; color: var(--text-light); margin-bottom: 4px; line-height: 1.3; }
+    .acal-desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 8px; }
+    .acal-chip {
+      display: inline-block;
+      font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 50px;
+    }
+    .acal-chip.done { background: rgba(105,240,174,0.1); color: #69f0ae; border: 1px solid rgba(105,240,174,0.25); }
+    .acal-chip.current { background: rgba(201,151,43,0.12); color: var(--gold-light); border: 1px solid rgba(201,151,43,0.3); }
+    .acal-chip.upcoming { background: rgba(100,180,255,0.08); color: #6ec6ff; border: 1px solid rgba(100,180,255,0.2); }
+
+    /* ── IMPORTANT DATES TABLE ── */
+    .imp-section {
+      margin-top: 48px;
+    }
+    .imp-section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-light);
+      margin-bottom: 6px;
+    }
+    .imp-section-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+    .imp-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    @media (max-width: 900px) { .imp-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .imp-grid { grid-template-columns: 1fr; } }
+    .imp-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(184,134,11,0.14);
+      border-radius: 16px;
+      padding: 20px;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .imp-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    }
+    .imp-card.green::before { background: linear-gradient(90deg, #00897b, #69f0ae); }
+    .imp-card.gold::before { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+    .imp-card.blue::before { background: linear-gradient(90deg, #1565c0, #6ec6ff); }
+    .imp-card.purple::before { background: linear-gradient(90deg, #7b1fa2, #ce93d8); }
+    .imp-card.red::before { background: linear-gradient(90deg, #c62828, #ff8a80); }
+    .imp-card.teal::before { background: linear-gradient(90deg, #00796b, #4db6ac); }
+    .imp-card:hover { background: rgba(255,255,255,0.05); border-color: rgba(184,134,11,0.28); }
+    .imp-card-icon { font-size: 24px; margin-bottom: 10px; }
+    .imp-card-event { font-size: 13px; font-weight: 700; color: var(--text-light); margin-bottom: 5px; line-height: 1.3; }
+    .imp-card-date { font-size: 11px; color: var(--gold-light); font-weight: 600; margin-bottom: 3px; }
+    .imp-card-note { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+    /* ── DOWNLOAD SECTION ── */
+    .download-strip {
+      background: linear-gradient(135deg, rgba(201,151,43,0.08), rgba(201,151,43,0.04));
+      border: 1px solid rgba(201,151,43,0.2);
+      border-radius: 18px;
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 48px;
+    }
+    .download-strip-text h3 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--text-light); margin-bottom: 6px; }
+    .download-strip-text p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .download-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-dl {
+      display: flex; align-items: center; gap: 8px;
+      padding: 11px 22px;
+      border-radius: 50px;
+      font-size: 13px; font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-dl-primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--navy);
+    }
+    .btn-dl-primary:hover { transform: translateY(-2px); }
+    .btn-dl-secondary {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(184,134,11,0.3);
+      color: var(--gold-light);
+    }
+    .btn-dl-secondary:hover { background: rgba(255,255,255,0.08); }
+
+    /* ── DISCLAIMER ── */
+    .disclaimer {
+      margin-top: 40px;
+      padding: 18px 24px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(184,134,11,0.14);
+      border-radius: 14px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .disclaimer-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+    .disclaimer p { font-size: 12.5px; color: var(--muted); line-height: 1.7; }
+    .disclaimer a { color: var(--gold-mid); font-weight: 600; text-decoration: none; }
+    .disclaimer a:hover { text-decoration: underline; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: linear-gradient(135deg, #0a1015, #0d1a10);
+      border-top: 1px solid rgba(184,134,11,0.15);
+      padding: 28px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-copy { font-size: 12px; color: var(--muted); }
+    .footer-links { display: flex; gap: 16px; }
+    .footer-links a { font-size: 12px; color: rgba(201,151,43,0.7); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--gold-light); }
+
+    /* ── TAB PANELS ── */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      header { padding: 14px 20px; }
+      .hero-strip { padding: 36px 24px 32px; }
+      .phase-banner { margin: 24px 24px 0; }
+      .main-content { padding: 32px 24px 60px; }
+      footer { padding: 20px 24px; }
+      .download-strip { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <a href="index.html" class="header-logo">
+    <div class="logo-emblem">
+      <img src="https://i.postimg.cc/3Nst0B3t/cusb-logo.png" alt="CUSB Logo">
+    </div>
+    <div class="logo-text">
+      <div class="name">Central University of South Bihar</div>
+      <div class="sub">Est. 2009 · Gaya, Bihar</div>
+    </div>
+  </a>
+  <div class="header-divider"></div>
+  <div class="header-title">🗓️ Academic Calendar</div>
+  <a href="index.html" class="back-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Back to Home
+  </a>
+</header>
+
+<!-- ── HERO ── -->
+<div class="hero-strip">
+  <div class="hero-tag">Important Dates &amp; Schedule</div>
+  <h1>Academic <em>Calendar</em><br>2025–26</h1>
+  <p>All important dates, examination schedules, semester timelines, and key events for the current and upcoming academic session at Central University of South Bihar.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-icon">📅</div>
+      <div>
+        <div class="hero-stat-val">2025–26</div>
+        <div class="hero-stat-label">Current Session</div>
+      </div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-icon">🎓</div>
+      <div>
+        <div class="hero-stat-val">Even Sem</div>
+        <div class="hero-stat-label">Jan – June 2026</div>
+      </div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-icon">📋</div>
+      <div>
+        <div class="hero-stat-val">UGC Approved</div>
+        <div class="hero-stat-label">Academic Council Ratified</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PHASE BANNER ── -->
+<div class="phase-banner">
+  <div class="phase-dot"></div>
+  <div>
+    <div class="phase-label">Currently Active</div>
+    <div class="phase-title">Even Semester 2025–26 &nbsp;|&nbsp; January – June 2026</div>
+    <div class="phase-sub">End-semester exams scheduled · Results declaration in progress</div>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<div class="main-content">
+
+  <!-- TABS -->
+  <div class="cal-tabs">
+    <button class="cal-tab active" onclick="switchTab('semester')">Semester Timeline</button>
+    <button class="cal-tab" onclick="switchTab('important')">Important Dates</button>
+  </div>
+
+  <!-- TAB: SEMESTER TIMELINE -->
+  <div class="tab-panel active" id="tab-semester">
+    <div class="cal-grid">
+
+      <!-- EVEN SEMESTER 2025–26 (current) -->
+      <div class="cal-col">
+        <div class="cal-col-head">
+          📅 Even Semester 2025–26
+          <span class="session-badge badge-current">Current</span>
+        </div>
+        <div class="acal-timeline">
+
+          <div class="acal-item">
+            <div class="acal-dot done">✅</div>
+            <div class="acal-content">
+              <div class="acal-date">January 2026</div>
+              <div class="acal-title">Even Semester Commencement &amp; Foundation Day</div>
+              <div class="acal-desc">Even semester begins. CUSB Foundation Day celebrated on 16 January. Continuing students resume classes from mid-January after winter break.</div>
+              <span class="acal-chip done">Completed</span>
+            </div>
+          </div>
+
+          <div class="acal-item">
+            <div class="acal-dot done">📝</div>
+            <div class="acal-content">
+              <div class="acal-date">February 2026</div>
+              <div class="acal-title">Internal Assessment I — Even Semester</div>
+              <div class="acal-desc">First internal assessment for all departments. Class tests, assignments, and practicals as prescribed by individual schools.</div>
+              <span class="acal-chip done">Completed</span>
+            </div>
+          </div>
+
+          <div class="acal-item">
+            <div class="acal-dot done">🏛️</div>
+            <div class="acal-content">
+              <div class="acal-date">March 2026</div>
+              <div class="acal-title">Ph.D Viva Voce &amp; Research Presentations</div>
+              <div class="acal-desc">Ph.D viva voce examinations and open research presentations by research scholars. Thesis submission window open for eligible candidates.</div>
+              <span class="acal-chip done">Completed</span>
+            </div>
+          </div>
+
+          <div class="acal-item">
+            <div class="acal-dot done">📖</div>
+            <div class="acal-content">
+              <div class="acal-date">April 2026</div>
+              <div class="acal-title">Internal Assessment II &amp; Study Break</div>
+              <div class="acal-desc">Second internal assessment. Last teaching day before end-semester preparatory leave. Study break for students.</div>
+              <span class="acal-chip done">Completed</span>
+            </div>
+          </div>
+
+          <div class="acal-item">
+            <div class="acal-dot current">🎯</div>
+            <div class="acal-content">
+              <div class="acal-date">May – June 2026</div>
+              <div class="acal-title">End-Semester Examinations — Even Semester</div>
+              <div class="acal-desc">Theory and practical end-semester examinations for all UG, PG, and Integrated programmes. Date sheets issued by the Examination Section.</div>
+              <span class="acal-chip current">Ongoing</span>
+            </div>
+          </div>
+
+          <div class="acal-item">
+            <div class="acal-dot upcoming">📊</div>
+            <div class="acal-content">
+              <div class="acal-date">June – July 2026</div>
+              <div class="acal-title">Result Declaration &amp; Summer Vacation</div>
+              <div class="acal-desc">Results declared on university portal. Revaluation window opens. Summer vacation for students. Grade cards issued.</div>
+              <span class="acal-chip upcoming">Upcoming</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ODD SEMESTER 2026–27 (next) -->
+      <div class="cal-col">
+        <div class="cal-col-head">
+          📅 Odd Semester 2026–27
+          <span class="session-badge badge-next">Next Session</span>
+        </div>
+        <div class="acal-timeline">
+
+          <div class="acal-item">
+            <div class="acal-dot upcoming">🎓</div>
+            <div class="acal-content">
+              <div class="acal-date">CUET-UG / CUET-PG 2026</div>
+              <div class="acal-title">New Admissions — Apply via CUET</div>
+              <div class="acal-desc">Applications for 2026–27 session open. UG via CUET-UG; PG via CUET-PG. Apply at cuet.nta.nic.in. Check official CUSB notification for deadlines.</div>
+              <span class="acal-chip upcoming">Apply Now</span>
+            </div>
+          </div>
+
+          <div class="acal-item">
+            <div class="acal-dot upcoming">📋</div>
+            <div class="acal-content">
+              <div class="acal-date">July 2026 (Expected)</div>
+              <div class="acal-title">Odd Semester Commencement</div>
+              <div class="acal-desc">New and continuing students. Freshers' orientation programme in the first week of July. Registration and enrollment for all students.</div>
+              <span class="acal-chip upcoming">Upcoming</span>
+            </div>
+          </div>
+
+          <div class="acal-item">
+            <div class="acal-dot upcoming">🏆</div>
+            <div class="acal-content">
+              <div class="acal-date">August 2026</div>
+              <div class="acal-title">Independence Day Celebrations &amp; NSS Camp</div>
+              <div class="acal-desc">University-level celebrations. NSS special camp planned in August at CUSB campus and adopted villages.</div>
+              <span class="acal-chip upcoming">Upcoming</span>
+            </div>
+          </div>
+
+          <div class="acal-item">
+            <div class="acal-dot upcoming">📝</div>
+            <div class="acal-content">
+              <div class="acal-date">September 2026 (Expected)</div>
+              <div class="acal-title">Internal Assessment I — Odd Semester</div>
+              <div class="acal-desc">First mid-term assessments for all programmes. Schedule to be notified by individual schools and departments.</div>
+              <span class="acal-chip upcoming">Tentative</span>
+            </div>
+          </div>
+
+          <div class="acal-item">
+            <div class="acal-dot upcoming">🎭</div>
+            <div class="acal-content">
+              <div class="acal-date">October – November 2026</div>
+              <div class="acal-title">Pratibha Cultural Festival &amp; Sports Meet</div>
+              <div class="acal-desc">Annual inter-departmental cultural festival and university-level sports competitions at CUSB grounds.</div>
+              <span class="acal-chip upcoming">Tentative</span>
+            </div>
+          </div>
+
+          <div class="acal-item">
+            <div class="acal-dot upcoming">📖</div>
+            <div class="acal-content">
+              <div class="acal-date">November – December 2026</div>
+              <div class="acal-title">End-Semester Exams — Odd Semester</div>
+              <div class="acal-desc">Theory and practical examinations. Followed by winter vacation and result declaration in January 2027.</div>
+              <span class="acal-chip upcoming">Tentative</span>
+            </div>
+          </div>
+
+          <div class="acal-item">
+            <div class="acal-dot upcoming">🎓</div>
+            <div class="acal-content">
+              <div class="acal-date">January 2027</div>
+              <div class="acal-title">CUSB Foundation Day &amp; Convocation</div>
+              <div class="acal-desc">Celebrated annually on 16 January. Convocation ceremony for eligible graduates of 2025–26 batch (date TBA by University).</div>
+              <span class="acal-chip upcoming">Tentative</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /tab-semester -->
+
+  <!-- TAB: IMPORTANT DATES -->
+  <div class="tab-panel" id="tab-important">
+    <div class="imp-section">
+      <div class="imp-section-title">Key Academic Dates</div>
+      <div class="imp-section-sub">Important milestones, deadlines, and events for AY 2025–26</div>
+      <div class="imp-grid">
+
+        <div class="imp-card green">
+          <div class="imp-card-icon">🏛️</div>
+          <div class="imp-card-event">CUSB Foundation Day</div>
+          <div class="imp-card-date">16 January 2026</div>
+          <div class="imp-card-note">Annual celebration of the university's establishment. Academic and cultural programmes.</div>
+        </div>
+
+        <div class="imp-card gold">
+          <div class="imp-card-icon">📝</div>
+          <div class="imp-card-event">Even Semester Internal Assessment I</div>
+          <div class="imp-card-date">February 2026</div>
+          <div class="imp-card-note">Class tests and assignments across all departments and schools.</div>
+        </div>
+
+        <div class="imp-card blue">
+          <div class="imp-card-icon">🎓</div>
+          <div class="imp-card-event">Ph.D Thesis Submission Deadline</div>
+          <div class="imp-card-date">March 2026</div>
+          <div class="imp-card-note">Final date for thesis submission for eligible research scholars. Subject to supervisor approval.</div>
+        </div>
+
+        <div class="imp-card purple">
+          <div class="imp-card-icon">📖</div>
+          <div class="imp-card-event">Internal Assessment II</div>
+          <div class="imp-card-date">April 2026</div>
+          <div class="imp-card-note">Second mid-term assessment. Last teaching days. Preparatory leave commences.</div>
+        </div>
+
+        <div class="imp-card red">
+          <div class="imp-card-icon">🎯</div>
+          <div class="imp-card-event">End-Semester Examinations (Even Sem)</div>
+          <div class="imp-card-date">May – June 2026</div>
+          <div class="imp-card-note">All UG, PG, Integrated and Ph.D course work examinations. Practicals included.</div>
+        </div>
+
+        <div class="imp-card teal">
+          <div class="imp-card-icon">📊</div>
+          <div class="imp-card-event">Result Declaration</div>
+          <div class="imp-card-date">June – July 2026</div>
+          <div class="imp-card-note">Results published on university portal. Grade cards and marksheets issued thereafter.</div>
+        </div>
+
+        <div class="imp-card gold">
+          <div class="imp-card-icon">☀️</div>
+          <div class="imp-card-event">Summer Vacation</div>
+          <div class="imp-card-date">June – July 2026</div>
+          <div class="imp-card-note">Annual summer vacation for students. Administrative offices remain open.</div>
+        </div>
+
+        <div class="imp-card blue">
+          <div class="imp-card-icon">🆕</div>
+          <div class="imp-card-event">Odd Semester 2026–27 Begins</div>
+          <div class="imp-card-date">July 2026 (Expected)</div>
+          <div class="imp-card-note">Freshers' orientation and commencement of classes for the new academic session.</div>
+        </div>
+
+        <div class="imp-card green">
+          <div class="imp-card-icon">🇮🇳</div>
+          <div class="imp-card-event">Republic Day &amp; Independence Day</div>
+          <div class="imp-card-date">Jan 26 &amp; Aug 15</div>
+          <div class="imp-card-note">University-level celebrations. Mandatory for students and staff. NSS camps organized.</div>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /tab-important -->
+
+  <!-- DOWNLOAD STRIP -->
+  <div class="download-strip">
+    <div class="download-strip-text">
+      <h3>📥 Download Official Academic Calendar</h3>
+      <p>Download the PDF version of the Academic Calendar 2025–26 as approved by the Academic Council, CUSB.<br>All official dates are subject to revision by the competent authority.</p>
+    </div>
+    <div class="download-btns">
+      <a href="https://www.cusb.ac.in" target="_blank" class="btn-dl btn-dl-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </a>
+      <a href="https://www.cusb.ac.in" target="_blank" class="btn-dl btn-dl-secondary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Official Site
+      </a>
+    </div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    <div class="disclaimer-icon">📌</div>
+    <p>
+      The Academic Calendar is issued by the <strong style="color:#fff8eb;">Academic Section, CUSB</strong> and ratified by the Academic Council. All dates are subject to revision by the competent authority. Students and faculty are advised to check the official website regularly.
+      Official source: <a href="https://www.cusb.ac.in" target="_blank">www.cusb.ac.in → Academics → Academic Calendar</a>
+    </p>
+  </div>
+
+</div><!-- /main-content -->
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-copy">© 2026 Central University of South Bihar · Gaya, Bihar · Est. 2009</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="faculty-directory.html">Faculty Directory</a>
+    <a href="https://www.cusb.ac.in" target="_blank">Official Website</a>
+    <a href="https://cuet.nta.nic.in" target="_blank">Apply via CUET</a>
+  </div>
+</footer>
+
+<script>
+  function switchTab(id) {
+    document.querySelectorAll('.cal-tab').forEach((t, i) => {
+      t.classList.toggle('active', (i === 0 && id === 'semester') || (i === 1 && id === 'important'));
+    });
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+  }
+</script>
+</body>
+</html>

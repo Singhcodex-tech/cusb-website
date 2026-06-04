@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notices &amp; Circulars — Central University of South Bihar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="config.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0D1B2A;
+      --deep: #12201A;
+      --gold: #C9972B;
+      --gold-light: #F0C060;
+      --gold-mid: #E0A830;
+      --ink: #1A1510;
+      --muted: rgba(255,248,235,0.55);
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(184,134,11,0.18);
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--navy); color: #fff8eb; min-height: 100vh; }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #0a1520, #111a10);
+      border-bottom: 1px solid rgba(184,134,11,0.25);
+      padding: 20px 40px;
+      display: flex; align-items: center; gap: 20px;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+    .header-logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .logo-emblem {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 900;
+      color: var(--navy); flex-shrink: 0;
+    }
+    .logo-text .name { font-size: 14px; font-weight: 700; color: #fff8eb; line-height: 1.2; }
+    .logo-text .sub { font-size: 11px; color: rgba(201,151,43,0.7); letter-spacing: .06em; }
+    .header-title {
+      flex: 1; font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700;
+      color: var(--gold-light); padding-left: 20px; border-left: 1px solid rgba(184,134,11,0.3);
+    }
+    .back-btn {
+      display: flex; align-items: center; gap: 6px; padding: 8px 16px;
+      border-radius: 50px; border: 1px solid rgba(184,134,11,0.3);
+      background: rgba(201,151,43,0.08); color: var(--gold-light);
+      text-decoration: none; font-size: 13px; font-weight: 600; transition: all 0.2s;
+    }
+    .back-btn:hover { background: rgba(201,151,43,0.18); }
+
+    /* HERO */
+    .hero-strip {
+      background: linear-gradient(135deg, #0f1e10, #0a1520);
+      padding: 50px 60px 40px; border-bottom: 1px solid rgba(184,134,11,0.15);
+    }
+    .hero-strip .tag {
+      display: inline-block; font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--gold); font-weight: 600; background: rgba(201,151,43,0.1);
+      border: 1px solid rgba(201,151,43,0.2); padding: 5px 14px; border-radius: 50px; margin-bottom: 16px;
+    }
+    .hero-strip h1 {
+      font-family: 'Playfair Display', serif; font-size: clamp(28px,4vw,44px);
+      font-weight: 900; line-height: 1.1; margin-bottom: 12px;
+    }
+    .hero-strip h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-strip p { font-size: 15px; color: var(--muted); max-width: 560px; line-height: 1.7; }
+
+    /* CONTROLS */
+    .controls { padding: 30px 60px 20px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+    .search-wrap { position: relative; flex: 1; min-width: 240px; }
+    .search-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+    .search-input {
+      width: 100%; padding: 11px 14px 11px 40px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(184,134,11,0.2);
+      border-radius: 10px; color: #fff8eb; font-family: 'Inter', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s;
+    }
+    .search-input::placeholder { color: var(--muted); }
+    .search-input:focus { border-color: rgba(201,151,43,0.5); }
+    .filter-btn {
+      padding: 10px 18px; border-radius: 10px; border: 1px solid rgba(184,134,11,0.2);
+      background: rgba(255,255,255,0.04); color: rgba(255,248,235,0.75);
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active { background: rgba(201,151,43,0.15); border-color: rgba(201,151,43,0.4); color: var(--gold-light); }
+
+    /* MAIN */
+    main { padding: 10px 60px 60px; }
+
+    /* NOTICE CARD */
+    .notices-list { display: flex; flex-direction: column; gap: 14px; }
+    .notice-card {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      border-radius: 14px; padding: 20px 24px;
+      display: flex; align-items: flex-start; gap: 18px;
+      transition: border-color 0.2s, background 0.2s;
+      cursor: default;
+    }
+    .notice-card:hover { border-color: rgba(201,151,43,0.35); background: rgba(255,255,255,0.06); }
+    .notice-card.urgent { border-color: rgba(220,60,60,0.35); }
+    .notice-card.urgent:hover { border-color: rgba(220,60,60,0.55); }
+    .notice-icon {
+      width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 18px;
+      background: rgba(201,151,43,0.1);
+    }
+    .notice-card.urgent .notice-icon { background: rgba(220,60,60,0.1); }
+    .notice-body { flex: 1; min-width: 0; }
+    .notice-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+    .notice-cat {
+      font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--gold); background: rgba(201,151,43,0.1); border: 1px solid rgba(201,151,43,0.2);
+      padding: 2px 8px; border-radius: 50px;
+    }
+    .notice-date { font-size: 12px; color: var(--muted); }
+    .urgent-badge {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: #ff6b6b; background: rgba(220,60,60,0.1); border: 1px solid rgba(220,60,60,0.25);
+      padding: 2px 8px; border-radius: 50px;
+    }
+    .notice-title { font-size: 15px; font-weight: 600; color: #fff8eb; line-height: 1.4; margin-bottom: 6px; }
+    .notice-content { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 8px; }
+    .notice-pdf {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600; color: var(--gold-light);
+      background: rgba(201,151,43,0.08); border: 1px solid rgba(201,151,43,0.2);
+      padding: 5px 12px; border-radius: 50px; text-decoration: none; transition: all 0.2s;
+    }
+    .notice-pdf:hover { background: rgba(201,151,43,0.18); }
+
+    /* EMPTY / LOADING */
+    .state-box {
+      text-align: center; padding: 80px 20px; color: var(--muted);
+    }
+    .state-box .icon { font-size: 48px; margin-bottom: 16px; }
+    .state-box p { font-size: 15px; }
+
+    /* PAGINATION */
+    .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 40px; }
+    .page-btn {
+      width: 36px; height: 36px; border-radius: 8px; border: 1px solid rgba(184,134,11,0.2);
+      background: rgba(255,255,255,0.04); color: rgba(255,248,235,0.75);
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+    }
+    .page-btn:hover, .page-btn.active { background: rgba(201,151,43,0.15); border-color: rgba(201,151,43,0.4); color: var(--gold-light); }
+    .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    @media (max-width: 768px) {
+      header { padding: 14px 20px; }
+      .header-title { display: none; }
+      .hero-strip { padding: 36px 20px 28px; }
+      .controls { padding: 20px 20px 14px; }
+      main { padding: 10px 20px 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="header-logo">
+    <div class="logo-emblem">CUSB</div>
+    <div class="logo-text">
+      <div class="name">Central University of South Bihar</div>
+      <div class="sub">Gaya, Bihar — Est. 2009</div>
+    </div>
+  </a>
+  <div class="header-title">Notices &amp; Circulars</div>
+  <a href="index.html" class="back-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Home
+  </a>
+</header>
+
+<div class="hero-strip">
+  <div class="tag">📋 Official Communications</div>
+  <h1>Notices &amp; <em>Circulars</em></h1>
+  <p>Official notices, circulars, and important communications from the Central University of South Bihar.</p>
+</div>
+
+<div class="controls">
+  <div class="search-wrap">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" class="search-input" id="searchInput" placeholder="Search notices…">
+  </div>
+  <button class="filter-btn active" data-cat="all">All</button>
+  <button class="filter-btn" data-cat="Academic">Academic</button>
+  <button class="filter-btn" data-cat="Admission">Admission</button>
+  <button class="filter-btn" data-cat="Examination">Examination</button>
+  <button class="filter-btn" data-cat="Administrative">Administrative</button>
+  <button class="filter-btn" data-cat="General">General</button>
+</div>
+
+<main>
+  <div class="notices-list" id="noticesList">
+    <div class="state-box"><div class="icon">⏳</div><p>Loading notices…</p></div>
+  </div>
+  <div class="pagination" id="pagination"></div>
+</main>
+
+<script>
+const API_BASE = window.APP_CONFIG?.apiBase || 'https://cusb-website.onrender.com/api';
+const UPLOAD_BASE = window.APP_CONFIG?.uploadBase || 'https://cusb-website.onrender.com';
+const PER_PAGE = 15;
+
+let allNotices = [];
+let filtered = [];
+let currentPage = 1;
+let activeCat = 'all';
+
+const CAT_ICON = {
+  Academic: '📚', Admission: '🎓', Examination: '📝',
+  Administrative: '🏛️', Research: '🔬', General: '📋'
+};
+
+async function fetchNotices() {
+  try {
+    const res = await fetch(`${API_BASE}/notices?limit=200`);
+    const json = await res.json();
+    allNotices = json.data || [];
+  } catch(e) {
+    allNotices = [];
+  }
+  applyFilters();
+}
+
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  filtered = allNotices.filter(n => {
+    const matchCat = activeCat === 'all' || n.category === activeCat;
+    const matchSearch = !q || n.title?.toLowerCase().includes(q) || n.content?.toLowerCase().includes(q);
+    return matchCat && matchSearch;
+  });
+  currentPage = 1;
+  render();
+}
+
+function render() {
+  const list = document.getElementById('noticesList');
+  const start = (currentPage - 1) * PER_PAGE;
+  const page = filtered.slice(start, start + PER_PAGE);
+
+  if (!filtered.length) {
+    list.innerHTML = `<div class="state-box"><div class="icon">📭</div><p>No notices found.</p></div>`;
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+
+  list.innerHTML = page.map(n => {
+    const date = new Date(n.date).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'});
+    const icon = CAT_ICON[n.category] || '📋';
+    const pdf = n.pdfUrl ? `<a class="notice-pdf" href="${UPLOAD_BASE}${n.pdfUrl}" target="_blank">📄 Download PDF</a>` : '';
+    const urgentBadge = n.isUrgent ? `<span class="urgent-badge">🔴 Urgent</span>` : '';
+    return `
+      <div class="notice-card${n.isUrgent ? ' urgent' : ''}">
+        <div class="notice-icon">${icon}</div>
+        <div class="notice-body">
+          <div class="notice-meta">
+            <span class="notice-cat">${n.category}</span>
+            <span class="notice-date">${date}</span>
+            ${urgentBadge}
+          </div>
+          <div class="notice-title">${n.title}</div>
+          ${n.content ? `<div class="notice-content">${n.content}</div>` : ''}
+          ${pdf}
+        </div>
+      </div>`;
+  }).join('');
+
+  renderPagination();
+}
+
+function renderPagination() {
+  const total = Math.ceil(filtered.length / PER_PAGE);
+  if (total <= 1) { document.getElementById('pagination').innerHTML = ''; return; }
+  let html = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
+  for (let i = 1; i <= total; i++) {
+    if (total > 7 && Math.abs(i - currentPage) > 2 && i !== 1 && i !== total) {
+      if (i === 2 || i === total - 1) html += `<span style="color:var(--muted);padding:0 4px;">…</span>`;
+      continue;
+    }
+    html += `<button class="page-btn${i===currentPage?' active':''}" onclick="goPage(${i})">${i}</button>`;
+  }
+  html += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===total?'disabled':''}>›</button>`;
+  document.getElementById('pagination').innerHTML = html;
+}
+
+function goPage(p) {
+  currentPage = p;
+  render();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeCat = btn.dataset.cat;
+    applyFilters();
+  });
+});
+
+document.getElementById('searchInput').addEventListener('input', applyFilters);
+
+fetchNotices();
+</script>
+</body>
+</html>

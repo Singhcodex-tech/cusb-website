@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUSB Admin Portal — Student Management</title>
+<style>
+  :root {
+    --gold:#b8860b; --gold-lt:#d4a017; --gold-pale:#fdf8ee;
+    --ink:#2c2418; --muted:#7a6a4f; --red:#c0392b; --green:#1a7a4a;
+    --border:rgba(184,134,11,0.22); --radius:12px;
+    --font:'Segoe UI',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font);background:#f5f0e8;color:var(--ink);min-height:100vh}
+
+  /* ── LOGIN PAGE ── */
+  #loginPage{
+    display:flex;align-items:center;justify-content:center;
+    min-height:100vh;background:linear-gradient(135deg,#1a0a00 0%,#3a1c00 50%,#1a0a00 100%);
+  }
+  .login-card{
+    background:#fff;border-radius:20px;padding:40px 36px;width:100%;max-width:400px;
+    box-shadow:0 24px 80px rgba(0,0,0,0.35);
+  }
+  .login-logo{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+  .login-logo img{width:48px;height:48px;border-radius:8px}
+  .login-logo-text h1{font-size:17px;font-weight:800;color:var(--ink)}
+  .login-logo-text p{font-size:11px;color:var(--muted)}
+  .login-card h2{font-size:20px;font-weight:700;margin-bottom:6px}
+  .login-card .sub{font-size:13px;color:var(--muted);margin-bottom:24px}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px;letter-spacing:.4px;text-transform:uppercase}
+  .field input{
+    width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;
+    font-size:14px;font-family:var(--font);color:var(--ink);outline:none;transition:border .2s;
+  }
+  .field input:focus{border-color:var(--gold)}
+  .btn-login{
+    width:100%;padding:13px;background:linear-gradient(135deg,var(--gold),var(--gold-lt));
+    color:#3A2800;font-weight:700;font-size:14px;border:none;border-radius:10px;cursor:pointer;
+    letter-spacing:.3px;transition:opacity .2s;
+  }
+  .btn-login:hover{opacity:.88}
+  .login-err{background:#fff0f0;color:var(--red);border:1px solid rgba(192,57,43,.2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:14px;display:none}
+  .login-badge{display:inline-block;background:rgba(184,134,11,.1);color:var(--gold);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:20px}
+
+  /* ── ADMIN SHELL ── */
+  #adminPage{display:none;flex-direction:column;min-height:100vh}
+
+  /* Top bar */
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 24px;height:58px;
+    background:linear-gradient(90deg,#1e0c00,#3a1c00);
+    box-shadow:0 2px 12px rgba(0,0,0,0.2);position:sticky;top:0;z-index:100;
+  }
+  .topbar-left{display:flex;align-items:center;gap:12px}
+  .topbar-left img{width:34px;height:34px;border-radius:6px}
+  .topbar-left span{color:#e8c96a;font-weight:700;font-size:15px}
+  .topbar-left small{color:rgba(232,201,106,.55);font-size:11px;margin-left:4px}
+  .topbar-right{display:flex;align-items:center;gap:12px}
+  .admin-badge{background:rgba(232,201,106,.15);color:#e8c96a;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:.5px}
+  #adminNameDisp{color:rgba(232,201,106,.8);font-size:13px}
+  .btn-logout{background:rgba(192,57,43,.18);color:#e8a090;border:1px solid rgba(192,57,43,.3);border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:background .2s}
+  .btn-logout:hover{background:rgba(192,57,43,.32)}
+
+  /* Main content */
+  .main{padding:28px 24px;max-width:1300px;margin:0 auto;width:100%}
+
+  /* Stats row */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:28px}
+  .stat-card{background:#fff;border-radius:var(--radius);padding:18px 20px;border:1px solid var(--border)}
+  .stat-card .sv{font-size:30px;font-weight:800;color:var(--gold)}
+  .stat-card .sk{font-size:12px;color:var(--muted);margin-top:2px}
+
+  /* Table card */
+  .card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;margin-bottom:24px}
+  .card-head{
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+    padding:18px 20px;border-bottom:1px solid var(--border);
+  }
+  .card-head h2{font-size:15px;font-weight:700}
+  .card-head .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .search-box{
+    padding:8px 14px;border:1.5px solid var(--border);border-radius:50px;font-size:13px;
+    width:220px;outline:none;font-family:var(--font);transition:border .2s;
+  }
+  .search-box:focus{border-color:var(--gold)}
+  .btn{
+    padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;
+    border:none;transition:opacity .2s;font-family:var(--font);
+  }
+  .btn:hover{opacity:.82}
+  .btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold-lt));color:#3A2800}
+  .btn-danger{background:var(--red);color:#fff}
+  .btn-edit{background:rgba(26,122,74,.12);color:var(--green);border:1px solid rgba(26,122,74,.25)}
+  .btn-sm{padding:5px 12px;font-size:12px}
+
+  /* Table */
+  .tbl-wrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{background:var(--gold-pale);color:var(--muted);font-weight:700;font-size:11px;letter-spacing:.5px;text-transform:uppercase;padding:10px 16px;text-align:left;border-bottom:1px solid var(--border)}
+  td{padding:12px 16px;border-bottom:1px solid rgba(184,134,11,.08);vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(184,134,11,.03)}
+  .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+  .badge-active{background:rgba(26,122,74,.12);color:var(--green)}
+  .badge-inactive{background:rgba(192,57,43,.1);color:var(--red)}
+  .enroll-id{font-family:monospace;font-size:12px;background:#f5f0e8;padding:2px 8px;border-radius:6px}
+  .no-data{text-align:center;padding:48px;color:var(--muted);font-size:14px}
+  .pagination{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:14px 20px;border-top:1px solid var(--border);font-size:13px}
+  .pg-btn{padding:5px 12px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:12px;font-family:var(--font)}
+  .pg-btn:disabled{opacity:.4;cursor:default}
+  .pg-info{color:var(--muted)}
+
+  /* ── MODAL ── */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(10,5,0,.55);backdrop-filter:blur(3px);
+    display:none;align-items:center;justify-content:center;z-index:9999;padding:16px;
+  }
+  .modal-overlay.open{display:flex}
+  .modal{
+    background:#fff;border-radius:18px;width:100%;max-width:620px;max-height:90vh;
+    overflow-y:auto;box-shadow:0 32px 100px rgba(0,0,0,.3);
+  }
+  .modal-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:20px 24px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:1;
+  }
+  .modal-head h3{font-size:16px;font-weight:700}
+  .modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);line-height:1;padding:4px}
+  .modal-body{padding:24px}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .form-grid .full{grid-column:1/-1}
+  .mfield label{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:5px;letter-spacing:.4px;text-transform:uppercase}
+  .mfield input,.mfield select,.mfield textarea{
+    width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:9px;
+    font-size:13.5px;font-family:var(--font);color:var(--ink);outline:none;transition:border .2s;
+  }
+  .mfield input:focus,.mfield select:focus,.mfield textarea:focus{border-color:var(--gold)}
+  .mfield textarea{resize:vertical;min-height:70px}
+  .mfield select{appearance:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a6a4f' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center/12px,#fff}
+  .modal-foot{display:flex;justify-content:flex-end;gap:10px;padding:16px 24px;border-top:1px solid var(--border)}
+  .btn-cancel{background:#f0ece4;color:var(--muted);border:none}
+  .form-err{color:var(--red);font-size:12px;margin-top:10px;display:none}
+
+  /* Confirm delete modal */
+  #confirmModal .modal{max-width:380px}
+  #confirmModal p{color:var(--muted);font-size:14px;line-height:1.6;margin-top:8px}
+
+  /* Loading */
+  .spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(184,134,11,.3);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .tbl-loading{text-align:center;padding:48px;color:var(--muted)}
+
+  /* Toast */
+  #toast{
+    position:fixed;bottom:28px;right:24px;padding:12px 20px;border-radius:10px;
+    font-size:13px;font-weight:600;z-index:99999;
+    transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;
+  }
+  #toast.show{transform:translateY(0);opacity:1}
+  #toast.success{background:#1a7a4a;color:#fff}
+  #toast.error{background:var(--red);color:#fff}
+
+  @media(max-width:600px){
+    .form-grid{grid-template-columns:1fr}
+    .form-grid .full{grid-column:1}
+    .main{padding:16px}
+    .card-head{flex-direction:column;align-items:flex-start}
+    .search-box{width:100%}
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════ LOGIN PAGE ════════════════ -->
+<div id="loginPage">
+  <div class="login-card">
+    <div class="login-logo">
+      <img src="https://i.postimg.cc/3Nst0B3t/cusb-logo.png" alt="CUSB" onerror="this.style.display='none'">
+      <div class="login-logo-text">
+        <h1>CUSB Admin Portal</h1>
+        <p>Central University of South Bihar</p>
+      </div>
+    </div>
+    <div class="login-badge">🔒 Admin Access Only</div>
+    <h2>Sign In</h2>
+    <p class="sub">Use your admin credentials to access student management.</p>
+    <div class="login-err" id="loginErr"></div>
+    <div class="field"><label>Admin ID / Email</label><input type="text" id="lgId" placeholder="admin@cusb.ac.in" autocomplete="username"></div>
+    <div class="field"><label>Password</label><input type="password" id="lgPass" placeholder="Enter admin password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="btn-login" onclick="doLogin()" id="loginBtn">Sign In as Admin →</button>
+  </div>
+</div>
+
+<!-- ════════════════ ADMIN PAGE ════════════════ -->
+<div id="adminPage">
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <img src="https://i.postimg.cc/3Nst0B3t/cusb-logo.png" alt="CUSB" onerror="this.style.display='none'">
+      <div>
+        <span>CUSB Admin Portal</span>
+        <small>Student Management System</small>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span class="admin-badge">ADMIN</span>
+      <span id="adminNameDisp"></span>
+      <button class="btn-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat-card"><div class="sv" id="statTotal">—</div><div class="sk">Total Students</div></div>
+      <div class="stat-card"><div class="sv" id="statActive">—</div><div class="sk">Active Students</div></div>
+      <div class="stat-card"><div class="sv" id="statPage">—</div><div class="sk">Showing (page)</div></div>
+    </div>
+
+    <!-- Table card -->
+    <div class="card">
+      <div class="card-head">
+        <h2>Student Records</h2>
+        <div class="actions">
+          <input type="text" class="search-box" id="searchBox" placeholder="🔍  Search name, ID, program…" oninput="debounceSearch()">
+          <button class="btn btn-primary" onclick="openAdd()">+ Add Student</button>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table id="studentTable">
+          <thead>
+            <tr>
+              <th>Enrollment ID</th>
+              <th>Name</th>
+              <th>Program</th>
+              <th>Sem</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="studentBody">
+            <tr><td colspan="7" class="tbl-loading"><span class="spinner"></span>Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <span class="pg-info" id="pgInfo"></span>
+        <button class="pg-btn" id="pgPrev" onclick="goPage(-1)" disabled>← Prev</button>
+        <button class="pg-btn" id="pgNext" onclick="goPage(1)">Next →</button>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /adminPage -->
+
+<!-- ════ ADD / EDIT MODAL ════ -->
+<div class="modal-overlay" id="formModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">Add Student</h3>
+      <button class="modal-close" onclick="closeModal('formModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="mfield"><label>Enrollment ID *</label><input type="text" id="f-eid" placeholder="e.g. CUSB26001"></div>
+        <div class="mfield"><label>Full Name *</label><input type="text" id="f-name" placeholder="Student full name"></div>
+        <div class="mfield"><label>Email *</label><input type="email" id="f-email" placeholder="student@cusb.ac.in"></div>
+        <div class="mfield"><label>Phone</label><input type="tel" id="f-phone" placeholder="+91 98765 43210"></div>
+        <div class="mfield"><label>Gender</label>
+          <select id="f-gender"><option value="">— Select —</option><option>Male</option><option>Female</option><option>Other</option></select>
+        </div>
+        <div class="mfield"><label>Date of Birth</label><input type="date" id="f-dob"></div>
+        <div class="mfield"><label>Category</label>
+          <select id="f-cat"><option>General</option><option>OBC</option><option>SC</option><option>ST</option><option>EWS</option><option>Other</option></select>
+        </div>
+        <div class="mfield"><label>Semester *</label>
+          <select id="f-sem"><option value="">— Select —</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>
+        </div>
+        <div class="mfield full"><label>Program *</label><input type="text" id="f-prog" placeholder="e.g. B.Tech Computer Science"></div>
+        <div class="mfield full"><label>School *</label><input type="text" id="f-school" placeholder="e.g. School of Technology"></div>
+        <div class="mfield"><label>Academic Year</label><input type="text" id="f-ay" placeholder="e.g. 2024-25"></div>
+        <div class="mfield"><label>Admission Year</label><input type="number" id="f-admyr" placeholder="2024" min="2000" max="2099"></div>
+        <div class="mfield full"><label>Address</label><textarea id="f-addr" placeholder="Permanent address"></textarea></div>
+        <div class="mfield"><label>Guardian Name</label><input type="text" id="f-gname" placeholder="Parent / Guardian"></div>
+        <div class="mfield"><label>Guardian Phone</label><input type="tel" id="f-gphone" placeholder="+91 …"></div>
+        <div class="mfield full" id="activeField" style="display:none"><label>Status</label>
+          <select id="f-active"><option value="true">Active</option><option value="false">Inactive</option></select>
+        </div>
+      </div>
+      <div class="form-err" id="formErr"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-cancel" onclick="closeModal('formModal')">Cancel</button>
+      <button class="btn btn-primary" id="saveBtn" onclick="saveStudent()">Save Student</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ CONFIRM DELETE MODAL ════ -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Delete Student</h3>
+      <button class="modal-close" onclick="closeModal('confirmModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p>Are you sure you want to permanently delete <strong id="delName"></strong>? This cannot be undone.</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-cancel" onclick="closeModal('confirmModal')">Cancel</button>
+      <button class="btn btn-danger" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+// ── Config ──
+const API = (window.APP_CONFIG && window.APP_CONFIG.apiBase) || 'https://cusb-website.onrender.com/api';
+let token = sessionStorage.getItem('cusbAdminToken') || '';
+let adminUser = null;
+let currentPage = 1;
+let totalPages  = 1;
+let searchTerm  = '';
+let editId      = null;
+let deleteId    = null;
+let searchTimer = null;
+
+// ── Init ──
+window.onload = () => {
+  if (token) {
+    verifyAndEnter();
+  }
+};
+
+// ── Login ──
+async function doLogin() {
+  const id   = document.getElementById('lgId').value.trim();
+  const pass = document.getElementById('lgPass').value.trim();
+  const err  = document.getElementById('loginErr');
+  const btn  = document.getElementById('loginBtn');
+  err.style.display = 'none';
+  if (!id || !pass) { showErr(err, 'Please enter credentials.'); return; }
+  btn.textContent = '⏳ Signing in…';
+  btn.disabled = true;
+  try {
+    const r = await fetch(API + '/portal/login', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ username: id, password: pass, role: 'admin' })
+    });
+    const d = await r.json();
+    if (!d.success) { showErr(err, d.message || 'Invalid credentials.'); btn.textContent='Sign In as Admin →'; btn.disabled=false; return; }
+    if (d.user.role !== 'admin') { showErr(err, 'This account does not have admin privileges.'); btn.textContent='Sign In as Admin →'; btn.disabled=false; return; }
+    token = d.token;
+    adminUser = d.user;
+    sessionStorage.setItem('cusbAdminToken', token);
+    sessionStorage.setItem('cusbAdminUser', JSON.stringify(adminUser));
+    enterAdmin();
+  } catch(e) {
+    showErr(err, 'Could not reach server. Check your connection.');
+    btn.textContent = 'Sign In as Admin →'; btn.disabled = false;
+  }
+}
+
+async function verifyAndEnter() {
+  try {
+    const r = await fetch(API + '/portal/me', { headers:{ Authorization:'Bearer '+token } });
+    const d = await r.json();
+    if (!d.success || d.data.role !== 'admin') { doLogout(); return; }
+    adminUser = d.data;
+    enterAdmin();
+  } catch(e) { doLogout(); }
+}
+
+function enterAdmin() {
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('adminPage').style.display = 'flex';
+  document.getElementById('adminNameDisp').textContent = adminUser.name || adminUser.username;
+  loadStudents();
+}
+
+function doLogout() {
+  token = ''; adminUser = null;
+  sessionStorage.removeItem('cusbAdminToken');
+  sessionStorage.removeItem('cusbAdminUser');
+  document.getElementById('loginPage').style.display = 'flex';
+  document.getElementById('adminPage').style.display = 'none';
+}
+
+// ── Load Students ──
+async function loadStudents() {
+  const tbody = document.getElementById('studentBody');
+  tbody.innerHTML = '<tr><td colspan="7" class="tbl-loading"><span class="spinner"></span>Loading…</td></tr>';
+  try {
+    const url = `${API}/students?page=${currentPage}&limit=15&search=${encodeURIComponent(searchTerm)}`;
+    const r = await fetch(url, { headers:{ Authorization:'Bearer '+token } });
+    const d = await r.json();
+    if (!d.success) { tbody.innerHTML=`<tr><td colspan="7" class="no-data">Error: ${d.message}</td></tr>`; return; }
+    totalPages = d.pages || 1;
+    document.getElementById('statTotal').textContent = d.total;
+    document.getElementById('statPage').textContent  = d.data.length;
+    document.getElementById('pgInfo').textContent    = `Page ${currentPage} of ${totalPages} (${d.total} total)`;
+    document.getElementById('pgPrev').disabled = currentPage <= 1;
+    document.getElementById('pgNext').disabled = currentPage >= totalPages;
+    // Count active
+    const activeCount = d.data.filter(s => s.active !== false).length;
+    document.getElementById('statActive').textContent = d.total; // approximate; server doesn't send full count
+
+    if (!d.data.length) {
+      tbody.innerHTML = '<tr><td colspan="7" class="no-data">No students found.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = d.data.map(s => `
+      <tr>
+        <td><span class="enroll-id">${esc(s.enrollmentId)}</span></td>
+        <td><strong>${esc(s.name)}</strong></td>
+        <td>${esc(s.program)}</td>
+        <td>${s.semester || '—'}</td>
+        <td>${esc(s.email)}</td>
+        <td><span class="badge ${s.active===false?'badge-inactive':'badge-active'}">${s.active===false?'Inactive':'Active'}</span></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-edit btn-sm" onclick="openEdit('${s._id}')">Edit</button>
+          <button class="btn btn-danger btn-sm" style="margin-left:4px" onclick="openDelete('${s._id}','${esc(s.name)}')">Delete</button>
+        </td>
+      </tr>`).join('');
+  } catch(e) {
+    tbody.innerHTML = `<tr><td colspan="7" class="no-data">Failed to load: ${e.message}</td></tr>`;
+  }
+}
+
+function goPage(dir) {
+  currentPage = Math.max(1, Math.min(totalPages, currentPage + dir));
+  loadStudents();
+}
+
+function debounceSearch() {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    searchTerm  = document.getElementById('searchBox').value.trim();
+    currentPage = 1;
+    loadStudents();
+  }, 380);
+}
+
+// ── Add Modal ──
+function openAdd() {
+  editId = null;
+  document.getElementById('modalTitle').textContent = 'Add Student';
+  document.getElementById('activeField').style.display = 'none';
+  clearForm();
+  openModal('formModal');
+}
+
+// ── Edit Modal ──
+async function openEdit(id) {
+  editId = id;
+  document.getElementById('modalTitle').textContent = 'Edit Student';
+  document.getElementById('activeField').style.display = 'block';
+  clearForm();
+  openModal('formModal');
+  try {
+    const r = await fetch(`${API}/students/${id}`, { headers:{ Authorization:'Bearer '+token } });
+    const d = await r.json();
+    if (!d.success) { toast('Failed to load student', 'error'); return; }
+    const s = d.data;
+    setField('f-eid',    s.enrollmentId, true);
+    setField('f-name',   s.name);
+    setField('f-email',  s.email);
+    setField('f-phone',  s.phone);
+    setField('f-gender', s.gender);
+    setField('f-dob',    s.dob ? s.dob.slice(0,10) : '');
+    setField('f-cat',    s.category);
+    setField('f-sem',    s.semester);
+    setField('f-prog',   s.program);
+    setField('f-school', s.school);
+    setField('f-ay',     s.academicYear);
+    setField('f-admyr',  s.admissionYear);
+    setField('f-addr',   s.address);
+    setField('f-gname',  s.guardianName);
+    setField('f-gphone', s.guardianPhone);
+    setField('f-active', String(s.active !== false));
+  } catch(e) { toast('Error loading student', 'error'); }
+}
+
+// ── Save ──
+async function saveStudent() {
+  const errEl = document.getElementById('formErr');
+  errEl.style.display = 'none';
+  const body = {
+    enrollmentId: v('f-eid'), name: v('f-name'), email: v('f-email'),
+    phone: v('f-phone'), gender: v('f-gender'), dob: v('f-dob') || undefined,
+    category: v('f-cat'), semester: parseInt(v('f-sem'))||undefined,
+    program: v('f-prog'), school: v('f-school'),
+    academicYear: v('f-ay'), admissionYear: parseInt(v('f-admyr'))||undefined,
+    address: v('f-addr'), guardianName: v('f-gname'), guardianPhone: v('f-gphone'),
+  };
+  if (editId) body.active = v('f-active') === 'true';
+
+  if (!body.enrollmentId||!body.name||!body.email||!body.program||!body.school||!body.semester) {
+    showErr(errEl, 'Please fill all required fields (*).'); return;
+  }
+  const btn = document.getElementById('saveBtn');
+  btn.textContent = '⏳ Saving…'; btn.disabled = true;
+  try {
+    const url    = editId ? `${API}/students/${editId}` : `${API}/students`;
+    const method = editId ? 'PUT' : 'POST';
+    const r = await fetch(url, {
+      method, headers:{ 'Content-Type':'application/json', Authorization:'Bearer '+token },
+      body: JSON.stringify(body)
+    });
+    const d = await r.json();
+    if (!d.success) { showErr(errEl, d.message || 'Save failed.'); btn.textContent='Save Student'; btn.disabled=false; return; }
+    toast(editId ? 'Student updated ✓' : 'Student added ✓', 'success');
+    closeModal('formModal');
+    loadStudents();
+  } catch(e) {
+    showErr(errEl, 'Network error: ' + e.message);
+    btn.textContent = 'Save Student'; btn.disabled = false;
+  }
+}
+
+// ── Delete ──
+function openDelete(id, name) {
+  deleteId = id;
+  document.getElementById('delName').textContent = name;
+  openModal('confirmModal');
+}
+async function confirmDelete() {
+  if (!deleteId) return;
+  try {
+    const r = await fetch(`${API}/students/${deleteId}`, {
+      method:'DELETE', headers:{ Authorization:'Bearer '+token }
+    });
+    const d = await r.json();
+    toast(d.success ? 'Student deleted' : d.message, d.success ? 'success' : 'error');
+    if (d.success) { closeModal('confirmModal'); loadStudents(); }
+  } catch(e) { toast('Delete failed', 'error'); }
+}
+
+// ── Helpers ──
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.getElementById('saveBtn').textContent = 'Save Student';
+  document.getElementById('saveBtn').disabled = false;
+  document.getElementById('loginBtn').textContent = 'Sign In as Admin →';
+  document.getElementById('loginBtn').disabled = false;
+}
+function v(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function setField(id, val, disabled) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.value = val != null ? val : '';
+  el.disabled = !!disabled;
+}
+function clearForm() {
+  ['f-eid','f-name','f-email','f-phone','f-dob','f-prog','f-school','f-ay','f-admyr','f-addr','f-gname','f-gphone']
+    .forEach(id => { const e=document.getElementById(id); if(e){ e.value=''; e.disabled=false; } });
+  setField('f-gender',''); setField('f-cat','General'); setField('f-sem',''); setField('f-active','true');
+  document.getElementById('formErr').style.display='none';
+}
+function esc(s) { if(!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function showErr(el, msg) { el.textContent = msg; el.style.display = 'block'; }
+let toastTimer;
+function toast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.classList.remove('show'); }, 3000);
+}
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(o => {
+  o.addEventListener('click', e => { if(e.target===o) o.classList.remove('open'); });
+});
+</script>
+</body>
+</html>

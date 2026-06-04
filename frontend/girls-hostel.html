@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Girls Hostel — CUSB Campus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0a1628;--navy2:#0f1f3d;--gold:#b8860b;--gold-light:#d4a017;--gold-mid:#c9972b;
+  --c:#f48fb1;
+  --rgb:244,143,177;
+  --text:#e8e0d0;--text2:rgba(232,224,208,0.70);
+}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* ── STARS BG ── */
+body::before{content:'';position:fixed;inset:0;background:
+  radial-gradient(ellipse at 20% 50%,rgba(var(--rgb),0.04) 0%,transparent 60%),
+  radial-gradient(ellipse at 80% 20%,rgba(var(--rgb),0.03) 0%,transparent 50%),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%230a1628' width='400' height='400'/%3E%3Ccircle cx='50' cy='80' r='1' fill='rgba(255,255,255,0.4)'/%3E%3Ccircle cx='120' cy='200' r='0.8' fill='rgba(255,255,255,0.3)'/%3E%3Ccircle cx='200' cy='40' r='1.2' fill='rgba(255,255,255,0.5)'/%3E%3Ccircle cx='310' cy='150' r='0.6' fill='rgba(255,255,255,0.35)'/%3E%3Ccircle cx='370' cy='300' r='1' fill='rgba(255,255,255,0.4)'/%3E%3Ccircle cx='80' cy='350' r='0.7' fill='rgba(255,255,255,0.25)'/%3E%3Ccircle cx='260' cy='260' r='0.9' fill='rgba(255,255,255,0.3)'/%3E%3Ccircle cx='340' cy='60' r='0.8' fill='rgba(255,255,255,0.45)'/%3E%3Ccircle cx='160' cy='320' r='1.1' fill='rgba(255,255,255,0.35)'/%3E%3Ccircle cx='30' cy='180' r='0.7' fill='rgba(255,255,255,0.4)'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0}
+
+/* ── TOPBAR ── */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;gap:16px;padding:0 32px;height:60px;background:rgba(10,22,40,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(var(--rgb),0.2)}
+.topbar-back{display:flex;align-items:center;gap:8px;color:var(--c);text-decoration:none;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;transition:opacity .2s}
+.topbar-back:hover{opacity:.7}
+.topbar-back svg{width:16px;height:16px}
+.topbar-sep{color:rgba(255,255,255,.2);font-size:18px}
+.topbar-title{font-family:'Playfair Display',serif;font-size:15px;color:var(--text);opacity:.8}
+.topbar-num{margin-left:auto;font-size:11px;font-weight:700;letter-spacing:0.18em;color:var(--c);opacity:.6}
+
+/* ── HERO ── */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:100px 24px 60px;z-index:1}
+.hero-inner{text-align:center;max-width:720px}
+.planet-orb{width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f48fb1,#c2185b 60%,#880e4f);
+  box-shadow:0 0 0 16px rgba(var(--rgb),0.06),0 0 60px rgba(var(--rgb),0.35),0 0 120px rgba(var(--rgb),0.15),inset -8px -8px 20px rgba(0,0,0,.5),inset 6px 6px 14px rgba(255,255,255,.12);
+  margin:0 auto 32px;animation:pulse 4s ease-in-out infinite;position:relative}
+.planet-ring-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotateX(72deg);width:190px;height:40px;border-radius:50%;border:2px solid rgba(var(--rgb),0.35);pointer-events:none}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 16px rgba(var(--rgb),0.06),0 0 60px rgba(var(--rgb),0.35),0 0 120px rgba(var(--rgb),0.15),inset -8px -8px 20px rgba(0,0,0,.5),inset 6px 6px 14px rgba(255,255,255,.12)}50%{box-shadow:0 0 0 24px rgba(var(--rgb),0.08),0 0 80px rgba(var(--rgb),0.5),0 0 160px rgba(var(--rgb),0.2),inset -8px -8px 20px rgba(0,0,0,.5),inset 6px 6px 14px rgba(255,255,255,.12)}}
+.hero-num{font-size:11px;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:var(--c);margin-bottom:10px;opacity:.75}
+.hero-name{font-family:'Playfair Display',serif;font-size:clamp(2rem,6vw,3.8rem);font-weight:900;line-height:1.1;color:#fff;margin-bottom:8px}
+.hero-sub{font-size:14px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--c);margin-bottom:24px;opacity:.8}
+.hero-desc{font-size:16px;line-height:1.75;color:var(--text2);max-width:580px;margin:0 auto 36px}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:50px;background:var(--c);color:#0a1628;font-weight:700;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.hero-cta:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(var(--rgb),.4)}
+.hero-tagline{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:16px}
+
+/* ── FACTS ── */
+.facts-strip{position:relative;z-index:1;padding:0 24px 60px}
+.facts-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+.fact-card{background:rgba(255,255,255,.03);border:1px solid rgba(var(--rgb),.18);border-radius:16px;padding:24px 20px;text-align:center;transition:transform .25s,border-color .25s}
+.fact-card:hover{transform:translateY(-4px);border-color:rgba(var(--rgb),.4)}
+.fact-icon{font-size:28px;margin-bottom:10px}
+.fact-label{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--c);opacity:.7;margin-bottom:6px}
+.fact-val{font-size:15px;font-weight:600;color:var(--text)}
+
+/* ── SECTIONS ── */
+.content{position:relative;z-index:1;padding:0 24px 80px}
+.content-inner{max-width:900px;margin:0 auto}
+.section-heading{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:700;color:#fff;text-align:center;margin-bottom:40px}
+.section-heading span{color:var(--c)}
+.sections-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:24px}
+.section-card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-left:3px solid var(--c);border-radius:0 16px 16px 0;padding:28px 28px 28px 24px;transition:background .25s}
+.section-card:hover{background:rgba(var(--rgb),.05)}
+.section-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#fff;margin-bottom:12px}
+.section-body{font-size:14px;line-height:1.8;color:var(--text2)}
+
+/* ── EXPLORE OTHER PLANETS ── */
+.explore{position:relative;z-index:1;padding:0 24px 80px}
+.explore-inner{max-width:900px;margin:0 auto}
+.explore-heading{font-family:'Playfair Display',serif;font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:700;color:#fff;text-align:center;margin-bottom:28px}
+.explore-heading span{color:var(--c)}
+.planet-nav-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.planet-nav-link{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;border:1px solid rgba(var(--c-raw,255,255,255),.2);color:var(--c);font-size:12px;font-weight:600;letter-spacing:.06em;text-decoration:none;background:rgba(255,255,255,.025);transition:background .2s,border-color .2s,transform .2s}
+.planet-nav-link:hover{background:rgba(255,255,255,.06);border-color:var(--c);transform:translateY(-2px)}
+
+/* ── FOOTER ── */
+.page-footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.07);padding:32px 24px;text-align:center}
+.footer-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:var(--gold-mid);letter-spacing:.05em;margin-bottom:6px}
+.footer-sub{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.footer-back{display:inline-block;margin-top:20px;padding:10px 24px;border-radius:50px;border:1px solid rgba(var(--rgb),.3);color:var(--c);font-size:12px;font-weight:600;letter-spacing:.1em;text-decoration:none;text-transform:uppercase;transition:background .2s}
+.footer-back:hover{background:rgba(var(--rgb),.1)}
+
+/* ── DIVIDER ── */
+.divider{max-width:900px;margin:0 auto 60px;border:none;border-top:1px solid rgba(255,255,255,.06)}
+
+@media(max-width:600px){
+  .topbar{padding:0 16px}
+  .sections-grid{grid-template-columns:1fr}
+  .facts-inner{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <a href="index.html" class="topbar-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Back to CUSB
+  </a>
+  <span class="topbar-sep">·</span>
+  <span class="topbar-title">Campus Buildings</span>
+  <span class="topbar-num">#07</span>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="planet-orb"></div>
+    <div class="hero-num">Building 07 &nbsp;·&nbsp; CUSB Campus</div>
+    <h1 class="hero-name">Girls Hostel</h1>
+    <div class="hero-sub">Student Residence — Female</div>
+    <p class="hero-desc">Safe and comfortable residential facility for female students — with in-house dining, recreation spaces, wellness support, and round-the-clock security. Designed to empower students to focus on academics in a nurturing environment.</p>
+    <a href="https://cusb.ac.in" target="_blank" rel="noopener" class="hero-cta">
+      🏡 Visit Official Site
+    </a>
+    <div class="hero-tagline">Safe, Comfortable & Empowering</div>
+  </div>
+</section>
+
+<!-- FACTS -->
+<section class="facts-strip">
+  <div class="facts-inner">
+    
+        <div class="fact-card">
+          <div class="fact-icon">🛏️</div>
+          <div class="fact-label">Capacity</div>
+          <div class="fact-val">150+ Beds</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-icon">🍽️</div>
+          <div class="fact-label">Dining</div>
+          <div class="fact-val">In-Hostel Mess</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-icon">🔒</div>
+          <div class="fact-label">Security</div>
+          <div class="fact-val">Women Wardens</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-icon">💆</div>
+          <div class="fact-label">Wellness</div>
+          <div class="fact-val">Counselling Support</div>
+        </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTENT SECTIONS -->
+<section class="content">
+  <div class="content-inner">
+    <h2 class="section-heading">About <span>Girls Hostel</span></h2>
+    <div class="sections-grid">
+      
+        <div class="section-card">
+          <h3 class="section-title">Accommodation</h3>
+          <p class="section-body">Comfortable single and double occupancy rooms with study desks, built-in storage, and 24-hour hot water. Room allotment is handled through the Dean of Students' office.</p>
+        </div>
+        <div class="section-card">
+          <h3 class="section-title">Dining & Nutrition</h3>
+          <p class="section-body">In-hostel mess serving nutritionally balanced meals — breakfast, lunch, evening snacks, and dinner. Special dietary accommodations available on request from the warden.</p>
+        </div>
+        <div class="section-card">
+          <h3 class="section-title">Recreation & Wellness</h3>
+          <p class="section-body">Indoor recreation room, yoga and meditation corner, and access to a professional counsellor. Regular wellness workshops and cultural activities keep residents engaged.</p>
+        </div>
+        <div class="section-card">
+          <h3 class="section-title">Safety & Warden System</h3>
+          <p class="section-body">Exclusively female warden team, biometric entry, high-resolution CCTV, and periodic safety audits. Emergency helpline connected to campus security control room.</p>
+        </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EXPLORE OTHER PLANETS -->
+<section class="explore">
+  <div class="explore-inner">
+    <h2 class="explore-heading">Explore Other <span>Campus Buildings</span></h2>
+    <div class="planet-nav-grid">
+      <a href="admin.html" class="planet-nav-link" style="--c:#ff8a80">🏛️ Admin Block</a><a href="aryabhata.html" class="planet-nav-link" style="--c:#6ec6ff">🔭 Aryabhata Block</a><a href="malviya.html" class="planet-nav-link" style="--c:#ffe066">🎭 Malviya Block</a><a href="chanakya.html" class="planet-nav-link" style="--c:#69f0ae">⚖️ Chanakya Block</a><a href="vlc.html" class="planet-nav-link" style="--c:#ce93d8">📡 VLC</a><a href="boys-hostel.html" class="planet-nav-link" style="--c:#4fc3f7">🏠 Boys Hostel</a><a href="sports.html" class="planet-nav-link" style="--c:#a5d6a7">🏅 Milkha Singh Sports Complex</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="page-footer">
+  <div class="footer-logo">CUSB</div>
+  <div class="footer-sub">Central University of South Bihar · Gaya, Bihar · Est. 2009</div>
+  <a href="index.html" class="footer-back">← Return to Home</a>
+</footer>
+
+</body>
+</html>

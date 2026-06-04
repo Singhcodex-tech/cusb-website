@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty Directory — Central University of South Bihar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0D1B2A;
+      --deep: #12201A;
+      --gold: #C9972B;
+      --gold-light: #F0C060;
+      --gold-mid: #E0A830;
+      --ink: #1A1510;
+      --muted: rgba(255,248,235,0.55);
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(184,134,11,0.18);
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: #fff8eb;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, #0a1520, #111a10);
+      border-bottom: 1px solid rgba(184,134,11,0.25);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+    .logo-emblem {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 14px; font-weight: 900;
+      color: var(--navy);
+      flex-shrink: 0;
+    }
+    .logo-text .name { font-size: 14px; font-weight: 700; color: #fff8eb; line-height: 1.2; }
+    .logo-text .sub { font-size: 11px; color: rgba(201,151,43,0.7); letter-spacing: .06em; }
+    .header-title {
+      flex: 1;
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gold-light);
+      padding-left: 20px;
+      border-left: 1px solid rgba(184,134,11,0.3);
+    }
+    .back-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 16px;
+      border-radius: 50px;
+      border: 1px solid rgba(184,134,11,0.3);
+      background: rgba(201,151,43,0.08);
+      color: var(--gold-light);
+      text-decoration: none;
+      font-size: 13px; font-weight: 600;
+      transition: all 0.2s;
+    }
+    .back-btn:hover { background: rgba(201,151,43,0.18); }
+
+    /* ── HERO STRIP ── */
+    .hero-strip {
+      background: linear-gradient(135deg, #0f1e10, #0a1520);
+      padding: 50px 60px 40px;
+      border-bottom: 1px solid rgba(184,134,11,0.15);
+    }
+    .hero-strip .tag {
+      display: inline-block;
+      font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--gold); font-weight: 600;
+      background: rgba(201,151,43,0.1);
+      border: 1px solid rgba(201,151,43,0.2);
+      padding: 5px 14px; border-radius: 50px;
+      margin-bottom: 16px;
+    }
+    .hero-strip h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .hero-strip h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-strip p {
+      font-size: 15px; color: var(--muted); max-width: 560px; line-height: 1.7;
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      display: flex; gap: 0;
+      background: rgba(0,0,0,0.2);
+      border-bottom: 1px solid rgba(184,134,11,0.15);
+      padding: 0 60px;
+    }
+    .stat-item {
+      padding: 18px 32px;
+      border-right: 1px solid rgba(184,134,11,0.12);
+      text-align: center;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900; color: var(--gold-light); }
+    .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-top: 2px; }
+
+    /* ── CONTROLS ── */
+    .controls {
+      padding: 30px 60px 20px;
+      display: flex; gap: 14px; flex-wrap: wrap; align-items: center;
+    }
+    .search-wrap {
+      position: relative; flex: 1; min-width: 240px;
+    }
+    .search-wrap svg {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      color: var(--muted); pointer-events: none;
+    }
+    .search-input {
+      width: 100%;
+      padding: 11px 14px 11px 40px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(184,134,11,0.2);
+      border-radius: 10px;
+      color: #fff8eb;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-input::placeholder { color: var(--muted); }
+    .search-input:focus { border-color: rgba(201,151,43,0.5); }
+    .filter-btn {
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: 1px solid rgba(184,134,11,0.2);
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,248,235,0.75);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px; font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: rgba(201,151,43,0.15);
+      border-color: rgba(201,151,43,0.4);
+      color: var(--gold-light);
+    }
+
+    /* ── MAIN CONTENT ── */
+    main { padding: 10px 60px 60px; }
+
+    /* ── SCHOOL SECTION ── */
+    .school-section { margin-bottom: 48px; }
+    .school-header {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(184,134,11,0.2);
+    }
+    .school-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .school-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px; font-weight: 700;
+      color: #fff8eb;
+    }
+    .school-count {
+      margin-left: auto;
+      font-size: 12px; color: var(--muted);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(184,134,11,0.15);
+      padding: 4px 12px; border-radius: 50px;
+    }
+
+    /* ── FACULTY GRID ── */
+    .faculty-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .fac-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(184,134,11,0.14);
+      border-radius: 16px;
+      padding: 22px;
+      transition: transform 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .fac-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(201,151,43,0.35);
+      background: rgba(255,255,255,0.05);
+    }
+    .fac-top { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .fac-avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 18px; font-weight: 900; color: #fff;
+      flex-shrink: 0;
+    }
+    .fac-name { font-size: 15px; font-weight: 700; color: #fff8eb; line-height: 1.3; }
+    .fac-role { font-size: 12px; color: var(--gold); margin-top: 2px; }
+    .fac-email {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12.5px;
+      color: rgba(201,151,43,0.75);
+      text-decoration: none;
+      transition: color 0.2s;
+      margin-bottom: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .fac-email:hover { color: var(--gold-light); }
+    .fac-spec {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+      padding-top: 12px;
+      border-top: 1px solid rgba(184,134,11,0.1);
+    }
+    .fac-spec strong { color: rgba(255,248,235,0.5); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 30px 40px;
+      border-top: 1px solid rgba(184,134,11,0.15);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { color: var(--gold-light); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      header { padding: 16px 20px; }
+      .hero-strip { padding: 30px 24px; }
+      .stats-bar { padding: 0 24px; overflow-x: auto; }
+      .controls { padding: 20px 24px; }
+      main { padding: 10px 24px 40px; }
+      .faculty-grid { grid-template-columns: 1fr; }
+      .header-title { font-size: 15px; }
+    }
+
+    /* ── HIDDEN ── */
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="index.html" class="header-logo">
+    <div class="logo-emblem">CUSB</div>
+    <div class="logo-text">
+      <div class="name">Central University of South Bihar</div>
+      <div class="sub">Est. 2009 · Gaya, Bihar</div>
+    </div>
+  </a>
+  <div class="header-title">Faculty Directory</div>
+  <a href="index.html" class="back-btn">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Home
+  </a>
+</header>
+
+<!-- HERO -->
+<div class="hero-strip">
+  <div class="tag">Academic Staff</div>
+  <h1>Faculty <em>Directory</em></h1>
+  <p>Meet the distinguished scholars, researchers, and educators who form the academic backbone of Central University of South Bihar.</p>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num">120+</div><div class="stat-label">Faculty Members</div></div>
+  <div class="stat-item"><div class="stat-num">10+</div><div class="stat-label">Schools</div></div>
+  <div class="stat-item"><div class="stat-num">30+</div><div class="stat-label">Departments</div></div>
+  <div class="stat-item"><div class="stat-num">UGC</div><div class="stat-label">Recognised</div></div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="search-wrap">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" class="search-input" id="searchInput" placeholder="Search faculty by name, department or specialization…" oninput="filterFaculty()">
+  </div>
+  <button class="filter-btn active" onclick="filterByRole('all', this)">All</button>
+  <button class="filter-btn" onclick="filterByRole('professor', this)">Professors</button>
+  <button class="filter-btn" onclick="filterByRole('associate', this)">Associate Profs</button>
+  <button class="filter-btn" onclick="filterByRole('assistant', this)">Assistant Profs</button>
+</div>
+
+<!-- MAIN -->
+<main id="mainContent">
+
+  <!-- School of Life Sciences -->
+  <div class="school-section" data-school="life-sciences">
+    <div class="school-header">
+      <div class="school-icon" style="background:rgba(100,230,174,0.12);">🔬</div>
+      <div class="school-name">School of Life Sciences</div>
+      <div class="school-count">Bioinformatics · Botany · Zoology · Microbiology · Biochemistry · Environmental Science</div>
+    </div>
+    <div class="faculty-grid">
+
+      <!-- Bioinformatics -->
+      <div class="fac-card" data-role="professor"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#1565c0,#6ec6ff);">RS</div><div><div class="fac-name">Prof. R.S. Rathore</div><div class="fac-role">Professor &amp; Head — Bioinformatics</div></div></div><a class="fac-email" href="mailto:rrsrathore@cusb.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>rrsrathore@cusb.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Structural Biology &amp; X-ray Crystallography, Molecular Modelling &amp; Drug Design, Data Science</div></div>
+
+      <div class="fac-card" data-role="professor"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#00897b,#69f0ae);">AS</div><div><div class="fac-name">Dr. Asheesh Shanker</div><div class="fac-role">Professor — Bioinformatics</div></div></div><a class="fac-email" href="mailto:asheesh@cusb.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>asheesh@cusb.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Sequence Analysis, Evolutionary Structure Analysis, Data Mining, Database &amp; Server Development</div></div>
+
+      <div class="fac-card" data-role="assistant"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#6a1b9a,#ce93d8);">KO</div><div><div class="fac-name">Dr. Krishna Kumar Ojha</div><div class="fac-role">Assistant Professor — Bioinformatics</div></div></div><a class="fac-email" href="mailto:kris@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>kris@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> High Performance Computing, Database Designing, MD Simulation of Biomolecules</div></div>
+
+      <div class="fac-card" data-role="assistant"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#bf360c,#ff8a80);">DV</div><div><div class="fac-name">Dr. Durg Vijay Singh</div><div class="fac-role">Assistant Professor — Bioinformatics</div></div></div><a class="fac-email" href="mailto:durgvijaysingh@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>durgvijaysingh@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Molecular Modeling, Simulation &amp; Computer-Aided Drug Discovery</div></div>
+
+      <div class="fac-card" data-role="assistant"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#0d47a1,#90caf9);">VK</div><div><div class="fac-name">Dr. Vijay Kumar Singh</div><div class="fac-role">Assistant Professor — Bioinformatics</div></div></div><a class="fac-email" href="mailto:vksingh@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>vksingh@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Molecular Medicine, Transcriptomics, Functional Genomics, Microarray Data Analysis</div></div>
+
+      <div class="fac-card" data-role="assistant"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#33691e,#dce775);">AK</div><div><div class="fac-name">Dr. Anil Kumar</div><div class="fac-role">Assistant Professor — Bioinformatics</div></div></div><a class="fac-email" href="mailto:kumaranil@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>kumaranil@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Molecular Modelling &amp; Simulation, Biological Database Development</div></div>
+
+      <!-- Botany & Plant Sciences -->
+      <div class="fac-card" data-role="professor"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#1565c0,#6ec6ff);">RP</div><div><div class="fac-name">Dr. Ram Pratap Singh</div><div class="fac-role">Professor &amp; Head — Botany</div></div></div><a class="fac-email" href="mailto:rampratap@cusb.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>rampratap@cusb.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Animal Physiology &amp; Genomics</div></div>
+
+      <div class="fac-card" data-role="assistant"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#1b5e20,#a5d6a7);">GK</div><div><div class="fac-name">Dr. Gautam Kumar</div><div class="fac-role">Assistant Professor — Botany</div></div></div><a class="fac-email" href="mailto:gautam@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>gautam@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Plant Physiology, Molecular Biology, and Biotechnology</div></div>
+
+      <div class="fac-card" data-role="assistant"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#880e4f,#f48fb1);">AM</div><div><div class="fac-name">Dr. Amrita Srivastava</div><div class="fac-role">Assistant Professor — Botany</div></div></div><a class="fac-email" href="mailto:amritasrivastava@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>amritasrivastava@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Microbial Physiology &amp; Biochemistry</div></div>
+
+      <div class="fac-card" data-role="assistant"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#4a148c,#ce93d8);">TK</div><div><div class="fac-name">Dr. Tara Kashav</div><div class="fac-role">Assistant Professor — Biochemistry</div></div></div><a class="fac-email" href="mailto:tarakashav@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>tarakashav@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Structural Biology, Protein Chemistry</div></div>
+
+      <!-- Zoology -->
+      <div class="fac-card" data-role="professor"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#1565c0,#6ec6ff);">RK</div><div><div class="fac-name">Prof. Ram Kumar</div><div class="fac-role">Professor — Zoology</div></div></div><a class="fac-email" href="mailto:ramkumar@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>ramkumar@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Evolutionary &amp; population ecology of marine/freshwater zooplankton, Ecological impact assessment, Bio-control &amp; Bioremediation</div></div>
+
+      <!-- Microbiology -->
+      <div class="fac-card" data-role="professor"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#1565c0,#6ec6ff);">RK</div><div><div class="fac-name">Prof. Rakesh Kumar</div><div class="fac-role">Professor &amp; Head — Microbiology</div></div></div><a class="fac-email" href="mailto:rakeshkr@cusb.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>rakeshkr@cusb.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Biopolymer, Bioplastics &amp; Biocomposites, Bioprocess Engineering</div></div>
+
+      <div class="fac-card" data-role="professor"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#4a148c,#ce93d8);">DS</div><div><div class="fac-name">Prof. Durg Vijai Singh</div><div class="fac-role">Professor — Microbiology</div></div></div><a class="fac-email" href="mailto:dvsingh@cusb.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>dvsingh@cusb.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Antibiotic Resistance, Biofilm, Microbial Diversity &amp; Bacterial Pathogenesis</div></div>
+
+      <div class="fac-card" data-role="associate"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#00695c,#80cbc4);">NK</div><div><div class="fac-name">Dr. Nitish Kumar</div><div class="fac-role">Associate Professor — Microbiology</div></div></div><a class="fac-email" href="mailto:nitish@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>nitish@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Plant and Microbial Biotechnology</div></div>
+
+      <!-- Environmental Science -->
+      <div class="fac-card" data-role="professor"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#00695c,#80cbc4);">PP</div><div><div class="fac-name">Prof. Pradhan Parth Sarthi</div><div class="fac-role">Professor — Environmental Science</div></div></div><a class="fac-email" href="mailto:ppsarthi@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>ppsarthi@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Atmospheric Science, Meteorology, Climate Change</div></div>
+
+      <div class="fac-card" data-role="professor"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#4a148c,#ce93d8);">RR</div><div><div class="fac-name">Prof. Rajesh Kumar Ranjan</div><div class="fac-role">Professor &amp; Head — Environmental Science</div></div></div><a class="fac-email" href="mailto:rajesh.ranjan@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>rajesh.ranjan@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Environmental Chemistry, Biogeochemistry, Aquatic Geochemistry, Organic Geochemistry</div></div>
+
+      <div class="fac-card" data-role="associate"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#bf360c,#ff8a80);">PR</div><div><div class="fac-name">Dr. Prashant</div><div class="fac-role">Associate Professor — Environmental Science</div></div></div><a class="fac-email" href="mailto:drprashant@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>drprashant@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Wastewater treatment, Constructed wetlands, Solid Waste Management, Environmental Impact Assessment</div></div>
+
+      <div class="fac-card" data-role="assistant"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#1b5e20,#a5d6a7);">SG</div><div><div class="fac-name">Dr. Soma Giri</div><div class="fac-role">Assistant Professor — Environmental Science</div></div></div><a class="fac-email" href="mailto:somagiri@cusb.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>somagiri@cusb.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Mining Environment, Human health risk assessment, Metals in water, soil &amp; dietary components</div></div>
+
+    </div>
+  </div>
+
+  <!-- School of Earth, Biological & Environmental Sciences -->
+  <div class="school-section">
+    <div class="school-header">
+      <div class="school-icon" style="background:rgba(100,180,255,0.12);">🌍</div>
+      <div class="school-name">School of Earth Sciences</div>
+      <div class="school-count">Geology · Geography · Environmental Sciences</div>
+    </div>
+    <div class="faculty-grid">
+
+      <div class="fac-card" data-role="professor"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#1565c0,#6ec6ff);">PK</div><div><div class="fac-name">Prof. Prafull Kumar Singh</div><div class="fac-role">Professor &amp; Head — Geology</div></div></div><a class="fac-email" href="mailto:prafullsingh@cusb.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>prafullsingh@cusb.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Hydrogeology, Geologic Remote Sensing, Natural Hazards</div></div>
+
+      <div class="fac-card" data-role="associate"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#00695c,#80cbc4);">KM</div><div><div class="fac-name">Dr. K. Milankumar Sharma</div><div class="fac-role">Associate Professor — Geology</div></div></div><a class="fac-email" href="mailto:milankumar@cusb.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>milankumar@cusb.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Applied Palaeontology, Stable Isotope Analysis, Palaeobiogeography, Sedimentology</div></div>
+
+      <div class="fac-card" data-role="assistant"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#880e4f,#f48fb1);">LC</div><div><div class="fac-name">Dr. Longjam Kabita Chanu</div><div class="fac-role">Assistant Professor — Geology</div></div></div><a class="fac-email" href="mailto:longjam@cusb.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>longjam@cusb.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Igneous Petrology &amp; Geochemistry</div></div>
+
+      <div class="fac-card" data-role="professor"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#1565c0,#6ec6ff);">KI</div><div><div class="fac-name">Prof. Kiran Kumari</div><div class="fac-role">Professor — Geography</div></div></div><a class="fac-email" href="mailto:kirankumari@cusb.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>kirankumari@cusb.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Urban Geography, Regional Planning, Medical Geography</div></div>
+
+      <div class="fac-card" data-role="associate"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#00695c,#80cbc4);">MJ</div><div><div class="fac-name">Dr. Manjit Singh</div><div class="fac-role">Associate Professor — Geography</div></div></div><a class="fac-email" href="mailto:manjitsingh@cusb.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>manjitsingh@cusb.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Transport Geography, Rural Development</div></div>
+
+      <div class="fac-card" data-role="assistant"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#bf360c,#ff8a80);">SO</div><div><div class="fac-name">Dr. Somnath Bera</div><div class="fac-role">Assistant Professor — Geography</div></div></div><a class="fac-email" href="mailto:somnath@cusb.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>somnath@cusb.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Disaster Risk Resilience</div></div>
+
+    </div>
+  </div>
+
+  <!-- School of Social Sciences -->
+  <div class="school-section">
+    <div class="school-header">
+      <div class="school-icon" style="background:rgba(255,180,100,0.12);">🏛️</div>
+      <div class="school-name">School of Social Sciences</div>
+      <div class="school-count">History · Economics · Development Studies · Sociology · Political Science</div>
+    </div>
+    <div class="faculty-grid">
+
+      <div class="fac-card" data-role="associate"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#880e4f,#f48fb1);">PK</div><div><div class="fac-name">Dr. Priti Anil Khandare</div><div class="fac-role">Associate Professor — History</div></div></div><a class="fac-email" href="mailto:pritianil@cusb.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>pritianil@cusb.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Ancient Indian History, Modern History, Dalit History, Social-Cultural History, Women History</div></div>
+
+      <div class="fac-card" data-role="assistant"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#1565c0,#6ec6ff);">SJ</div><div><div class="fac-name">Dr. Sudhanshu Kumar Jha</div><div class="fac-role">Assistant Professor — History</div></div></div><a class="fac-email" href="mailto:sudhanshujha@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>sudhanshujha@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Modern History, Social History, Health &amp; Medicine</div></div>
+
+      <div class="fac-card" data-role="professor"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#1565c0,#6ec6ff);">KC</div><div><div class="fac-name">Prof. Krishnan Chalil</div><div class="fac-role">Professor &amp; Head — Economics</div></div></div><a class="fac-email" href="mailto:krishnan@cusb.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>krishnan@cusb.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Banking, Development Studies, e-Governance, Higher Education, Gender &amp; Tribal Studies</div></div>
+
+      <div class="fac-card" data-role="associate"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#00695c,#80cbc4);">AK</div><div><div class="fac-name">Dr. Abodh Kumar</div><div class="fac-role">Associate Professor — Economics</div></div></div><a class="fac-email" href="mailto:abodhkumar@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>abodhkumar@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Microeconomics, Development Economics, Behavioral Economics</div></div>
+
+      <div class="fac-card" data-role="assistant"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#880e4f,#f48fb1);">FF</div><div><div class="fac-name">Dr. Firdaus Fatima Rizvi</div><div class="fac-role">Assistant Professor — Economics</div></div></div><a class="fac-email" href="mailto:firdaus@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>firdaus@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Environmental Economics, Agriculture Economics, Housing Market &amp; Labour Studies</div></div>
+
+      <div class="fac-card" data-role="assistant"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#bf360c,#ff8a80);">AD</div><div><div class="fac-name">Dr. Atish Kumar Dash</div><div class="fac-role">Assistant Professor — Economics</div></div></div><a class="fac-email" href="mailto:atish@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>atish@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Applied Macroeconomics &amp; Finance, Applied Econometrics, Financial Economics</div></div>
+
+      <div class="fac-card" data-role="associate"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#4a148c,#ce93d8);">SM</div><div><div class="fac-name">Dr. Samapika Mohapatra</div><div class="fac-role">Associate Professor &amp; Ex-Head — Development Studies</div></div></div><a class="fac-email" href="mailto:samapika@cusb.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>samapika@cusb.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Gender Studies, Sexuality, LGBT Human Rights, Sociology of Sports, Social Exclusion &amp; Inclusive Development</div></div>
+
+      <div class="fac-card" data-role="professor"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#1565c0,#6ec6ff);">PV</div><div><div class="fac-name">Dr. Praveen Kumar</div><div class="fac-role">Professor &amp; Head — Political Science</div></div></div><a class="fac-email" href="mailto:praveenkr@cusb.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>praveenkr@cusb.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Comparative Political Philosophy, National Security, Public Policy</div></div>
+
+      <div class="fac-card" data-role="professor"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#1565c0,#6ec6ff);">PK</div><div><div class="fac-name">Prof. Pranav Kumar</div><div class="fac-role">Professor — Political Science</div></div></div><a class="fac-email" href="mailto:pranav@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>pranav@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> African Studies, Geopolitics, International Relations, Energy Security, India's Foreign Policy</div></div>
+
+      <div class="fac-card" data-role="associate"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#00695c,#80cbc4);">AK</div><div><div class="fac-name">Dr. Abhay Kumar</div><div class="fac-role">Associate Professor — Political Science</div></div></div><a class="fac-email" href="mailto:abhay@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>abhay@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Global Politics, Foreign Policy, Nuclear Policy, Human Security, Geo-politics, Japanese Studies</div></div>
+
+      <div class="fac-card" data-role="assistant"><div class="fac-top"><div class="fac-avatar" style="background:linear-gradient(135deg,#880e4f,#f48fb1);">SP</div><div><div class="fac-name">Dr. Sumit Kumar Pathak</div><div class="fac-role">Assistant Professor — Political Science</div></div></div><a class="fac-email" href="mailto:sumitpathak@cub.ac.in"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>sumitpathak@cub.ac.in</a><div class="fac-spec"><strong>Specialization:</strong> Political Philosophy, Political Theory, Global Politics, Public Administration</div></div>
+
+    </div>
+  </div>
+
+  <!-- No Results Message -->
+  <div id="noResults" class="hidden" style="text-align:center;padding:60px 20px;">
+    <div style="font-size:40px;margin-bottom:16px;">🔍</div>
+    <div style="font-size:18px;font-weight:600;color:#fff8eb;margin-bottom:8px;">No faculty found</div>
+    <div style="font-size:14px;color:var(--muted);">Try a different name, department, or specialization.</div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Central University of South Bihar · Panchanpur, Gaya — 824236 · Bihar, India</p>
+  <p style="margin-top:6px;">For official faculty list, visit <a href="https://www.cusb.ac.in" target="_blank">www.cusb.ac.in</a></p>
+</footer>
+
+<script>
+  let currentRole = 'all';
+
+  function filterFaculty() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const cards = document.querySelectorAll('.fac-card');
+    const sections = document.querySelectorAll('.school-section');
+    let totalVisible = 0;
+
+    cards.forEach(card => {
+      const text = card.textContent.toLowerCase();
+      const role = card.dataset.role || '';
+      const matchSearch = query === '' || text.includes(query);
+      const matchRole = currentRole === 'all' ||
+        (currentRole === 'professor' && role === 'professor') ||
+        (currentRole === 'associate' && role === 'associate') ||
+        (currentRole === 'assistant' && role === 'assistant');
+
+      if (matchSearch && matchRole) {
+        card.classList.remove('hidden');
+        totalVisible++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    // Hide sections with no visible cards
+    sections.forEach(section => {
+      const visibleCards = section.querySelectorAll('.fac-card:not(.hidden)');
+      section.classList.toggle('hidden', visibleCards.length === 0);
+    });
+
+    document.getElementById('noResults').classList.toggle('hidden', totalVisible > 0);
+  }
+
+  function filterByRole(role, btn) {
+    currentRole = role;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterFaculty();
+  }
+</script>
+
+</body>
+</html>
